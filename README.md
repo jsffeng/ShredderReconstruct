@@ -20,14 +20,14 @@ TBD
 make commands:  
 --------------  
 Run make commmand in current directory.  
-make bld: Build the final product  $
-make ut: Build the UT test product  $
-make run_ut: Execute UT tests  $
-make clean: Clean all generated files (excluding ut test coverage data if exist) but leave source code  $
-make GCOV=1 cover: Generate ut test coverage information  $
-make GCOV=1 clean: Clean all generated files including ut test coverage data but leave source code  $
-  $
-Unit testing:  $
+make bld: Build the final product  
+make ut: Build the UT test product  
+make run_ut: Execute UT tests  
+make clean: Clean all generated files (excluding ut test coverage data if exist) but leave source code  
+make GCOV=1 cover: Generate ut test coverage information  
+make GCOV=1 clean: Clean all generated files including ut test coverage data but leave source code  
+  
+Unit testing:  
 ------------------------------   
 Unit testing was done with Boost.
 

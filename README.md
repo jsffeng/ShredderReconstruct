@@ -25,7 +25,7 @@ make bld: Build the final product
 make ut: Build the UT test product  
 make run_ut: Execute UT tests  
 make clean: Clean all generated files (excluding ut test coverage data if exist) but leave source code  
-make GCOV=1 cover: Generate UT test coverage information  
+make GCOV=1 ut_cover: Generate UT test coverage information  
 make GCOV=1 clean: Clean all generated files including UT test coverage data but leave source code  
   
 Unit testing:  

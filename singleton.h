@@ -15,7 +15,7 @@ class Singleton_rand
     Singleton_rand(const Singleton_rand&) = delete;
     Singleton_rand& operator=(const Singleton_rand&) = delete;
 
-    // Use unique pointerto ensure to release all resources  
+    // Use unique pointer to ensure resources release being taken care of
     static std::unique_ptr<Singleton_rand> instance;
 
   public:

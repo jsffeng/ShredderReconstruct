@@ -64,15 +64,9 @@ void file_operation::write_text(const string file_nm, const vector<string> text_
   outfile.close();
 }
 
-text_strip::text_strip (const int rand) : rand_num(rand) 
-{
-  if ( rand <= 0 )
-  {
-    throw runtime_error("rand_num value is invalid!");
-  }
-}
+const int text_strip_operation::rand_num = 40;
 
-void text_strip::disorder(vector<vector<string>>& input) 
+void text_strip_operation::disorder(vector<vector<string>>& input) 
 {
   unsigned int temp_t=0; 
 
@@ -94,7 +88,7 @@ void text_strip::disorder(vector<vector<string>>& input)
   }
 }
 
-void text_strip::transpose(vector<vector<string>>& input, vector<vector<string>>& input_r)
+void text_strip_operation::transpose(vector<vector<string>>& input, vector<vector<string>>& input_r)
 {
   vector<string> temp;
   input_r.clear();
@@ -117,7 +111,7 @@ void text_strip::transpose(vector<vector<string>>& input, vector<vector<string>>
 
 }
 
-shredder::shredder(const int num, const int width, const string infile, const string outfile) : text_strip(num), strip_width(width), infilename(infile), outfilename(outfile) 
+shredder::shredder(const int width, const string infile, const string outfile) : strip_width(width), infilename(infile), outfilename(outfile) 
 {
 }
 
@@ -189,17 +183,17 @@ void shredder::do_shredder()
   }
    
   // Transpose shredded_text to trans_shredded_text
-  transpose(shredded_text,trans_shredded_text);
+  text_strip_operation::transpose(shredded_text,trans_shredded_text);
 
 #ifndef UTFLAG
-  disorder(trans_shredded_text);
+  text_strip_operation::disorder(trans_shredded_text);
 #endif 
 
   // Empty shredded_text here
   shredded_text.clear();
 
   // Transpose trans_shredded_text to shredded_text
-  transpose(trans_shredded_text,shredded_text);
+  text_strip_operation::transpose(trans_shredded_text,shredded_text);
 
 }
 

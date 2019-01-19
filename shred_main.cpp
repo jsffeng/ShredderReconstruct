@@ -4,7 +4,7 @@
 using namespace std;
 
 #ifdef UTFLAG
-int UTmain(const int num, const int width, const string infile, const string outfile)
+int UTmain(const int width, const string infile, const string outfile)
 #else
 int main()
 #endif
@@ -12,9 +12,9 @@ int main()
   try 
   {
 #ifdef UTFLAG
-    shredder text_sh(num,width,infile,outfile);
+    shredder text_sh(width,infile,outfile);
 #else
-    shredder text_sh(50,2,"full_text.ascii","shredded_text.ascii");
+    shredder text_sh(2,"full_text.ascii","shredded_text.ascii");
 #endif
     text_sh.get_input();
     text_sh.do_shredder();

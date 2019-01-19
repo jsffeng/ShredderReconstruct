@@ -11,22 +11,20 @@ class file_operation
     static void write_text(const std::string file_nm, const std::vector<std::string> text_lines);
 };
 
-class text_strip
+class text_strip_operation
 {
 #ifdef UTFLAG 
   public:
 #else 
   private:
 #endif
-    const int rand_num;
+    static const int rand_num;
   public:
-    text_strip (const int rand = 40);
-
-    void disorder(std::vector<std::vector<std::string>>& input);
-    void transpose(std::vector<std::vector<std::string>>& input, std::vector<std::vector<std::string>>& input_r);
+    static void disorder(std::vector<std::vector<std::string>>& input);
+    static void transpose(std::vector<std::vector<std::string>>& input, std::vector<std::vector<std::string>>& input_r);
 };
 
-class shredder : public text_strip
+class shredder
 {
 #ifdef UTFLAG 
   public:
@@ -45,7 +43,7 @@ class shredder : public text_strip
     std::vector<std::vector<std::string>> trans_shredded_text;
 
   public:
-    shredder(const int num=40, const int width=2, const std::string infile="full_text0.ascii", const std::string outfile="shredded_text0.ascii"); 
+    shredder(const int width=2, const std::string infile="full_text0.ascii", const std::string outfile="shredded_text0.ascii"); 
 
     //populate source_data from input file
     void get_input();
@@ -57,7 +55,7 @@ class shredder : public text_strip
 
 #ifdef UTFLAG 
   // To change main() to UTmain() so as to be tested
-  extern int UTmain(const int num, const int width, const std::string infile, const std::string outfile);
+  extern int UTmain(const int width, const std::string infile, const std::string outfile);
 #endif
 
 #endif

@@ -295,28 +295,13 @@ BOOST_AUTO_TEST_CASE (write_text_test)
 
 BOOST_AUTO_TEST_SUITE_END( )
 
-// Class text_strip 
-BOOST_FIXTURE_TEST_SUITE(text_strip_test, Fixture_input);
-
-BOOST_AUTO_TEST_CASE (constructor_test)
-{
-  text_strip txt_str0;
-  BOOST_CHECK(txt_str0.rand_num == 40);
-
-  text_strip txt_str1(100);
-  BOOST_CHECK(txt_str1.rand_num == 100);
-
-  BOOST_CHECK_THROW(text_strip(-5), exception);   
-
-  text_strip txt_str2=txt_str0;
-  BOOST_CHECK(txt_str2.rand_num == 40);
-}
+// Class text_strip_operation 
+BOOST_FIXTURE_TEST_SUITE(text_strip_operation_test, Fixture_input);
 
 BOOST_AUTO_TEST_CASE (disorder_test)
 {
   vector<vector<string>> input1 = input;
-  text_strip txt_str0;
-  txt_str0.disorder(input1);
+  text_strip_operation::disorder(input1);
 
 //  BOOST_CHECK_NE(input1,input);
 //  BOOST_CHECK(input1 != input);
@@ -343,8 +328,7 @@ BOOST_AUTO_TEST_CASE (disorder_test)
   BOOST_CHECK(found == 3);
 
   vector<vector<string>> input2;
-  text_strip txt_str1;
-  BOOST_CHECK_THROW(txt_str1.disorder(input2), exception);   
+  BOOST_CHECK_THROW(text_strip_operation::disorder(input2), exception);   
   
 }
 
@@ -353,18 +337,17 @@ BOOST_AUTO_TEST_CASE (transpose_test)
 {
   vector<vector<string>> input1;
 
-  text_strip txt_str;
-  txt_str.transpose(input, input1);
+  text_strip_operation::transpose(input, input1);
   BOOST_CHECK(input1 == input_r);
 
   vector<vector<string>> input2 = input;
-  txt_str.transpose(input, input2);
+  text_strip_operation::transpose(input, input2);
   BOOST_CHECK(input2 == input_r);
 
   // For empty input
   vector<vector<string>> input3,input4;
 
-  BOOST_CHECK_THROW(txt_str.transpose(input3, input4), exception);   
+  BOOST_CHECK_THROW(text_strip_operation::transpose(input3, input4), exception);   
 
 }
 
@@ -377,20 +360,17 @@ BOOST_AUTO_TEST_CASE (constructor_test)
 {
   shredder shred0;
 
-  BOOST_CHECK(shred0.text_strip::rand_num == 40);
   BOOST_CHECK(shred0.strip_width == 2);
   BOOST_CHECK(shred0.infilename == "full_text0.ascii");
   BOOST_CHECK(shred0.outfilename == "shredded_text0.ascii");
 
-  shredder shred1(25,3,"orign_input.ascii","input3.ascii");
+  shredder shred1(3,"orign_input.ascii","input3.ascii");
 
-  BOOST_CHECK(shred1.text_strip::rand_num == 25);
   BOOST_CHECK(shred1.strip_width == 3);
   BOOST_CHECK(shred1.infilename == "orign_input.ascii");
   BOOST_CHECK(shred1.outfilename == "input3.ascii");
 
-  shredder shred2(125,2,"","");
-  BOOST_CHECK(shred2.text_strip::rand_num == 125);
+  shredder shred2(2,"","");
   BOOST_CHECK(shred2.strip_width == 2);
   BOOST_CHECK(shred2.infilename == "");
   BOOST_CHECK(shred2.outfilename == "");
@@ -419,7 +399,7 @@ BOOST_FIXTURE_TEST_CASE(do_shredder_test, Fixture_source_data)
   BOOST_CHECK(shred0.shredded_text == shredded_text_wid2);
 
   // Initialize with strip_width == 3
-  shredder shred1(25,3,"x","y");
+  shredder shred1(3,"x","y");
  
   // Populate source_data
   auto iter1=lines.begin();
@@ -437,25 +417,25 @@ BOOST_FIXTURE_TEST_CASE(do_shredder_test, Fixture_source_data)
 
 BOOST_FIXTURE_TEST_CASE(get_input_test,Fixture_file)
 {
-  shredder shred0(25,2,"test_input1.ascii","");
+  shredder shred0(2,"test_input1.ascii","");
   shred0.get_input();
 
   BOOST_CHECK(shred0.source_data == lines);
 
-  shredder shred1(25,2,"NotExist","");
+  shredder shred1(2,"NotExist","");
   BOOST_CHECK_THROW(shred1.get_input(),exception);
 
-  shredder shred2(25,2,"","xy.ascii");
+  shredder shred2(2,"","xy.ascii");
   BOOST_CHECK_THROW(shred2.get_input(),exception);
 }
 
 BOOST_FIXTURE_TEST_CASE(create_output_test,Fixture_data_file)
 {
 
-  shredder shred0(25,2,"test_input.out","");
+  shredder shred0(2,"test_input.out","");
   BOOST_CHECK_THROW(shred0.create_output(),exception);
 
-  shredder shred1(25,2,"xy.ascii","test_output_t2.ascii");
+  shredder shred1(2,"xy.ascii","test_output_t2.ascii");
 
   // When shredded_text containis no data
   BOOST_CHECK_THROW(shred1.create_output(),exception);
@@ -473,7 +453,7 @@ BOOST_FIXTURE_TEST_CASE(create_output_test,Fixture_data_file)
   // When cmp return non-zero value, Boost will detect it and quit with fatal error.
   BOOST_CHECK(system ("cmp -l test_output2.ascii test_output_t2.ascii >/dev/null 2>&1") == 0);   
 
-  shredder shred2(25,3,"xy.ascii","test_output_t3.ascii");
+  shredder shred2(3,"xy.ascii","test_output_t3.ascii");
 
   // Populate shredded_text
   auto iter1=shredded_text_wid3.begin();
@@ -499,17 +479,17 @@ BOOST_FIXTURE_TEST_SUITE(UTmain_test, Fixture_file);
 
 BOOST_AUTO_TEST_CASE (UTmain_test)
 {
-  BOOST_CHECK(UTmain(25,2,"test_input.ascii", "test_output_t1.ascii") == 0);
+  BOOST_CHECK(UTmain(2,"test_input.ascii", "test_output_t1.ascii") == 0);
 
-  BOOST_CHECK(UTmain(25,100,"test_input.ascii", "test_output_t2.ascii") == 0);
+  BOOST_CHECK(UTmain(100,"test_input.ascii", "test_output_t2.ascii") == 0);
 
-  BOOST_CHECK(UTmain(25,0,"test_input.ascii", "test_output_t.ascii") == 1);
+  BOOST_CHECK(UTmain(0,"test_input.ascii", "test_output_t.ascii") == 1);
 
-  BOOST_CHECK(UTmain(25,-2,"test_input.ascii", "test_output_t.ascii") == 1);
+  BOOST_CHECK(UTmain(-2,"test_input.ascii", "test_output_t.ascii") == 1);
 
-  BOOST_CHECK(UTmain(25,2,"", "test_output_t.ascii") == 1);
+  BOOST_CHECK(UTmain(2,"", "test_output_t.ascii") == 1);
 
-  BOOST_CHECK(UTmain(25,3,"test_input.ascii", "") == 1);
+  BOOST_CHECK(UTmain(3,"test_input.ascii", "") == 1);
 
   system("rm -rf test_output_t*.ascii");
 }

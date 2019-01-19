@@ -85,4 +85,4 @@ collect_cov:
 	lcov --rc lcov_branch_coverage=1 -e $(COV_FILE) "*/$(WORK_DIR)*" -o  $(COV_FILE)
 	genhtml --rc lcov_branch_coverage=1 -o $(GCOV_RESULT) $(COV_FILE)
 clean:
-	$(RM) $(OBJS) $(TEST_OBJS) $(UT_TEST_OBJS) $(TARGET) $(TEST_DIR)/$(TEST_TARGET) $(GCDA_FILES) $(GCNO_FILES) $(COV_FILE) $(GCOV_RESULT) shredded_text.ascii
+	$(RM) $(OBJS) $(TEST_OBJS) $(UT_TEST_OBJS) $(TARGET) $(TEST_DIR)/$(TEST_TARGET) $(GCDA_FILES) $(GCNO_FILES) $(COV_FILE) $(GCOV_RESULT)

@@ -36,7 +36,7 @@ Unit testing was done with Boost.
    
 Unit testing coverage:
 ------------------------------   
-TBD
+http://htmlpreview.github.io/?https://github.com/jsffeng/Shredder_Reconstruct/blob/master/ut_coverage/index.html
 
 System testing (Acceptance testing):    
 ------------------------------------    

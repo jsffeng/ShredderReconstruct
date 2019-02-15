@@ -4,7 +4,7 @@
 using namespace std;
 
 #ifdef UTFLAG
-int UTmain(const int width, const string infile, const string outfile)
+int UTmain(const int n_width, const string str_infile, const string str_outfile)
 #else
 int main()
 #endif
@@ -12,20 +12,20 @@ int main()
   try 
   {
 #ifdef UTFLAG
-    shredder text_sh(width,infile,outfile);
+    TextShredder text_shredder(n_width, str_infile, str_outfile);
 #else
-    shredder text_sh(2,"full_text.ascii","shredded_text.ascii");
+    TextShredder text_shredder(2, "full_text.ascii", "shredded_text.ascii");
 #endif
-    text_sh.get_input();
-    text_sh.do_shredder();
-    text_sh.create_output();
+    text_shredder.GetInput();
+    text_shredder.DoTextShredder();
+    text_shredder.CreateOutput();
   }
 
-  catch(std::exception &e)
+  catch(std::exception &ref_exception)
   {
 #ifndef UTFLAG
-    cout<<e.what()<<endl;
-    cout <<"Error occured. Abort!" << endl; 
+    cout << ref_exception.what() << endl;
+    cout << "Error occured. Abort!" << endl; 
 #endif
     return 1;
   }

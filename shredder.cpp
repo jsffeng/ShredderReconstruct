@@ -5,195 +5,196 @@
 
 using namespace std;
 
-void file_operation::read_text(const string file_nm, vector<string> &text_lines)
+void FileOperation::ReadText(const string str_filename, vector<string> &vec_str_text_lines)
 {
-  string line;
-  ifstream infile;
+  string str_line;
+  ifstream f_infile;
 
-  infile.open(file_nm);
-  if(!infile)
+  f_infile.open(str_filename);
+  if (!f_infile)
   {
      throw runtime_error("file cannot open to read!");
   }
 
-  text_lines.clear();
+  vec_str_text_lines.clear();
 
-  vector<string> temp;
-  unsigned int len;
-  unsigned int maxlen=0;
-  while(getline(infile, line))
+  unsigned int n_length;
+  unsigned int n_max_length = 0;
+  while (getline(f_infile, str_line))
   {
-      len=line.length();
-      if ( len >  maxlen) maxlen = len;
-      text_lines.push_back(line);
+      n_length = str_line.length();
+      if (n_length > n_max_length) n_max_length = n_length;
+      vec_str_text_lines.push_back(str_line);
   }
 
-  infile.close();
+  f_infile.close();
 
   // Convert blank at end of each line to ascii space charactors  
-  auto iter=text_lines.begin();
-  unsigned int siz;
-  while (iter != text_lines.end()) 
+  auto iter = vec_str_text_lines.begin();
+  unsigned int n_size;
+  while (iter != vec_str_text_lines.end()) 
   {
-    siz=iter->size();
-    while (siz < maxlen )
+    n_size = iter->size();
+    while (n_size < n_max_length)
     { 
       iter->append(" ");
-      siz++;
+      ++n_size;
     }
-    iter++;
+    ++iter;
   }
 
 }
 
-void file_operation::write_text(const string file_nm, const vector<string> text_lines)
+void FileOperation::WriteText(const string str_filename, const vector<string> vec_str_text_lines)
 {
-  ofstream outfile;
+  ofstream f_outfile;
 
-  outfile.open (file_nm);
-  if(!outfile)
+  f_outfile.open (str_filename);
+
+  if (!f_outfile)
   {
      throw runtime_error("file cannot open to write!");
   }
 
-  for( int i=0; i < text_lines.size(); i++)
+  for (int i = 0; i < vec_str_text_lines.size(); ++i)
   {
-      outfile << text_lines[i]<<endl;
+      f_outfile << vec_str_text_lines[i] << endl;
 
   }
-  outfile.close();
+
+  f_outfile.close();
 }
 
-const int text_strip_operation::rand_num = 40;
+const int TextStripOperation::s_random_number_ = 40;
 
-void text_strip_operation::disorder(vector<vector<string>>& input) 
+void TextStripOperation::Disorder(vector<vector<string>>& vec_str_input) 
 {
-  unsigned int temp_t=0; 
+  unsigned int n_temp = 0; 
 
-  if ( input.size() == 0 )
+  if (vec_str_input.size() == 0)
   {
     throw runtime_error("Invalid input!");
   }
   else
   {
-    Singleton_rand::max_val = input.size() - 1;
-    Singleton_rand& ran = Singleton_rand::getInstance();
+    SingletonRandom::s_max_val_ = vec_str_input.size() - 1;
+    SingletonRandom& random_instance = SingletonRandom::GetInstance();
 
-    for( int i=0; i < rand_num; i++)
+    for (int i = 0; i < s_random_number_; ++i)
     {
-       temp_t =ran.rand_generator();
-       input.insert(input.end(),input[temp_t]);	
-       input.erase(input.begin() + temp_t);
+       n_temp = random_instance.GenerateRandom();
+       vec_str_input.insert(vec_str_input.end(), vec_str_input[n_temp]);	
+       vec_str_input.erase(vec_str_input.begin() + n_temp);
     }
   }
 }
 
-void text_strip_operation::transpose(vector<vector<string>>& input, vector<vector<string>>& input_r)
+void TextStripOperation::Transpose(vector<vector<string>>& vec_str_input, vector<vector<string>>& vec_str_input_trans)
 {
-  vector<string> temp;
-  input_r.clear();
+  vector<string> vec_temp;
+  vec_str_input_trans.clear();
 
-  if (input.size() == 0)
+  if (vec_str_input.size() == 0)
   { 
      throw runtime_error("Invalid input!");
   } 
 
-  for( int i=0; i < input[0].size(); i++)
+  for (int i = 0; i < vec_str_input[0].size(); ++i)
   {
-    for( int j=0; j< input.size(); j++)
+    for (int j = 0; j< vec_str_input.size(); ++j)
     {
-      temp.push_back(input[j][i]);
+      vec_temp.push_back(vec_str_input[j][i]);
     }
 
-    input_r.push_back(temp);
-    temp.clear();
+    vec_str_input_trans.push_back(vec_temp);
+    vec_temp.clear();
   }
 
 }
 
-shredder::shredder(const int width, const string infile, const string outfile) : strip_width(width), infilename(infile), outfilename(outfile) 
+TextShredder::TextShredder(const int n_width, const string str_in_file, const string str_out_file) : n_strip_width_(n_width), str_in_filename_(str_in_file), str_out_filename_(str_out_file) 
 {
 }
 
-void shredder::get_input()
+void TextShredder::GetInput()
 {
-  file_operation::read_text(infilename,source_data);
+  FileOperation::ReadText(str_in_filename_, vec_str_source_data_);
 }
 
-void shredder::create_output()
+void TextShredder::CreateOutput()
 {
-  vector<string> temp;
-  string sub;
+  vector<string> vec_temp;
+  string str_sub;
 
-  if (shredded_text.size() == 0 )
+  if (vec_str_shredded_text_.size() == 0)
   {
     throw runtime_error("Nothing to print to output file!");
   }
 
-  for( int i=0; i < shredded_text.size(); i++)
+  for (int i = 0; i < vec_str_shredded_text_.size(); ++i)
   {
-    for( int j=0; j< shredded_text[i].size(); ++j)
+    for (int j = 0; j< vec_str_shredded_text_[i].size(); ++j)
     {
-       sub.append("|"+shredded_text[i][j]); 
+       str_sub.append("|" + vec_str_shredded_text_[i][j]); 
     } 
   
-    sub.append("|"); 
-    temp.push_back(sub);
-    sub.clear();
+    str_sub.append("|"); 
+    vec_temp.push_back(str_sub);
+    str_sub.clear();
   }
 
-  file_operation::write_text(outfilename, temp);
+  FileOperation::WriteText(str_out_filename_, vec_temp);
 }
 
-void shredder::do_shredder()
+void TextShredder::DoTextShredder()
 {
-  vector<string> temp;
-  string sub;
+  vector<string> vec_temp;
+  string str_sub;
 
-  if ( source_data.size() == 0 )
+  if (vec_str_source_data_.size() == 0)
   {
-    throw runtime_error("source_data empty, no data to shred!");
+    throw runtime_error("vec_str_source_data_ empty, no data to shred!");
   }
 
-  if ( strip_width <= 0 )
+  if (n_strip_width_ <= 0)
   {
-    throw runtime_error("strip_width value is invalid!");
+    throw runtime_error("n_strip_width_ value is invalid!");
   }
 
-  shredded_text.clear();
-  trans_shredded_text.clear();
+  vec_str_shredded_text_.clear();
+  vec_str_trans_shredded_text_.clear();
 
-  auto iter=source_data.begin();
+  auto iter = vec_str_source_data_.begin();
 
-  while(iter != source_data.end())
+  while (iter != vec_str_source_data_.end())
   {
-    int position=0;
-    while(position < iter->size())
+    int n_position = 0;
+    while (n_position < iter->size())
     {
-      sub=iter->substr(position,strip_width); 
+      str_sub = iter->substr(n_position, n_strip_width_); 
       // Ensure the last column in the paragraph has the same width of strip
-      while (sub.length() < strip_width) sub.append(" ");
-      temp.push_back(sub);
-      position = position + strip_width;
+      while (str_sub.length() < n_strip_width_) str_sub.append(" ");
+      vec_temp.push_back(str_sub);
+      n_position = n_position + n_strip_width_;
     }
-    shredded_text.push_back(temp);
-    temp.clear();
+    vec_str_shredded_text_.push_back(vec_temp);
+    vec_temp.clear();
 
-    iter++;
+    ++iter;
   }
    
-  // Transpose shredded_text to trans_shredded_text
-  text_strip_operation::transpose(shredded_text,trans_shredded_text);
+  // Transpose vec_str_shredded_text_ to vec_str_trans_shredded_text_
+  TextStripOperation::Transpose(vec_str_shredded_text_, vec_str_trans_shredded_text_);
 
 #ifndef UTFLAG
-  text_strip_operation::disorder(trans_shredded_text);
+  TextStripOperation::Disorder(vec_str_trans_shredded_text_);
 #endif 
 
-  // Empty shredded_text here
-  shredded_text.clear();
+  // Empty vec_str_shredded_text_ here
+  vec_str_shredded_text_.clear();
 
-  // Transpose trans_shredded_text to shredded_text
-  text_strip_operation::transpose(trans_shredded_text,shredded_text);
+  // Transpose vec_str_trans_shredded_text_ to vec_str_shredded_text_
+  TextStripOperation::Transpose(vec_str_trans_shredded_text_, vec_str_shredded_text_);
 
 }
 

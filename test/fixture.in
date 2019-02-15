@@ -1,0 +1,189 @@
+// Fixtures Start
+
+struct Fixture_input
+{
+  
+  vector<vector<string>> Fix_input;
+  vector<vector<string>> Fix_input_r;
+
+  Fixture_input() 
+  {
+    vector<vector<string>> myinput = {{"ab","cd","ef","gh"}, \
+                                      {"ij","kl","mn","op"}, \
+                                      {"qr","st","uv","wx"}};
+
+    vector<vector<string>> myinput_r = {{"ab", "ij", "qr"},  \
+                                        {"cd","kl", "st" },  \
+                                        {"ef", "mn", "uv"},  \
+                                        {"gh", "op", "wx"}};
+
+    auto iter = myinput.begin();
+    while (iter != myinput.end())
+    {
+      Fix_input.push_back(*iter);
+      ++iter;
+    }
+
+    auto iter1 = myinput_r.begin();
+    while (iter1 != myinput_r.end())
+    {
+      Fix_input_r.push_back(*iter1);
+      ++iter1;
+    }
+  }
+  
+  ~Fixture_input(){}
+};
+
+struct file_gen
+{
+  static void  create_file(const string file_nm, const vector<string> text_lines)
+  {
+    ofstream file;
+  
+    file.open (file_nm);
+    if(!file)
+    {
+      throw runtime_error("file cannot open!");
+    }
+ 
+    if (text_lines.size() != 0) 
+    {
+      auto iter=text_lines.begin();
+      while (iter != text_lines.end())
+      {
+  
+        file << *iter <<endl;
+        ++iter;
+      }
+    }
+    file.close();
+  }
+};
+
+struct Fixture_file
+{
+  vector<string> Fix_orig_lines;
+  vector<string> Fix_lines;
+
+  Fixture_file() 
+  {
+    Fix_orig_lines.push_back("This is a good start.");
+    Fix_orig_lines.push_back("Tomorrow will be better");
+    Fix_orig_lines.push_back("because it will be successful...");
+
+    Fix_lines.push_back("This is a good start.           ");
+    Fix_lines.push_back("Tomorrow will be better         ");
+    Fix_lines.push_back("because it will be successful...");
+
+    file_gen::create_file("test_input.ascii",Fix_orig_lines);
+    file_gen::create_file("test_input1.ascii",Fix_lines);
+   
+    vector<string> empty_lines;
+    file_gen::create_file("test_input00.ascii",empty_lines);
+
+    file_gen::create_file("test_output.ascii",Fix_orig_lines);
+    file_gen::create_file("test_output1.ascii",Fix_lines);
+  }
+ 
+  ~Fixture_file()
+  {
+    if (0 != remove("test_input.ascii"))
+    {
+      throw runtime_error("file not exist or cannot be removed!");
+    }
+    if (0 != remove("test_input1.ascii"))
+    {
+      throw runtime_error("file not exist or cannot be removed!");
+    }
+    if (0 != remove("test_input00.ascii"))
+    {
+      throw runtime_error("file not exist or cannot be removed!");
+    }
+    if (0 != remove("test_output.ascii"))
+    {
+      throw runtime_error("file not exist or cannot be removed!");
+    }
+    if (0 != remove("test_output1.ascii"))
+    {
+      throw runtime_error("file not exist or cannot be removed!");
+    }
+  }
+
+};
+
+struct Fixture_source_data
+{
+  vector<string> Fix_lines;
+  vector<vector<string>> Fix_shredded_text_wid2;
+  vector<vector<string>> Fix_shredded_text_wid3;
+
+
+  Fixture_source_data() 
+  {
+    Fix_lines.push_back("This is a good start   ");
+    Fix_lines.push_back("Tomorrow will be bett  ");
+    Fix_lines.push_back("because it will be succ");
+
+    vector<vector<string>> myshredded_wid2 = {{"Th","is"," i","s ","a ","go","od"," s","ta","rt","  ","  "}, \
+                                          {"To","mo","rr","ow"," w","il","l ","be"," b","et","t ","  "}, \
+                                          {"be","ca","us","e ","it"," w","il","l ","be"," s","uc","c "}};
+
+
+    vector<vector<string>> myshredded_wid3 = {{"Thi","s i","s a"," go","od ","sta","rt ","   "}, \
+                                          {"Tom","orr","ow ","wil","l b","e b","ett","   "}, \
+                                          {"bec","aus","e i","t w","ill"," be"," su","cc "}};
+
+    auto iter = myshredded_wid2.begin();
+    while (iter != myshredded_wid2.end())
+    {
+      Fix_shredded_text_wid2.push_back(*iter);
+      ++iter;
+    }
+
+    auto iter1 = myshredded_wid3.begin();
+    while (iter1 != myshredded_wid3.end())
+    {
+      Fix_shredded_text_wid3.push_back(*iter1);
+      ++iter1;
+    }
+
+  }
+
+  ~Fixture_source_data() {}
+};
+
+struct Fixture_data_file :  Fixture_source_data
+{
+  vector<string> format_lines_wid2;
+  vector<string> format_lines_wid3;
+
+  Fixture_data_file()
+  {
+    format_lines_wid2.push_back("|Th|is| i|s |a |go|od| s|ta|rt|  |  |");
+    format_lines_wid2.push_back("|To|mo|rr|ow| w|il|l |be| b|et|t |  |");
+    format_lines_wid2.push_back("|be|ca|us|e |it| w|il|l |be| s|uc|c |");
+
+    format_lines_wid3.push_back("|Thi|s i|s a| go|od |sta|rt |   |");
+    format_lines_wid3.push_back("|Tom|orr|ow |wil|l b|e b|ett|   |");
+    format_lines_wid3.push_back("|bec|aus|e i|t w|ill| be| su|cc |");
+
+    file_gen::create_file("test_output2.ascii",format_lines_wid2);
+    file_gen::create_file("test_output3.ascii",format_lines_wid3);
+
+  }
+
+  ~Fixture_data_file()
+  { 
+    if (0 != remove("test_output2.ascii"))
+    {
+      throw runtime_error("file not exist or cannot be removed!");
+    }
+    if (0 != remove("test_output3.ascii"))
+    {
+      throw runtime_error("file not exist or cannot be removed!");
+    }
+  }
+};
+
+// Fixtures End

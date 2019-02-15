@@ -78,7 +78,7 @@ $(TEST_DIR)/$(TEST_TARGET): $(TEST_OBJS) $(UT_TEST_OBJS)
 %_ut.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) -o $@ -c $<
 run_ut:
-	$(TEST_DIR)/$(TEST_TARGET) --run_test=Singleton_rand_test --log_level=warning;echo
+	$(TEST_DIR)/$(TEST_TARGET) --run_test=SingletonRandom_test --log_level=warning;echo
 	$(TEST_DIR)/$(TEST_TARGET) --log_level=warning;echo
 collect_cov:
 	lcov --rc lcov_branch_coverage=1 -d . -b . -c -o $(COV_FILE)

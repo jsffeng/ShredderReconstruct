@@ -5,40 +5,40 @@
 using namespace std;
 
 #ifdef UTFLAG
-int Singleton_rand::instance_num = 0;
+int SingletonRandom::s_instance_numbers_ = 0;
 #endif
-unsigned int Singleton_rand::max_val = 0;
-std::unique_ptr<Singleton_rand> Singleton_rand::instance = nullptr;
+unsigned int SingletonRandom::s_max_val_ = 0;
+std::unique_ptr<SingletonRandom> SingletonRandom::p_instance_ = nullptr;
 
-Singleton_rand& Singleton_rand::getInstance()
+SingletonRandom& SingletonRandom::GetInstance()
 {
   // for multi-threads
   // static once_flag oc_flag;
   
-  if (max_val == 0)
+  if (s_max_val_ == 0)
   {
-    throw runtime_error("Need to set max_val value before using Singleton_rand!");	
+    throw runtime_error("Need to set s_max_val_ value before using SingletonRandom!");	
   }
 
   // for multi-threads
-  // call_once(oc_flag, [&](){ instance.reset(new Singleton_rand);});
+  // call_once(oc_flag, [&](){ p_instance_.reset(new SingletonRandom);});
 
-  if (instance == nullptr)
+  if (p_instance_ == nullptr)
   {
-     instance.reset(new Singleton_rand);
+     p_instance_.reset(new SingletonRandom);
 #ifdef UTFLAG
-     instance_num++;  
+     s_instance_numbers_++;  
 #endif 
   }
 
-  return *instance;
+  return *p_instance_;
 
 }
 
-unsigned int Singleton_rand::rand_generator()
+unsigned int SingletonRandom::GenerateRandom()
 {
-  static default_random_engine e(time(0));
-  static uniform_int_distribution<unsigned> u(0,max_val);
+  static default_random_engine s_engine(time(0));
+  static uniform_int_distribution<unsigned> s_uniform(0, s_max_val_);
 
-  return u(e);
+  return s_uniform(s_engine);
 }

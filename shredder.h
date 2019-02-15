@@ -4,58 +4,58 @@
 #include<vector>
 #include<memory>
 
-class file_operation
+class FileOperation
 {
   public:
-    static void read_text(const std::string file_nm, std::vector<std::string> &text_lines);
-    static void write_text(const std::string file_nm, const std::vector<std::string> text_lines);
+    static void ReadText(const std::string str_filename, std::vector<std::string> &vec_str_text_lines);
+    static void WriteText(const std::string str_filename, const std::vector<std::string> vec_str_text_lines);
 };
 
-class text_strip_operation
+class TextStripOperation
 {
 #ifdef UTFLAG 
   public:
 #else 
   private:
 #endif
-    static const int rand_num;
+    static const int s_random_number_;
   public:
-    static void disorder(std::vector<std::vector<std::string>>& input);
-    static void transpose(std::vector<std::vector<std::string>>& input, std::vector<std::vector<std::string>>& input_r);
+    static void Disorder(std::vector<std::vector<std::string>>& vec_str_input);
+    static void Transpose(std::vector<std::vector<std::string>>& vec_str_input, std::vector<std::vector<std::string>>& vec_str_input_trans);
 };
 
-class shredder
+class TextShredder
 {
 #ifdef UTFLAG 
   public:
 #else 
   private:
 #endif
-    const int strip_width;
-    const std::string infilename;
-    const std::string outfilename;
+    const int n_strip_width_;
+    const std::string str_in_filename_;
+    const std::string str_out_filename_;
     // Minimum blanks will be added to the end of some lines,
     // to ensure all lines have the same number of charactors.
-    std::vector<std::string> source_data;
-    // Minimum blanks will be added to the end of lines if the size of last column less than strip_width.
-    // This is to ensure every colum has the same size as strip_width defined.
-    std::vector<std::vector<std::string>> shredded_text;
-    std::vector<std::vector<std::string>> trans_shredded_text;
+    std::vector<std::string> vec_str_source_data_;
+    //Minimum blanks will be added to the end of lines if the size of last column less than n_strip_width_.
+    // This is to ensure every colum has the same size as n_strip_width_ defined.
+    std::vector<std::vector<std::string>> vec_str_shredded_text_;
+    std::vector<std::vector<std::string>> vec_str_trans_shredded_text_;
 
   public:
-    shredder(const int width=2, const std::string infile="full_text0.ascii", const std::string outfile="shredded_text0.ascii"); 
+    TextShredder(const int n_width=2, const std::string str_in_file="full_text0.ascii", const std::string str_out_file="shredded_text0.ascii"); 
 
-    //populate source_data from input file
-    void get_input();
-    //write shredded_text to output file by delimiter "|"
-    void create_output();
-    // shred source_data and stored into shredded_text.
-    void do_shredder();
+    //populate vec_str_source_data_ from input file
+    void GetInput();
+    //write vec_str_shredded_text_ to output file by delimiter "|"
+    void CreateOutput();
+    // shred vec_str_source_data_ and stored into vec_str_shredded_text_.
+    void DoTextShredder();
 };
 
 #ifdef UTFLAG 
   // To change main() to UTmain() so as to be tested
-  extern int UTmain(const int width, const std::string infile, const std::string outfile);
+  extern int UTmain(const int n_width, const std::string str_infile, const std::string str_outfile);
 #endif
 
 #endif

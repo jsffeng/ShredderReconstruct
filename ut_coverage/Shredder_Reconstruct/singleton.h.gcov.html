@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-01-19 22:08:36</td>
+            <td class="headerValue">2019-02-15 22:18:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -74,28 +74,28 @@
 <span class="lineNum">       3 </span>                :            : 
 <span class="lineNum">       4 </span>                :            : #include&lt;memory&gt;
 <span class="lineNum">       5 </span>                :            : 
-<span class="lineNum">       6 </span>                :            : class Singleton_rand
+<span class="lineNum">       6 </span>                :            : class SingletonRandom
 <span class="lineNum">       7 </span>                :            : {
 <span class="lineNum">       8 </span>                :            : #ifdef UTFLAG 
 <span class="lineNum">       9 </span>                :            :   public:
-<span class="lineNum">      10 </span>                :            :     static int instance_num;
+<span class="lineNum">      10 </span>                :            :     static int s_instance_numbers_;
 <span class="lineNum">      11 </span>                :            : #else 
 <a name="12"><span class="lineNum">      12 </span>                :            :   private:</a>
 <span class="lineNum">      13 </span>                :            : #endif
-<span class="lineNum">      14 </span>                :<span class="lineCov">          2 :     Singleton_rand() = default;</span>
-<span class="lineNum">      15 </span>                :            :     Singleton_rand(const Singleton_rand&amp;) = delete;
-<span class="lineNum">      16 </span>                :            :     Singleton_rand&amp; operator=(const Singleton_rand&amp;) = delete;
+<span class="lineNum">      14 </span>                :<span class="lineCov">          2 :     SingletonRandom() = default;</span>
+<span class="lineNum">      15 </span>                :            :     SingletonRandom(const SingletonRandom&amp;) = delete;
+<span class="lineNum">      16 </span>                :            :     SingletonRandom&amp; operator=(const SingletonRandom&amp;) = delete;
 <span class="lineNum">      17 </span>                :            : 
 <span class="lineNum">      18 </span>                :            :     // Use unique pointer to ensure resources release being taken care of
-<span class="lineNum">      19 </span>                :            :     static std::unique_ptr&lt;Singleton_rand&gt; instance;
+<span class="lineNum">      19 </span>                :            :     static std::unique_ptr&lt;SingletonRandom&gt; p_instance_;
 <span class="lineNum">      20 </span>                :            : 
 <span class="lineNum">      21 </span>                :            :   public:
-<span class="lineNum">      22 </span>                :            :     ~Singleton_rand() = default;
+<span class="lineNum">      22 </span>                :            :     ~SingletonRandom() = default;
 <span class="lineNum">      23 </span>                :            : 
-<span class="lineNum">      24 </span>                :            :     static unsigned int max_val;
+<span class="lineNum">      24 </span>                :            :     static unsigned int s_max_val_;
 <span class="lineNum">      25 </span>                :            : 
-<span class="lineNum">      26 </span>                :            :     static Singleton_rand&amp; getInstance();
-<span class="lineNum">      27 </span>                :            :     unsigned int rand_generator();
+<span class="lineNum">      26 </span>                :            :     static SingletonRandom&amp; GetInstance();
+<span class="lineNum">      27 </span>                :            :     unsigned int GenerateRandom();
 <span class="lineNum">      28 </span>                :            : };
 <span class="lineNum">      29 </span>                :            : 
 <span class="lineNum">      30 </span>                :            : #endif

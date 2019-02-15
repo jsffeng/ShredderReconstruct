@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-01-19 22:08:36</td>
+            <td class="headerValue">2019-02-15 22:18:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -75,7 +75,7 @@
 <span class="lineNum">       4 </span>                :            : using namespace std;
 <a name="5"><span class="lineNum">       5 </span>                :            : </a>
 <span class="lineNum">       6 </span>                :            : #ifdef UTFLAG
-<span class="lineNum">       7 </span>                :<span class="lineCov">          6 : int UTmain(const int width, const string infile, const string outfile)</span>
+<span class="lineNum">       7 </span>                :<span class="lineCov">          6 : int UTmain(const int n_width, const string str_infile, const string str_outfile)</span>
 <span class="lineNum">       8 </span>                :            : #else
 <span class="lineNum">       9 </span>                :            : int main()
 <span class="lineNum">      10 </span>                :            : #endif
@@ -83,21 +83,21 @@
 <span class="lineNum">      12 </span>                :            :   try 
 <span class="lineNum">      13 </span>                :            :   {
 <span class="lineNum">      14 </span>                :            : #ifdef UTFLAG
-<span class="lineNum">      15 </span>[<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         12 :     shredder text_sh(width,infile,outfile);</span>
+<span class="lineNum">      15 </span>[<span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         12 :     TextShredder text_shredder(n_width, str_infile, str_outfile);</span>
 <span class="lineNum">         </span>[<span class="branchCov" title="Branch 7 was taken 6 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>][<span class="branchNoCov" title="Branch 14 was not taken"> - </span><span class="branchCov" title="Branch 15 was taken 4 times"> + </span>]
 <span class="lineNum">      16 </span>                :            : #else
-<span class="lineNum">      17 </span>                :            :     shredder text_sh(2,&quot;full_text.ascii&quot;,&quot;shredded_text.ascii&quot;);
+<span class="lineNum">      17 </span>                :            :     TextShredder text_shredder(2, &quot;full_text.ascii&quot;, &quot;shredded_text.ascii&quot;);
 <span class="lineNum">      18 </span>                :            : #endif
-<span class="lineNum">      19 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>]:<span class="lineCov">          6 :     text_sh.get_input();</span>
-<span class="lineNum">      20 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          5 :     text_sh.do_shredder();</span>
-<span class="lineNum">      21 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>]:<span class="lineCov">          3 :     text_sh.create_output();</span>
+<span class="lineNum">      19 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>]:<span class="lineCov">          6 :     text_shredder.GetInput();</span>
+<span class="lineNum">      20 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span>]:<span class="lineCov">          5 :     text_shredder.DoTextShredder();</span>
+<span class="lineNum">      21 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>]:<span class="lineCov">          3 :     text_shredder.CreateOutput();</span>
 <span class="lineNum">      22 </span>                :            :   }
 <span class="lineNum">      23 </span>                :            : 
-<span class="lineNum">      24 </span>                :<span class="lineCov">          4 :   catch(std::exception &amp;e)</span>
+<span class="lineNum">      24 </span>                :<span class="lineCov">          4 :   catch(std::exception &amp;ref_exception)</span>
 <span class="lineNum">      25 </span>                :            :   {
 <span class="lineNum">      26 </span>                :            : #ifndef UTFLAG
-<span class="lineNum">      27 </span>                :            :     cout&lt;&lt;e.what()&lt;&lt;endl;
-<span class="lineNum">      28 </span>                :            :     cout &lt;&lt;&quot;Error occured. Abort!&quot; &lt;&lt; endl; 
+<span class="lineNum">      27 </span>                :            :     cout &lt;&lt; ref_exception.what() &lt;&lt; endl;
+<span class="lineNum">      28 </span>                :            :     cout &lt;&lt; &quot;Error occured. Abort!&quot; &lt;&lt; endl; 
 <span class="lineNum">      29 </span>                :            : #endif
 <span class="lineNum">      30 </span>                :<span class="lineCov">          4 :     return 1;</span>
 <span class="lineNum">      31 </span>                :            :   }

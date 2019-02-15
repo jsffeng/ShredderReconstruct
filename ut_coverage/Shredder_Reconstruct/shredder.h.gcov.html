@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-01-19 22:08:36</td>
+            <td class="headerValue">2019-02-15 22:18:29</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -75,58 +75,58 @@
 <span class="lineNum">       4 </span>                :            : #include&lt;vector&gt;
 <span class="lineNum">       5 </span>                :            : #include&lt;memory&gt;
 <span class="lineNum">       6 </span>                :            : 
-<span class="lineNum">       7 </span>                :            : class file_operation
+<span class="lineNum">       7 </span>                :            : class FileOperation
 <span class="lineNum">       8 </span>                :            : {
 <span class="lineNum">       9 </span>                :            :   public:
-<span class="lineNum">      10 </span>                :            :     static void read_text(const std::string file_nm, std::vector&lt;std::string&gt; &amp;text_lines);
-<span class="lineNum">      11 </span>                :            :     static void write_text(const std::string file_nm, const std::vector&lt;std::string&gt; text_lines);
+<span class="lineNum">      10 </span>                :            :     static void ReadText(const std::string str_filename, std::vector&lt;std::string&gt; &amp;vec_str_text_lines);
+<span class="lineNum">      11 </span>                :            :     static void WriteText(const std::string str_filename, const std::vector&lt;std::string&gt; vec_str_text_lines);
 <span class="lineNum">      12 </span>                :            : };
 <span class="lineNum">      13 </span>                :            : 
-<span class="lineNum">      14 </span>                :            : class text_strip_operation
+<span class="lineNum">      14 </span>                :            : class TextStripOperation
 <span class="lineNum">      15 </span>                :            : {
 <span class="lineNum">      16 </span>                :            : #ifdef UTFLAG 
 <span class="lineNum">      17 </span>                :            :   public:
 <span class="lineNum">      18 </span>                :            : #else 
 <span class="lineNum">      19 </span>                :            :   private:
 <span class="lineNum">      20 </span>                :            : #endif
-<span class="lineNum">      21 </span>                :            :     static const int rand_num;
+<span class="lineNum">      21 </span>                :            :     static const int s_random_number_;
 <span class="lineNum">      22 </span>                :            :   public:
-<span class="lineNum">      23 </span>                :            :     static void disorder(std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; input);
-<span class="lineNum">      24 </span>                :            :     static void transpose(std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; input, std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; input_r);
+<span class="lineNum">      23 </span>                :            :     static void Disorder(std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; vec_str_input);
+<span class="lineNum">      24 </span>                :            :     static void Transpose(std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; vec_str_input, std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; vec_str_input_trans);
 <a name="25"><span class="lineNum">      25 </span>                :            : };</a>
 <span class="lineNum">      26 </span>                :            : 
-<span class="lineNum">      27 </span>                :<span class="lineCov">         34 : class shredder</span>
+<span class="lineNum">      27 </span>                :<span class="lineCov">         34 : class TextShredder</span>
 <span class="lineNum">      28 </span>                :            : {
 <span class="lineNum">      29 </span>                :            : #ifdef UTFLAG 
 <span class="lineNum">      30 </span>                :            :   public:
 <span class="lineNum">      31 </span>                :            : #else 
 <span class="lineNum">      32 </span>                :            :   private:
 <span class="lineNum">      33 </span>                :            : #endif
-<span class="lineNum">      34 </span>                :            :     const int strip_width;
-<span class="lineNum">      35 </span>                :            :     const std::string infilename;
-<span class="lineNum">      36 </span>                :            :     const std::string outfilename;
+<span class="lineNum">      34 </span>                :            :     const int n_strip_width_;
+<span class="lineNum">      35 </span>                :            :     const std::string str_in_filename_;
+<span class="lineNum">      36 </span>                :            :     const std::string str_out_filename_;
 <span class="lineNum">      37 </span>                :            :     // Minimum blanks will be added to the end of some lines,
 <span class="lineNum">      38 </span>                :            :     // to ensure all lines have the same number of charactors.
-<span class="lineNum">      39 </span>                :            :     std::vector&lt;std::string&gt; source_data;
-<span class="lineNum">      40 </span>                :            :     // Minimum blanks will be added to the end of lines if the size of last column less than strip_width.
-<span class="lineNum">      41 </span>                :            :     // This is to ensure every colum has the same size as strip_width defined.
-<span class="lineNum">      42 </span>                :            :     std::vector&lt;std::vector&lt;std::string&gt;&gt; shredded_text;
-<span class="lineNum">      43 </span>                :            :     std::vector&lt;std::vector&lt;std::string&gt;&gt; trans_shredded_text;
+<span class="lineNum">      39 </span>                :            :     std::vector&lt;std::string&gt; vec_str_source_data_;
+<span class="lineNum">      40 </span>                :            :     //Minimum blanks will be added to the end of lines if the size of last column less than n_strip_width_.
+<span class="lineNum">      41 </span>                :            :     // This is to ensure every colum has the same size as n_strip_width_ defined.
+<span class="lineNum">      42 </span>                :            :     std::vector&lt;std::vector&lt;std::string&gt;&gt; vec_str_shredded_text_;
+<span class="lineNum">      43 </span>                :            :     std::vector&lt;std::vector&lt;std::string&gt;&gt; vec_str_trans_shredded_text_;
 <span class="lineNum">      44 </span>                :            : 
 <span class="lineNum">      45 </span>                :            :   public:
-<span class="lineNum">      46 </span>                :            :     shredder(const int width=2, const std::string infile=&quot;full_text0.ascii&quot;, const std::string outfile=&quot;shredded_text0.ascii&quot;); 
+<span class="lineNum">      46 </span>                :            :     TextShredder(const int n_width=2, const std::string str_in_file=&quot;full_text0.ascii&quot;, const std::string str_out_file=&quot;shredded_text0.ascii&quot;); 
 <span class="lineNum">      47 </span>                :            : 
-<span class="lineNum">      48 </span>                :            :     //populate source_data from input file
-<span class="lineNum">      49 </span>                :            :     void get_input();
-<span class="lineNum">      50 </span>                :            :     //write shredded_text to output file by delimiter &quot;|&quot;
-<span class="lineNum">      51 </span>                :            :     void create_output();
-<span class="lineNum">      52 </span>                :            :     // shred source_data and stored into shredded_text.
-<span class="lineNum">      53 </span>                :            :     void do_shredder();
+<span class="lineNum">      48 </span>                :            :     //populate vec_str_source_data_ from input file
+<span class="lineNum">      49 </span>                :            :     void GetInput();
+<span class="lineNum">      50 </span>                :            :     //write vec_str_shredded_text_ to output file by delimiter &quot;|&quot;
+<span class="lineNum">      51 </span>                :            :     void CreateOutput();
+<span class="lineNum">      52 </span>                :            :     // shred vec_str_source_data_ and stored into vec_str_shredded_text_.
+<span class="lineNum">      53 </span>                :            :     void DoTextShredder();
 <span class="lineNum">      54 </span>                :            : };
 <span class="lineNum">      55 </span>                :            : 
 <span class="lineNum">      56 </span>                :            : #ifdef UTFLAG 
 <span class="lineNum">      57 </span>                :            :   // To change main() to UTmain() so as to be tested
-<span class="lineNum">      58 </span>                :            :   extern int UTmain(const int width, const std::string infile, const std::string outfile);
+<span class="lineNum">      58 </span>                :            :   extern int UTmain(const int n_width, const std::string str_infile, const std::string str_outfile);
 <span class="lineNum">      59 </span>                :            : #endif
 <span class="lineNum">      60 </span>                :            : 
 <span class="lineNum">      61 </span>                :            : #endif

@@ -3,28 +3,28 @@
 
 #include<memory>
 
-class Singleton_rand
+class SingletonRandom
 {
 #ifdef UTFLAG 
   public:
-    static int instance_num;
+    static int s_instance_numbers_;
 #else 
   private:
 #endif
-    Singleton_rand() = default;
-    Singleton_rand(const Singleton_rand&) = delete;
-    Singleton_rand& operator=(const Singleton_rand&) = delete;
+    SingletonRandom() = default;
+    SingletonRandom(const SingletonRandom&) = delete;
+    SingletonRandom& operator=(const SingletonRandom&) = delete;
 
     // Use unique pointer to ensure resources release being taken care of
-    static std::unique_ptr<Singleton_rand> instance;
+    static std::unique_ptr<SingletonRandom> p_instance_;
 
   public:
-    ~Singleton_rand() = default;
+    ~SingletonRandom() = default;
 
-    static unsigned int max_val;
+    static unsigned int s_max_val_;
 
-    static Singleton_rand& getInstance();
-    unsigned int rand_generator();
+    static SingletonRandom& GetInstance();
+    unsigned int GenerateRandom();
 };
 
 #endif

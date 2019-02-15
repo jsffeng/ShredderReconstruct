@@ -88,26 +88,16 @@ struct Fixture_file
  
   ~Fixture_file()
   {
-    if (0 != remove("test_input.ascii"))
+    try 
     {
-      throw runtime_error("file not exist or cannot be removed!");
+      remove("test_input.ascii");
+      remove("test_input1.ascii");
+      remove("test_input00.ascii");
+      remove("test_output.ascii");
+      remove("test_output1.ascii");
     }
-    if (0 != remove("test_input1.ascii"))
-    {
-      throw runtime_error("file not exist or cannot be removed!");
-    }
-    if (0 != remove("test_input00.ascii"))
-    {
-      throw runtime_error("file not exist or cannot be removed!");
-    }
-    if (0 != remove("test_output.ascii"))
-    {
-      throw runtime_error("file not exist or cannot be removed!");
-    }
-    if (0 != remove("test_output1.ascii"))
-    {
-      throw runtime_error("file not exist or cannot be removed!");
-    }
+
+    catch(...) {}
   }
 
 };
@@ -175,14 +165,13 @@ struct Fixture_data_file :  Fixture_source_data
 
   ~Fixture_data_file()
   { 
-    if (0 != remove("test_output2.ascii"))
+    try
     {
-      throw runtime_error("file not exist or cannot be removed!");
+      remove("test_output2.ascii");
+      remove("test_output3.ascii");
     }
-    if (0 != remove("test_output3.ascii"))
-    {
-      throw runtime_error("file not exist or cannot be removed!");
-    }
+   
+    catch(...) {}
   }
 };
 

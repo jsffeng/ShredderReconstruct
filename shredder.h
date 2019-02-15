@@ -4,7 +4,7 @@
 #include<vector>
 #include<memory>
 
-class FileOperation
+class TextFileOperation
 {
   public:
     static void ReadText(const std::string str_filename, std::vector<std::string> &vec_str_text_lines);

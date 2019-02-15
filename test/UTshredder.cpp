@@ -54,34 +54,34 @@ BOOST_AUTO_TEST_CASE (GenerateRandom_test)
 
 BOOST_AUTO_TEST_SUITE_END( )
 
-// Class FileOperation
-BOOST_FIXTURE_TEST_SUITE(FileOperation_test, Fixture_file);
+// Class TextFileOperation
+BOOST_FIXTURE_TEST_SUITE(TextFileOperation_test, Fixture_file);
 
 BOOST_AUTO_TEST_CASE (ReadText_test)
 {
   vector<string> lines_t;
 
-  FileOperation::ReadText("test_input.ascii", lines_t);
+  TextFileOperation::ReadText("test_input.ascii", lines_t);
   // ReadText() will append blank charactors to ensure all lines have the same number of charactors
   BOOST_CHECK(lines_t == Fix_lines);   
   lines_t.clear();
 
   // Test file with blanks at the end of lines.
-  FileOperation::ReadText("test_input1.ascii", lines_t);
+  TextFileOperation::ReadText("test_input1.ascii", lines_t);
   BOOST_CHECK(lines_t == Fix_lines);   
   lines_t.clear();
   
   // File not exist, throw an exception  
-  BOOST_CHECK_THROW(FileOperation::ReadText("test_input99.ascii", lines_t),exception);
+  BOOST_CHECK_THROW(TextFileOperation::ReadText("test_input99.ascii", lines_t),exception);
   lines_t.clear();
 
   // Test empty file 
-  FileOperation::ReadText("test_input00.ascii", lines_t);
+  TextFileOperation::ReadText("test_input00.ascii", lines_t);
 
   BOOST_CHECK(lines_t.size() == 0);   
 
   // Test invalid input 
-  BOOST_CHECK_THROW(FileOperation::ReadText("", lines_t), exception);   
+  BOOST_CHECK_THROW(TextFileOperation::ReadText("", lines_t), exception);   
 
 }
 
@@ -89,17 +89,17 @@ BOOST_AUTO_TEST_CASE (WriteText_test)
 {
 
   // Test invalid input 
-  BOOST_CHECK_THROW(FileOperation::WriteText("", Fix_orig_lines), exception);   
+  BOOST_CHECK_THROW(TextFileOperation::WriteText("", Fix_orig_lines), exception);   
 
-  FileOperation::WriteText("test_output_t.ascii", Fix_orig_lines);
+  TextFileOperation::WriteText("test_output_t.ascii", Fix_orig_lines);
   // When cmp return non-zero value, Boost will detect it and quit with fatal error.
   BOOST_CHECK(system ("cmp -l test_output_t.ascii test_output.ascii >/dev/null 2>&1") == 0);   
 
-  FileOperation::WriteText("test_output_t1.ascii", Fix_lines);
+  TextFileOperation::WriteText("test_output_t1.ascii", Fix_lines);
   BOOST_CHECK(system ("cmp -l test_output_t1.ascii test_output1.ascii >/dev/null 2>&1") == 0);   
   
   // When file exists, should overwite the file.
-  FileOperation::WriteText("test_output_t1.ascii", Fix_lines);
+  TextFileOperation::WriteText("test_output_t1.ascii", Fix_lines);
   BOOST_CHECK(system ("cmp -l test_output_t1.ascii test_output1.ascii >/dev/null 2>&1") == 0);   
 
   system("rm -rf test_output_t*.ascii");

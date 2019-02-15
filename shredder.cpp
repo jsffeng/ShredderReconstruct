@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void FileOperation::ReadText(const string str_filename, vector<string> &vec_str_text_lines)
+void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_str_text_lines)
 {
   string str_line;
   ifstream f_infile;
@@ -45,7 +45,7 @@ void FileOperation::ReadText(const string str_filename, vector<string> &vec_str_
 
 }
 
-void FileOperation::WriteText(const string str_filename, const vector<string> vec_str_text_lines)
+void TextFileOperation::WriteText(const string str_filename, const vector<string> vec_str_text_lines)
 {
   ofstream f_outfile;
 
@@ -118,7 +118,7 @@ TextShredder::TextShredder(const int n_width, const string str_in_file, const st
 
 void TextShredder::GetInput()
 {
-  FileOperation::ReadText(str_in_filename_, vec_str_source_data_);
+  TextFileOperation::ReadText(str_in_filename_, vec_str_source_data_);
 }
 
 void TextShredder::CreateOutput()
@@ -143,7 +143,7 @@ void TextShredder::CreateOutput()
     str_sub.clear();
   }
 
-  FileOperation::WriteText(str_out_filename_, vec_temp);
+  TextFileOperation::WriteText(str_out_filename_, vec_temp);
 }
 
 void TextShredder::DoTextShredder()

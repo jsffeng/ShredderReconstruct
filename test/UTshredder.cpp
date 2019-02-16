@@ -1,3 +1,4 @@
+// Unit Testing by using BOOST
 #define BOOST_TEST_MODULE main_shredder_test
 #include<iostream>
 #include<fstream>
@@ -11,8 +12,10 @@ using namespace std;
 #include "fixture.in"
 
 // Class SingletonRandom
+// Disable this test_suite by default as the test of SingletonRandom has conflicts with the rest 
+// testings which may use SingletonRandom class.
+// It can be invoked by option --run_test=SingletonRandom_test seperately with the rest tests.
 BOOST_AUTO_TEST_SUITE (SingletonRandom_test, * boost::unit_test::disabled())
-//BOOST_AUTO_TEST_SUITE (SingletonRandom_test)
 
 BOOST_AUTO_TEST_CASE (GetInstance_test)
 {

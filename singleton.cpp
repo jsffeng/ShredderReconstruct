@@ -12,7 +12,7 @@ std::unique_ptr<SingletonRandom> SingletonRandom::p_instance_ = nullptr;
 
 SingletonRandom& SingletonRandom::GetInstance()
 {
-  // for multi-threads
+  // Following will be used if multi-threads
   // static once_flag oc_flag;
   
   if (s_max_val_ == 0)
@@ -20,7 +20,7 @@ SingletonRandom& SingletonRandom::GetInstance()
     throw runtime_error("Need to set s_max_val_ value before using SingletonRandom!");	
   }
 
-  // for multi-threads
+  // Following will be used if multi-threads
   // call_once(oc_flag, [&](){ p_instance_.reset(new SingletonRandom);});
 
   if (p_instance_ == nullptr)
@@ -35,6 +35,7 @@ SingletonRandom& SingletonRandom::GetInstance()
 
 }
 
+// Generate random numbers
 unsigned int SingletonRandom::GenerateRandom()
 {
   static default_random_engine s_engine(time(0));

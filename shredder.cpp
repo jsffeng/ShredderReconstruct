@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Common function for reading text lines from an input file
 void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_str_text_lines)
 {
   string str_line;
@@ -45,6 +46,7 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
 
 }
 
+// Common function for writing text strips to an output file
 void TextFileOperation::WriteText(const string str_filename, const vector<string> vec_str_text_lines)
 {
   ofstream f_outfile;
@@ -67,6 +69,7 @@ void TextFileOperation::WriteText(const string str_filename, const vector<string
 
 const int TextStripOperation::s_random_number_ = 40;
 
+// Re-order the vector compoent - each componet contain a vector to store a text strip
 void TextStripOperation::Disorder(vector<vector<string>>& vec_str_input) 
 {
   unsigned int n_temp = 0; 
@@ -89,6 +92,7 @@ void TextStripOperation::Disorder(vector<vector<string>>& vec_str_input)
   }
 }
 
+// Transpose row and column(each column is for a text strip)
 void TextStripOperation::Transpose(vector<vector<string>>& vec_str_input, vector<vector<string>>& vec_str_input_trans)
 {
   vector<string> vec_temp;
@@ -116,11 +120,13 @@ TextShredder::TextShredder(const int n_width, const string str_in_file, const st
 {
 }
 
+// Populate vec_str_source_data_ from input file
 void TextShredder::GetInput()
 {
   TextFileOperation::ReadText(str_in_filename_, vec_str_source_data_);
 }
 
+// Print vec_str_shredded_text_ to output file by delimiter "|"
 void TextShredder::CreateOutput()
 {
   vector<string> vec_temp;
@@ -146,6 +152,7 @@ void TextShredder::CreateOutput()
   TextFileOperation::WriteText(str_out_filename_, vec_temp);
 }
 
+// Shred text lines stored vec_str_source_data_ and save shredded result into vec_str_shredded_text_
 void TextShredder::DoTextShredder()
 {
   vector<string> vec_temp;

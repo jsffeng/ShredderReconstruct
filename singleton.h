@@ -10,7 +10,8 @@
 // to allow more than 1 instance.
 // Furthermore, this random number will be used to select a strip randomly from the shredded text 
 // strips. Once the number of shredded width gets defined, the number of shredded text strips cannot
-// be changed, so the range of random number cannot be changed during the execution of the programme.
+// be changed, so the range of random number need to keep the same in an execution of each instance/process
+// of this programme.
 class SingletonRandom
 {
 #ifdef UTFLAG 

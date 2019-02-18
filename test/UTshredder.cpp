@@ -1,8 +1,7 @@
 // Unit Testing by using BOOST
 #define BOOST_TEST_MODULE main_shredder_test
-#include<iostream>
-#include<fstream>
 #include <boost/test/included/unit_test.hpp>
+#include "../common_class.h"
 #include "../shredder.h"
 #include "../singleton.h"
 

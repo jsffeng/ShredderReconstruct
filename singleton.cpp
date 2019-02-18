@@ -1,5 +1,4 @@
 #include<random>
-#include<memory>
 #include "singleton.h"
 
 using namespace std;

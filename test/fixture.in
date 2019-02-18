@@ -1,5 +1,6 @@
-// Fixtures Start
+#include<fstream>
 
+// Fixtures Start
 struct Fixture_input
 {
   

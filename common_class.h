@@ -24,10 +24,16 @@ class TextStripOperation
     // Random number used by Disorder() to generate shredded text strip in a random oder
     static const int s_random_number_;
   public:
-    // Re-order the vector compoent - each componet contain a vector to store a text strip
+    // Re-order the vector component - each componet contain a vector to store a text strip
     static void Disorder(std::vector<std::vector<std::string>>& vec_str_input);
-    // Transpose row and column(each column is for a text strip) 
+    // Transpose multiple columns, and each column is for a text strip
     static void Transpose(std::vector<std::vector<std::string>>& vec_str_input, std::vector<std::vector<std::string>>& vec_str_input_trans);
+    static void MergeTextl(std::vector<std::vector<std::string>> & vec_str_input, std::vector<std::string>& vec_str_text);
 };
 
+class WordDictionary
+{
+  public:
+    static bool LookupDict(std::string str_letters);
+};
 #endif

@@ -1,0 +1,208 @@
+//////////////////////////////////////////////////////////////////////////////////////////  
+//
+//  Naming convention used in source code and header files in this programme.
+//
+//  Let's assume the following text content to be unshredded by this programme.
+//  
+//  a1|a2|a3
+//  b1|b2|b3
+//  c1|c2|c3
+//  d1|d2|d3
+// 
+//  In abvoe, a1, a2, b1, etc. is a string with same width, "|" is delimiter used by programme.
+//
+//  In this programme, above data will be stored into following 2 dimentional vector:
+//  {
+//    {a1,b1,c1,d1},
+//    {a2,b2,c2,d2},
+//    {a3,b3,c3,d3}
+//  }
+//  
+//  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc in above. 
+//  A "column" often used to refer a text strip in data or variables in this programme.
+//  
+//////////////////////////////////////////////////////////////////////////////////////////  
+
+
+const float kToleranceRate = 0.15;
+
+// Class ColumnMatchManager constructor
+ColumnMatchManager::ColumnMatchManager(vector<vector<string>> vec_text_columns,vector<string> vec_new_column)
+{
+}
+
+// Class ColumnMatchManager
+void ColumnMatchManager::BuildLookupKey(vector<string> & word_col, TwoWayDirections enum_direct) 
+{
+   // result was populated to word_col
+}
+
+// class ColumnMatchManager
+void ColumnMatchManager::CalculateMatchRate()
+{
+   vector<string> word_col;
+   int found_val=0;
+   int notfound_val=0;
+
+   for(TwoWayDirections i=LEFT ;i<LIMIT; i=(TwoWayDirections)(i+1))
+   {
+ 
+      BuildLookupKey(word_col, i);
+      
+      loop each member in word_col
+         if member != blank   
+            flag = LookupDict(member in word_col);
+   
+            if flag = true
+               found_val++
+            else
+               notfound_val++
+   
+       column_match_rate_[i].f_match_rate=found_val+1/notfound_val+1;
+       column_match_rate_[i].f_notmatch_rate=notfound_val/sizeof (word_col);
+   
+   }
+}
+
+// Class ColumnSelectManager constructor
+ColumnSelectManager::ColumnSelectManager()
+{
+}
+
+// Class ColumnSelectManager
+// Init vec_selected_columns_ and vec_column_pool_ with columns. 
+void ColumnSelectManager::Init(vector<vector<string>> columns)
+{
+}
+
+// Class ColumnSelectManager
+void ColumnSelectManager::FindBestMatch()
+{
+   MatchRate match_rate_t;
+   TwoWayDirections enum_direct_t;
+
+   int n_number = -1;
+   float f_best_match = 0;
+
+   int i = 0;
+   auto iter = vec_column_pool_.begin();
+   while (iter != vec_column_pool_.end() )
+   {
+       ColumnMatchManager p_column_match_manager = new ColumnMatchManager(vec_selected_columns_, *iter); 
+       
+       p_column_match_manager->CalculateMatchRate();
+       for(TwoWayDirections j=LEFT ;j<LIMIT; j=(TwoWayDirections)(j+1))
+       {
+          match_rate_t = p_column_match_manager->column_match_rate_[j];
+         if (match_rate_t.f_notmatch_rate > kToleranceRate)
+         {
+ 	       continue;
+         }
+ 	   else
+         {
+            if (match_rate_t.f_match_rate > f_best_match)
+            {
+ 	         f_best_match = match_rate_t.f_match_rate;
+ 	         n_number = i;
+                 enum_direct_t = j;
+            }
+         }
+       }
+
+       delete p_column_match_manager;
+       ++iter;
+       ++i;
+   }
+
+   if (n_number == -1)
+   {
+      //Failed to find any matching columns! May need to change parameter and re-try.
+      b_failure_flag_ = true;
+   }
+   else
+   { 
+     best_match_column_.n_number_in_pool = n_number; 
+     best_match_column_.enum_best_match_direct = enum_direct_t;
+   }
+}
+
+// Class ColumnSelectManager
+void ColumnSelectManager::AddToSelectedColumns()
+{     
+  if (best_match_column_.n_number_in_pool == -1) 
+    throw runtime_error("Invalid input!");
+
+   vector<string> vec_column = vec_column_pool_[vec_column_pool_.n_number_in_pool];
+
+  // Reset the following is -1 after adding it to vec_selected_columns_
+  best_match_column_.n_number_in_pool == -1;
+}
+
+
+// Class ColumnSelectManager
+void ColumnSelectManager::DeleteFromColumnPool()
+{
+}
+
+// Class ColumnSelectManager
+int TextUnshredder::RebuildColumnsByBestMatch()
+{
+  int n_column_pool_number_t;
+  TwoWayDirections enum_direct_t;
+
+  FindBestMatch(n_column_pool_number_t, enum_direct_t);
+
+  if (b_failure_flag_ == true ) 
+     return 1; 
+  //reconstruct  vec_selected_columns_ with num and enum_direct;
+  AddToSelectedColumns();
+
+  //reconstruct vec_column_pool_ with num and enum_direct;
+  DeleteFromColumnPool();
+  
+  return 0;
+}
+
+// Class TextUnshredder constructor
+TextUnshredder::TextUnshredder(const string str_in_file, const string str_out_file)
+{
+}
+
+// Class TextUnshredder
+void TextUnshredder::GetInput()
+{
+}
+
+// Class TextUnshredder
+void TextUnshredder::CreateOutput()
+{
+}
+
+// Class TextUnshredder
+void TextUnshredder::DoTextUnshredder()
+{
+
+ column_select_manager_.Init(vec_text_columns_);
+ while (column_select_manager_.vec_column_pool_ ! = NULL && column_select_manager_.b_failure_flag_ == false)
+ { 
+   column_select_manager_.RebuildColumnsByBestMatch();
+ }
+
+// vector<string> vec_merged_text_trans;
+ if (column_select_manager_.b_failure_flag_ == true) 
+ {
+  // b_premature_flag_ = true, n_premature_column_number_ = size of column_select_manager_.vec_column_pool_
+  // combine column_select_manager_.vec_selected_columns_ and column_select_manager_.vec_column_pool_ 
+     column_select_manager_.best_match_column_.enum_best_match_direct = RIGHT;
+     for (int i=0; i< sizeof(column_select_manager_.vec_column_pool_); i++) 
+     {
+       column_select_manager_.best_match_column_.n_number_in_pool = i; 
+       column_select_manager_.AddToSelectedColumns();
+     }
+ }
+
+ TextStripOperation::MergeText(column_select_manager_.vec_selected_columns_,vec_merged_text_);
+ //TextStripOperation::Transpose(vec_merged_text_trans, vec_merged_text_);
+
+}
+

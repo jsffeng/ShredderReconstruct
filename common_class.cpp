@@ -1,6 +1,7 @@
 #include<fstream>
+#include<unordered_set>
 #include "common_class.h"
-#include "singleton.h"
+#include "singleton_random.h"
 
 using namespace std;
 
@@ -29,7 +30,7 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
 
   f_infile.close();
 
-  // Convert blank at end of each line to ascii space charactors  
+  // Convert blank at end of each line to ascii space charactors, this is required by shredding process
   auto iter = vec_str_text_lines.begin();
   unsigned int n_size;
   while (iter != vec_str_text_lines.end()) 
@@ -42,6 +43,28 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
     }
     ++iter;
   }
+
+}
+
+void TextFileOperation::ReadText(const string str_filename, unordered_set<string> &uset_str_text_lines)
+{
+  string str_line;
+  ifstream f_infile;
+
+  f_infile.open(str_filename);
+  if (!f_infile)
+  {
+     throw runtime_error("file cannot open to read!");
+  }
+
+  uset_str_text_lines.clear();
+
+  while (getline(f_infile, str_line))
+  {
+      uset_str_text_lines.insert(str_line);
+  }
+
+  f_infile.close();
 
 }
 
@@ -111,6 +134,29 @@ void TextStripOperation::Transpose(vector<vector<string>>& vec_str_input, vector
 
     vec_str_input_trans.push_back(vec_temp);
     vec_temp.clear();
+  }
+
+}
+
+void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vector<string>& vec_str_text)
+{
+  string str_temp;
+
+  if (vec_str_input.empty()) 
+  {
+    throw runtime_error("vec_str_input is empty, no text data to merge!"); 
+  }
+
+  vec_str_text.clear();
+ 
+  for (int j = 0; j < vec_str_input.begin()->size() ; ++j)
+  {
+    for (int i = 0; i < vec_str_input.size(); ++i)
+    {
+      str_temp.append(vec_str_input[i][j]);
+    }
+
+    vec_str_text.push_back(str_temp);
   }
 
 }

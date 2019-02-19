@@ -3,12 +3,15 @@
 
 #include<vector>
 #include<string>
+#include<unordered_set>
 
 class TextFileOperation
 {
   public:
     // Common function for reading text lines from an input file
     static void ReadText(const std::string str_filename, std::vector<std::string> &vec_str_text_lines);
+    static void ReadText(const std::string str_filename, std::unordered_set<std::string> &uset_str_text_lines);
+    // Common function for writing text strips to an output file
     // Common function for writing text strips to an output file
     static void WriteText(const std::string str_filename, const std::vector<std::string> vec_str_text_lines);
 };
@@ -28,12 +31,7 @@ class TextStripOperation
     static void Disorder(std::vector<std::vector<std::string>>& vec_str_input);
     // Transpose multiple columns, and each column is for a text strip
     static void Transpose(std::vector<std::vector<std::string>>& vec_str_input, std::vector<std::vector<std::string>>& vec_str_input_trans);
-    static void MergeTextl(std::vector<std::vector<std::string>> & vec_str_input, std::vector<std::string>& vec_str_text);
+    static void MergeText(std::vector<std::vector<std::string>> & vec_str_input, std::vector<std::string>& vec_str_text);
 };
 
-class WordDictionary
-{
-  public:
-    static bool LookupDict(std::string str_letters);
-};
 #endif

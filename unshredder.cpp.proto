@@ -23,6 +23,9 @@
 //  
 //////////////////////////////////////////////////////////////////////////////////////////  
 
+#include "common_class.h"
+#include "unshredder.h"
+#include "singleton_diction.h"
 
 const float kToleranceRate = 0.15;
 
@@ -35,6 +38,7 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> vec_text_columns,v
 void ColumnMatchManager::BuildLookupKey(vector<string> & word_col, TwoWayDirections enum_direct) 
 {
    // result was populated to word_col
+   word_col.clear();
 }
 
 // class ColumnMatchManager
@@ -44,14 +48,16 @@ void ColumnMatchManager::CalculateMatchRate()
    int found_val=0;
    int notfound_val=0;
 
+   SingletonDiction & dict_instance = SingletonDiction::GetInstance();
+
    for(TwoWayDirections i=LEFT ;i<LIMIT; i=(TwoWayDirections)(i+1))
    {
- 
+       
       BuildLookupKey(word_col, i);
       
       loop each member in word_col
          if member != blank   
-            flag = LookupDict(member in word_col);
+            flag = dict_instance.LookupDict(member in word_col);
    
             if flag = true
                found_val++
@@ -60,7 +66,8 @@ void ColumnMatchManager::CalculateMatchRate()
    
        column_match_rate_[i].f_match_rate=found_val+1/notfound_val+1;
        column_match_rate_[i].f_notmatch_rate=notfound_val/sizeof (word_col);
-   
+  
+       word_col.clear(); 
    }
 }
 

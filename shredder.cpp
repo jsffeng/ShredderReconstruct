@@ -1,6 +1,6 @@
 #include "common_class.h"
 #include "shredder.h"
-#include "singleton.h"
+#include "singleton_random.h"
 
 using namespace std;
 

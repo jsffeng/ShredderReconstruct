@@ -46,7 +46,7 @@ void TextShredder::DoTextShredder()
   vector<string> vec_temp;
   string str_sub;
 
-  if (vec_str_source_data_.size() == 0)
+  if (vec_str_source_data_.empty())
   {
     throw runtime_error("vec_str_source_data_ is empty, no data to shred!");
   }

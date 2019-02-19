@@ -48,7 +48,7 @@ void TextShredder::DoTextShredder()
 
   if (vec_str_source_data_.size() == 0)
   {
-    throw runtime_error("vec_str_source_data_ empty, no data to shred!");
+    throw runtime_error("vec_str_source_data_ is empty, no data to shred!");
   }
 
   if (n_strip_width_ <= 0)

@@ -37,8 +37,16 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> vec_text_columns,v
 // Class ColumnMatchManager
 void ColumnMatchManager::BuildLookupKey(vector<string> & word_col, TwoWayDirections enum_direct) 
 {
-   // result was populated to word_col
-   word_col.clear();
+  // result was populated to word_col
+  word_col.clear();
+
+  //remove 's, 
+  //split for  ' ', ',', '.', '?', '\'', '\"', '-', ')', '(', 
+  
+  //Don't serach if Upper case,
+  // If any number, don't search
+
+
 }
 
 // class ColumnMatchManager

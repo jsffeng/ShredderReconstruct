@@ -18,19 +18,8 @@ struct Fixture_input
                                         {"ef", "mn", "uv"},  \
                                         {"gh", "op", "wx"}};
 
-    auto iter = myinput.begin();
-    while (iter != myinput.end())
-    {
-      Fix_input.push_back(*iter);
-      ++iter;
-    }
-
-    auto iter1 = myinput_r.begin();
-    while (iter1 != myinput_r.end())
-    {
-      Fix_input_r.push_back(*iter1);
-      ++iter1;
-    }
+    Fix_input.assign(myinput.begin(), myinput.end());
+    Fix_input_r.assign(myinput_r.begin(), myinput_r.end());
   }
   
   ~Fixture_input(){}
@@ -125,19 +114,8 @@ struct Fixture_source_data
                                           {"Tom","orr","ow ","wil","l b","e b","ett","   "}, \
                                           {"bec","aus","e i","t w","ill"," be"," su","cc "}};
 
-    auto iter = myshredded_wid2.begin();
-    while (iter != myshredded_wid2.end())
-    {
-      Fix_shredded_text_wid2.push_back(*iter);
-      ++iter;
-    }
-
-    auto iter1 = myshredded_wid3.begin();
-    while (iter1 != myshredded_wid3.end())
-    {
-      Fix_shredded_text_wid3.push_back(*iter1);
-      ++iter1;
-    }
+    Fix_shredded_text_wid2.assign(myshredded_wid2.begin(), myshredded_wid2.end());
+    Fix_shredded_text_wid3.assign(myshredded_wid3.begin(), myshredded_wid3.end());
 
   }
 

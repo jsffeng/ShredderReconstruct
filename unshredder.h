@@ -14,7 +14,7 @@ typedef enum
 {
     LEFT = 0,
     RIGHT,
-    LIMIT=2
+    LIMIT = 2
 } TwoWayDirections;
 
 
@@ -26,15 +26,18 @@ class ColumnMatchManager
   private:
     vector<vector<string>> vec_text_columns_;
     vector<string> vec_new_column_;
+
     // Called by CalculateMatchRate
     void BuildLookupKey(vector<string> &vec_key_column, TwoWayDirections enum_direct);
 #endif
   public:
-    // LEFT and RIGHT
+    // Record match rate By different directions: LEFT and RIGHT
     MatchRate column_match_rate_[LIMIT];
-    ColumnMatchManager (vector<vector<string>> vec_text_columns,vector<string> vec_new_column);
+
+    ColumnMatchManager(vector<vector<string>> & vec_text_columns, vector<string> & vec_new_column);
     // Populate column_match_rate_[]
-    void CalculateMatchRate ();
+    void CalculateMatchRate();
+    bool RemoveKeySuffix(string &str_lookup_key);
 };
 
 class ColumnSelectManager

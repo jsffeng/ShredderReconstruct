@@ -17,7 +17,8 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
      throw runtime_error("file cannot open to read!");
   }
 
-  vec_str_text_lines.clear();
+  if (!vec_str_text_lines.empty())
+    vec_str_text_lines.clear();
 
   unsigned int n_length;
   unsigned int n_max_length = 0;
@@ -54,18 +55,18 @@ void TextFileOperation::ReadText(const string str_filename, unordered_set<string
   f_infile.open(str_filename);
   if (!f_infile)
   {
-     throw runtime_error("file cannot open to read!");
+    throw runtime_error("file cannot open to read!");
   }
 
-  uset_str_text_lines.clear();
+  if (!uset_str_text_lines.empty())
+    uset_str_text_lines.clear();
 
   while (getline(f_infile, str_line))
   {
-      uset_str_text_lines.insert(str_line);
+    uset_str_text_lines.insert(str_line);
   }
 
   f_infile.close();
-
 }
 
 // Common function for writing text strips to an output file
@@ -118,7 +119,9 @@ void TextStripOperation::Disorder(vector<vector<string>>& vec_str_input)
 void TextStripOperation::Transpose(vector<vector<string>>& vec_str_input, vector<vector<string>>& vec_str_input_trans)
 {
   vector<string> vec_temp;
-  vec_str_input_trans.clear();
+
+  if (!vec_str_input_trans.empty())
+    vec_str_input_trans.clear();
 
   if (vec_str_input.size() == 0)
   { 
@@ -147,7 +150,8 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
     throw runtime_error("vec_str_input is empty, no text data to merge!"); 
   }
 
-  vec_str_text.clear();
+  if (!vec_str_text.empty())
+    vec_str_text.clear();
  
   for (int j = 0; j < vec_str_input.begin()->size() ; ++j)
   {
@@ -157,6 +161,6 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
     }
 
     vec_str_text.push_back(str_temp);
+    str_temp.clear();
   }
-
 }

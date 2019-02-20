@@ -56,8 +56,10 @@ void TextShredder::DoTextShredder()
     throw runtime_error("n_strip_width_ value is invalid!");
   }
 
-  vec_str_shredded_text_.clear();
-  vec_str_trans_shredded_text_.clear();
+  if (!vec_str_shredded_text_.empty())
+    vec_str_shredded_text_.clear();
+  if (!vec_str_trans_shredded_text_.empty())
+    vec_str_trans_shredded_text_.clear();
 
   auto iter = vec_str_source_data_.begin();
 

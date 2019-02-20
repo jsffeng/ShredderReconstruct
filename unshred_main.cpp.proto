@@ -18,8 +18,8 @@ int main()
     TextUnShredder text_unshredder("shredded_text.ascii", "restored_text.ascii");
 #endif
     // Singleton class 
-    SingletonDiction & dict_instance = SingletonDiction::GetInstance();
-    dict_instance.Init();
+    SingletonDiction & singleton_dict = SingletonDiction::GetInstance();
+    singleton_dict.Init();
     // Populate Populate vec_text_columns_ from input file
     text_unshredder.GetInput();
     // Shred text lines stored vec_str_source_data_ and save shredded result into vec_str_shredded_text_

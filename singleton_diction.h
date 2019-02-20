@@ -8,7 +8,6 @@ class SingletonDiction
 {
 #ifdef UTFLAG
   public:
-    static int s_instance_numbers_;
 #else
   private:
 #endif

@@ -201,13 +201,7 @@ BOOST_FIXTURE_TEST_CASE(DoTextShredder_test, Fixture_source_data)
   BOOST_CHECK_THROW(shred0.DoTextShredder(),exception);
 
   // Populate vec_str_source_data_
-  auto iter = Fix_lines.begin();
-  while (iter != Fix_lines.end())
-  {
-    shred0.vec_str_source_data_.push_back(*iter);
-    ++iter;
-  }
-
+  shred0.vec_str_source_data_.assign(Fix_lines.begin(), Fix_lines.end());
   shred0.DoTextShredder();
 
   // Verify vec_str_shredded_text_  
@@ -217,13 +211,7 @@ BOOST_FIXTURE_TEST_CASE(DoTextShredder_test, Fixture_source_data)
   TextShredder shred1(3,"x","y");
  
   // Populate vec_str_source_data_
-  auto iter1 = Fix_lines.begin();
-  while (iter1 != Fix_lines.end())
-  {
-    shred1.vec_str_source_data_.push_back(*iter1);
-    ++iter1;
-  }
-
+  shred1.vec_str_source_data_.assign(Fix_lines.begin(), Fix_lines.end());
   shred1.DoTextShredder();
 
   //verify vec_str_shredded_text_  
@@ -256,13 +244,7 @@ BOOST_FIXTURE_TEST_CASE(CreateOutput_test,Fixture_data_file)
   BOOST_CHECK_THROW(shred1.CreateOutput(),exception);
   
   // Populate vec_str_shredded_text_
-  auto iter = Fix_shredded_text_wid2.begin();
-  while (iter != Fix_shredded_text_wid2.end())
-  {
-    shred1.vec_str_shredded_text_.push_back(*iter);
-    ++iter;
-  }
-
+  shred1.vec_str_shredded_text_.assign(Fix_shredded_text_wid2.begin(),Fix_shredded_text_wid2.end());
   shred1.CreateOutput();
 
   // When cmp return non-zero value, Boost will detect it and quit with fatal error.
@@ -271,13 +253,7 @@ BOOST_FIXTURE_TEST_CASE(CreateOutput_test,Fixture_data_file)
   TextShredder shred2(3,"xy.ascii","test_output_t3.ascii");
 
   // Populate vec_str_shredded_text_
-  auto iter1 = Fix_shredded_text_wid3.begin();
-  while (iter1 != Fix_shredded_text_wid3.end())
-  {
-    shred2.vec_str_shredded_text_.push_back(*iter1);
-    ++iter1;
-  }
-
+  shred2.vec_str_shredded_text_.assign(Fix_shredded_text_wid3.begin(), Fix_shredded_text_wid3.end());
   shred2.CreateOutput();
 
   // When cmp return non-zero value, Boost will detect it and quit with fatal error.

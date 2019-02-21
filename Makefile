@@ -32,8 +32,11 @@ CFLAGS += $(foreach dir, $(INCLUDE_PATH), -I$(dir))
 LDFLAGS += $(foreach lib, $(LIBRARY_PATH), -L$(lib))
 
 # if multi-threads,
-#LIBS=pthread
-#LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))
+# LIBS += pthread
+# LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))
+
+LIBS += boost_regex
+LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))
 
 ifeq (${DBG_ENABLE}, 1)
 	CFLAGS += -D_DEBUG -O0 -g -DDEBUG=1
@@ -64,13 +67,15 @@ bld: $(TARGET)
 ut:  $(TEST_DIR)/$(TEST_TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ 
+#	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ 
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
 
 $(TEST_DIR)/$(TEST_TARGET): $(TEST_OBJS) $(UT_TEST_OBJS) 
-	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ 
+#	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ 
+	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ $(LIBFLAGS)
 
 %.o:%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $< 
 
 %_test.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) $(GCOV_CFLAGS) -o $@ -c $<

@@ -1,6 +1,6 @@
 #include<fstream>
 #include<unordered_set>
-#include "common_class.h"
+#include "common_classes.h"
 #include "singleton_diction.h"
 
 using namespace std;

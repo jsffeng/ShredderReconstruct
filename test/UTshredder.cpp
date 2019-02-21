@@ -1,8 +1,8 @@
 // Unit Testing by using BOOST
 #define BOOST_TEST_MODULE main_shredder_test
 #include <boost/test/included/unit_test.hpp>
-#include "../common_class.h"
-#include "../shredder.h"
+#include "../common_classes.h"
+#include "../text_shredder.h"
 #include "../singleton_random.h"
 
 using namespace std;

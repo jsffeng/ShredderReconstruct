@@ -34,4 +34,12 @@ class TextStripOperation
     static void MergeText(std::vector<std::vector<std::string>> & vec_str_input, std::vector<std::string>& vec_str_text);
 };
 
+class StringWordOperation
+{
+  public:
+    static bool RemoveWordSuffix(std::string &str_lookup_key);
+    static void FindLookupWordLeft(std::string & str_line, std::string & str_key, int n_column_width);
+    static void FindLookupWordRight(std::string & str_line, std::string & str_key, int n_column_width);
+};
+
 #endif

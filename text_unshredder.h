@@ -16,6 +16,7 @@ class TextUnshredder
 #endif
     const std::string str_in_filename_;
     const std::string str_out_filename_;
+    // Store text data read from str_in_filename_
     // Use blank character ' ' to record a blank, in this way, all rows have the same number of charactors.
     // This will be convinient and safe , especially when handling it like a 2-dimentional array.
     std::vector<std::vector<std::string>> vec_text_columns_;

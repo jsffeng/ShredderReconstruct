@@ -164,3 +164,118 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
     str_temp.clear();
   }
 }
+
+// This function will charactor ' ' as word delimiter, example:
+// a1a2a3|a4a5  |a7a8a9
+//     a3|a4a5a6|a7  a9
+//       |a4a5a6|a7a8a9
+//       |  a5a6|a7a8
+// a1  a3|a4  a6|a7a8a9
+// a1  a3|  a5a6|a7a8
+void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key, int n_column_width)
+{
+  string str_key_t;
+
+  int n_boundary = n_column_width; 
+  for (int k = 0; k < str_line.size(); ++k)
+  {
+    if (' ' != str_line[k]) 
+    {
+      if (str_key_t.empty() && k >= n_boundary)
+      {
+        break;
+      }
+      else
+      {
+        str_key_t = str_key_t + str_line[k]; 
+      }
+    }
+    else
+    {
+      if (k >= n_boundary) 
+      {
+        break;
+      }
+      else
+      {
+        if (!str_key_t.empty())
+          str_key_t.clear();
+      }
+    }
+  }
+  str_key = str_key_t;
+}
+
+// This function will charactor ' ' as word delimiter, example:
+// a1a2a3|  a5a6|a7a8a9
+//   a2a3|a4a5a6|a7  
+//   a2a3|a4a5a6|
+// a1  a3|a4a5  |
+// a1a2a3|a4  a6|a7  a9
+//   a2a3|a4a5  |a7  a9
+void StringWordOperation::FindLookupWordRight(string & str_line, string & str_key, int n_column_width)
+{
+  string str_key_t;
+
+  int n_boundary = str_line.size() - n_column_width - 1; 
+
+  for (int k = str_line.size() - 1; k >= 0; --k)
+  {
+    if (' ' != str_line[k]) 
+    {
+      if (str_key_t.empty() && k <= n_boundary)
+      {
+        break;
+      }
+      else
+      {
+        str_key_t = str_line[k] + str_key_t; 
+      }
+    }
+    else
+    {
+      if (k <= n_boundary)
+      {
+        break;
+      }
+      else
+      {
+        if (!str_key_t.empty())
+          str_key_t.clear();
+      }
+    }
+  }
+  str_key = str_key_t;
+}
+
+// Removing suffix such as ed|ing|s|es, won't remove suffix if the number of remaining letters are 
+// less than 2. This function is usually for dictionary lookup.
+bool StringWordOperation::RemoveWordSuffix(string &str_lookup_key)
+{
+  vector<string> vec_suffix = {"ing", "ed", "es", "s"};
+
+  int n_position = str_lookup_key.size(); 
+  int n_position_t, n_length_t;
+  bool b_remove_suffix = false;
+
+  auto iter = vec_suffix.begin();
+  
+  while (iter != vec_suffix.end()) 
+  {
+    n_length_t = iter->size();
+    n_position_t = n_position - n_length_t;
+
+    // Need to ensure the number of remaining letters are equal or greater than 2 after removing suffix
+    if (n_position_t >= 2) 
+    {
+      if (str_lookup_key.compare(n_position_t,n_length_t,*iter) == 0)
+      { 
+        str_lookup_key = str_lookup_key.substr(0, n_position_t - 1); 
+        b_remove_suffix = true;
+        break;
+      }
+    }
+    ++iter;
+  }
+  return b_remove_suffix;
+}

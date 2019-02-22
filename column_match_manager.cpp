@@ -9,7 +9,7 @@
 //  c1|c2|c3
 //  d1|d2|d3
 // 
-//  In abvoe, a1, a2, b1, etc. is a string with same width, "|" is delimiter used by programme.
+//  In above, a1, a2, b1, etc. is a string with same width, "|" is delimiter used by programme.
 //
 //  In this programme, above data will be stored into following 2 dimentional vector:
 //  {
@@ -31,8 +31,6 @@
 
 using namespace std;
 
-const float kToleranceRate = 0.15;
-
 // Class ColumnMatchManager constructor
 ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns,vector<string> & vec_new_column)
 {
@@ -40,7 +38,6 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns
   vec_new_column_.assign(vec_new_column.begin(),vec_new_column.end());
 }
 
-// Class ColumnMatchManager
 // Result stored to vec_key_column
 void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDirections enum_direct) 
 {
@@ -60,6 +57,7 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
   // Delimiters for different words
   string s_to_replace = "[],-.:;!/\?\"\n\t\r)([]"; 
   string str_blank = " ";
+  int n_column_width_t = vec_new_column_.begin()->size();
 
   for (int i = 0; i < vec_new_column_.size(); ++i)
   {
@@ -78,11 +76,11 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
     // Extract the key word used for searching from a series of words delimited by ' '
     if (enum_direct == LEFT)
     {
-       FindMergedWordLeft(str_merge_t, str_key_temp); 
+       StringWordOperation::FindLookupWordLeft(str_merge_t, str_key_temp, n_column_width_t); 
     }
     else
     {
-       FindMergedWordRight(str_merge_t, str_key_temp); 
+       StringWordOperation::FindLookupWordRight(str_merge_t, str_key_temp, n_column_width_t); 
     }
 
     // Remove 's, 'd  at the end of the word if there is
@@ -119,128 +117,6 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
   } 
 }
 
-// Class ColumnMatchManager
-// Use charactor ' ' as word delimiter, example:
-// a1a2a3|a4a5  |a7a8a9
-//     a3|a4a5a6|a7  a9
-//       |a4a5a6|a7a8a9
-//       |  a5a6|a7a8
-// a1  a3|a4  a6|a7a8a9
-// a1  a3|  a5a6|a7a8
-void ColumnMatchManager::FindMergedWordLeft(string & str_line, string & str_key)
-{
-  string str_key_t;
-
-  int n_boundary = vec_new_column_.begin()->size(); 
-  for (int k = 0; k < str_line.size(); ++k)
-  {
-    if (' ' != str_line[k]) 
-    {
-      if (str_key_t.empty() && k >= n_boundary)
-      {
-        break;
-      }
-      else
-      {
-        str_key_t = str_key_t + str_line[k]; 
-      }
-    }
-    else
-    {
-      if (k >= n_boundary) 
-      {
-        break;
-      }
-      else
-      {
-        if (!str_key_t.empty())
-          str_key_t.clear();
-      }
-    }
-  }
-
-  str_key = str_key_t;
-}
-
-// Class ColumnMatchManager
-// Use charactor ' ' as word delimiter, example:
-// a1a2a3|  a5a6|a7a8a9
-//   a2a3|a4a5a6|a7  
-//   a2a3|a4a5a6|
-// a1  a3|a4a5  |
-// a1a2a3|a4  a6|a7  a9
-//   a2a3|a4a5  |a7  a9
-void ColumnMatchManager::FindMergedWordRight(string & str_line, string & str_key)
-{
-  string str_key_t;
-
-  int n_boundary = str_line.size() - vec_new_column_.begin()->size() - 1; 
-
-  for (int k = str_line.size() - 1; k >= 0; --k)
-  {
-    if (' ' != str_line[k]) 
-    {
-      if (str_key_t.empty() && k <= n_boundary)
-      {
-        break;
-      }
-      else
-      {
-        str_key_t = str_line[k] + str_key_t; 
-      }
-    }
-    else
-    {
-      if (k <= n_boundary)
-      {
-        break;
-      }
-      else
-      {
-        if (!str_key_t.empty())
-          str_key_t.clear();
-      }
-    }
-  }
-
-  str_key = str_key_t;
-}
-
-// Class ColumnMatchManager
-// If not found in dictionary, removing suffix such as ed|ing|s|es for re-searching
-bool ColumnMatchManager::RemoveWordSuffix(string &str_lookup_key)
-{
-  vector<string> vec_suffix = {"ing", "ed", "es", "s"};
-
-  int n_position = str_lookup_key.size(); 
-  int n_position_t, n_length_t;
-  bool b_remove_suffix = false;
-
-  auto iter = vec_suffix.begin();
-  
-  while (iter != vec_suffix.end()) 
-  {
-    n_length_t = iter->size();
-    n_position_t = n_position - n_length_t;
-
-    // Need to ensure the remaining letters are equal or greater than 2 after removing suffix
-    if (n_position_t >= 2) 
-    {
-      if (str_lookup_key.compare(n_position_t,n_length_t,*iter) == 0)
-      { 
-        str_lookup_key = str_lookup_key.substr(0, n_position_t - 1); 
-        b_remove_suffix = true;
-        break;
-      }
-    }
-    ++iter;
-  }
-
-  return b_remove_suffix;
-
-}
-
-// class ColumnMatchManager
 void ColumnMatchManager::CalculateMatchRate()
 {
   vector<string> vec_word_column;
@@ -268,7 +144,7 @@ void ColumnMatchManager::CalculateMatchRate()
         else
         {
           // If not found in dictionary, removing suffix such as ed|ing|s|es if there is.
-          b_flag_suffix = RemoveWordSuffix(vec_word_column[k]);
+          b_flag_suffix = StringWordOperation::RemoveWordSuffix(vec_word_column[k]);
           if (b_flag_suffix == true)
           {
             b_flag_lookup = singleton_dict.LookupDict(vec_word_column[k]);

@@ -1,11 +1,17 @@
 #include<fstream>
+
+#ifdef UTFLAG
+#include<set>
+#else
 #include<unordered_set>
+#endif
+
 #include "common_classes.h"
 #include "singleton_random.h"
 
 using namespace std;
 
-// Common function for reading text lines from an input file
+// Common function for reading text lines from an input file, usually used read text page
 void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_str_text_lines)
 {
   string str_line;
@@ -47,7 +53,12 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
 
 }
 
+// Common function for reading text lines from an input file, usually used to store dictionary
+#ifdef UTFLAG
+void TextFileOperation::ReadText(const string str_filename, set<string> &uset_str_text_lines)
+#else
 void TextFileOperation::ReadText(const string str_filename, unordered_set<string> &uset_str_text_lines)
+#endif
 {
   string str_line;
   ifstream f_infile;
@@ -141,6 +152,7 @@ void TextStripOperation::Transpose(vector<vector<string>>& vec_str_input, vector
 
 }
 
+// Merge multiple columns into one
 void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vector<string>& vec_str_text)
 {
   string str_temp;
@@ -165,7 +177,7 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
   }
 }
 
-// This function will charactor ' ' as word delimiter, example:
+// This function will use charactor ' ' as word delimiter, example:
 // a1a2a3|a4a5  |a7a8a9
 //     a3|a4a5a6|a7  a9
 //       |a4a5a6|a7a8a9
@@ -175,6 +187,9 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
 void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key, int n_column_width)
 {
   string str_key_t;
+
+  if (str_line.size() == 0 || n_column_width <= 0)
+    throw runtime_error("Invalid input to function FindLookupWordLeft!");
 
   int n_boundary = n_column_width; 
   for (int k = 0; k < str_line.size(); ++k)
@@ -206,7 +221,7 @@ void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key
   str_key = str_key_t;
 }
 
-// This function will charactor ' ' as word delimiter, example:
+// This function will use charactor ' ' as word delimiter, example:
 // a1a2a3|  a5a6|a7a8a9
 //   a2a3|a4a5a6|a7  
 //   a2a3|a4a5a6|
@@ -216,6 +231,9 @@ void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key
 void StringWordOperation::FindLookupWordRight(string & str_line, string & str_key, int n_column_width)
 {
   string str_key_t;
+
+  if (str_line.size() == 0 || n_column_width <= 0)
+    throw runtime_error("Invalid input to function FindLookupWordRight!");
 
   int n_boundary = str_line.size() - n_column_width - 1; 
 
@@ -254,6 +272,9 @@ bool StringWordOperation::RemoveWordSuffix(string &str_lookup_key)
 {
   vector<string> vec_suffix = {"ing", "ed", "es", "s"};
 
+  if (str_lookup_key.size() == 0)
+    throw runtime_error("Invalid input to function RemoveWordSuffix!");
+  
   int n_position = str_lookup_key.size(); 
   int n_position_t, n_length_t;
   bool b_remove_suffix = false;
@@ -270,7 +291,7 @@ bool StringWordOperation::RemoveWordSuffix(string &str_lookup_key)
     {
       if (str_lookup_key.compare(n_position_t,n_length_t,*iter) == 0)
       { 
-        str_lookup_key = str_lookup_key.substr(0, n_position_t - 1); 
+        str_lookup_key = str_lookup_key.substr(0, n_position_t); 
         b_remove_suffix = true;
         break;
       }

@@ -7,17 +7,36 @@ DBG_ENABLE = 1
 SRC_PATH := .
 TEST_DIR := ./test
 
-TARGET := shredder
-TEST_TARGET := UTshredder
+TARGET_SHRED := shredder
+TARGET_UNSHRED := unshredder
 
+#ALLTARGETS := $(TARGET_SHRED) $(TARGET_UNSHRED)
+ALLTARGETS := $(TARGET_SHRED)
 
-SRCS := $(wildcard $(SRC_PATH)/*.cpp)
-OBJS := $(SRCS:.cpp=.o)
+TEST_TARGET_SHRED := $(TEST_DIR)/UT$(TARGET_SHRED)
+TEST_TARGET_UNSHRED := $(TEST_DIR)/UT$(TARGET_UNSHRED)
+
+TEST_ALLTARGETS := $(TEST_TARGET_SHRED) $(TEST_TARGET_UNSHRED)
+
+ALLSRCS := $(wildcard $(SRC_PATH)/*.cpp)
+ALLOBJS := $(ALLSRCS:.cpp=.o)
+
+OBJS_SHRED := common_classes.o singleton_random.o text_shredder.o shred_main.o
+OBJS_UNSHRED := common_classes.o singleton_random.o singleton_diction.o column_match_manager.o
+
 
 # UT test code
-UT_TEST_SRCS := $(wildcard $(TEST_DIR)/*.cpp)
-UT_TEST_OBJS := $(UT_TEST_SRCS:.cpp=_ut.o)
-TEST_OBJS += $(SRCS:.cpp=_test.o)
+UT_TEST_ALLSRCS := $(wildcard $(TEST_DIR)/*.cpp)
+UT_TEST_SRCS_SRHED := $(TEST_TARGET_SHRED).cpp
+UT_TEST_SRCS_UNSRHED := $(TEST_TARGET_UNSHRED).cpp
+
+UT_TEST_ALLOBJS := $(UT_TEST_ALLSRCS:.cpp=_utest.o)
+UT_TEST_OBJS_SHRED := $(UT_TEST_SRCS_SRHED:.cpp=_utest.o)
+UT_TEST_OBJS_UNSHRED := $(UT_TEST_SRCS_UNSRHED:.cpp=_utest.o)
+
+TEST_ALLOBJS := $(ALLOBJS:.o=_test.o)
+TEST_OBJS_SHRED := $(OBJS_SHRED:.o=_test.o)
+TEST_OBJS_UNSHRED := $(OBJS_UNSHRED:.o=_test.o) 
 
 INCLUDE_PATH += /usr/include
 INCLUDE_PATH += /usr/local/include
@@ -43,9 +62,9 @@ ifeq (${DBG_ENABLE}, 1)
 endif
 
 ifeq (${GCOV}, 1)
-        COV_FILE = $(TARGET).info
-	GCDA_FILES = $(TEST_OBJS:.o=.gcda)
-	GCNO_FILES = $(TEST_OBJS:.o=.gcno)
+        COV_FILE = coverage.info
+	GCDA_FILES = $(TEST_ALLOBJS:.o=.gcda)
+	GCNO_FILES = $(TEST_ALLOBJS:.o=.gcno)
 
 	DIR_NAME =  $(shell pwd )
 	WORK_DIR =  $(shell basename $(DIR_NAME) )
@@ -63,15 +82,16 @@ endif
 all: bld ut
 ut_cover: clean ut run_ut collect_cov
 
-bld: $(TARGET)
-ut:  $(TEST_DIR)/$(TEST_TARGET)
+bld: $(ALLTARGETS)
+ut:  $(TEST_ALLTARGETS)
 
-$(TARGET): $(OBJS)
-#	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ 
+$(TARGET_SHRED): $(OBJS_SHRED)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
 
-$(TEST_DIR)/$(TEST_TARGET): $(TEST_OBJS) $(UT_TEST_OBJS) 
-#	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ 
+$(TEST_TARGET_SHRED): $(TEST_OBJS_SHRED) $(UT_TEST_OBJS_SHRED) 
+	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ $(LIBFLAGS)
+
+$(TEST_TARGET_UNSHRED): $(TEST_OBJS_UNSHRED) $(UT_TEST_OBJS_UNSHRED) 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ $(LIBFLAGS)
 
 %.o:%.cpp
@@ -80,14 +100,16 @@ $(TEST_DIR)/$(TEST_TARGET): $(TEST_OBJS) $(UT_TEST_OBJS)
 %_test.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) $(GCOV_CFLAGS) -o $@ -c $<
 
-%_ut.o:%.cpp
+%_utest.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) -o $@ -c $<
+
 run_ut: ut
-	$(TEST_DIR)/$(TEST_TARGET) --run_test=SingletonRandom_test --log_level=warning;echo
-	$(TEST_DIR)/$(TEST_TARGET) --log_level=warning;echo
+	$(TEST_TARGET_SHRED) --run_test=SingletonRandom_test --log_level=warning;echo
+	$(TEST_TARGET_SHRED) --log_level=warning;echo
+	$(TEST_TARGET_UNSHRED) --log_level=warning;echo
 collect_cov:
 	lcov --rc lcov_branch_coverage=1 -d . -b . -c -o $(COV_FILE)
 	lcov --rc lcov_branch_coverage=1 -e $(COV_FILE) "*/$(WORK_DIR)*" -o  $(COV_FILE)
 	genhtml --rc lcov_branch_coverage=1 -o $(GCOV_RESULT) $(COV_FILE)
 clean:
-	$(RM) $(OBJS) $(TEST_OBJS) $(UT_TEST_OBJS) $(TARGET) $(TEST_DIR)/$(TEST_TARGET) $(GCDA_FILES) $(GCNO_FILES) $(COV_FILE) 
+	$(RM) $(ALLOBJS) $(TEST_ALLOBJS) $(UT_TEST_ALLOBJS) $(ALLTARGETS) $(TEST_ALLTARGETS) $(GCDA_FILES) $(GCNO_FILES) $(COV_FILE) 

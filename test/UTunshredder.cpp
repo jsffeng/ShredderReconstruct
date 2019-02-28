@@ -1,14 +1,179 @@
 // Unit Testing by using BOOST
-#define BOOST_TEST_MODULE main_shredder_test
+#define BOOST_TEST_MODULE main_unshredder_test
 #include <boost/test/included/unit_test.hpp>
 #include "../common_classes.h"
-#include "../text_shredder.h"
+#include "../text_unshredder.h"
+#include "../singleton_diction.h"
 #include "../singleton_random.h"
 
 using namespace std;
 
+// Class StringWordOperation_test
+BOOST_AUTO_TEST_SUITE(StringWordOperation_test);
+
+BOOST_AUTO_TEST_CASE (RemoveWordSuffix)
+{
+  vector<string> sample = {"goods", " goods", "goods ", "uses", "being", "he's", "added", "us", "ding", "bed", "ed"};
+  vector<string> sample_suffix_removed = {"good"," good", "goods ","us", "be", "he'", "add", "us", "ding", "bed", "ed"};
+  
+  for (int i = 0; i < sample.size(); ++i)
+     StringWordOperation::RemoveWordSuffix(sample[i]); 
+
+  BOOST_CHECK(sample == sample_suffix_removed);
+
+  vector<string> sample1 = {"goods", "good", "bed", "goods ", " goods"};
+  BOOST_CHECK(true == StringWordOperation::RemoveWordSuffix(sample1[0]));
+  BOOST_CHECK(false == StringWordOperation::RemoveWordSuffix(sample1[1]));
+  BOOST_CHECK(false == StringWordOperation::RemoveWordSuffix(sample1[2]));
+  BOOST_CHECK(false == StringWordOperation::RemoveWordSuffix(sample1[3]));
+  BOOST_CHECK(true == StringWordOperation::RemoveWordSuffix(sample1[4]));
+  
+  string sample2;
+  BOOST_CHECK_THROW(StringWordOperation::RemoveWordSuffix(sample2), exception);   
+
+}
+
+BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
+{
+   
+  vector<string> vec_str_line =   {"a1a2a3a4a5  a7a8a9", \
+                                   "    a3a4a5a6a7  a9  a11a12 ", \
+                                   "      a4a5a6a7a8a9", \
+                                   "        a5a6a7a8", \
+                                   "a1  a3a4  a6a7a8a9a10a11", \
+                                   "a1  a3  a5a6a7a8  " \
+                                 };
+
+  vector<string> vec_str_key_wid6 = {"a1a2a3a4a5", \
+                                   "a3a4a5a6a7", \
+                                   "", \
+                                   "", \
+                                   "a3a4", \
+                                   "a3" \
+                                };
+
+  vector<string> vec_str_key_wid2 = {"a1a2a3a4a5", \
+                                   "", \
+                                   "", \
+                                   "", \
+                                   "a1", \
+                                   "a1" \
+                                 };
+
+  vector<string> vec_str_key_wid8 = {"a1a2a3a4a5", \
+                                   "a3a4a5a6a7", \
+                                   "a4a5a6a7a8a9", \
+                                   "", \
+                                   "a3a4", \
+                                   "" \
+                                 };
+
+  vector<string> vec_str_key_t = {"","","","","",""}; 
+
+  int width = 6;
+  for (int i = 0; i < vec_str_line.size(); ++i)
+    StringWordOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid6);
+
+  width = 2;
+  for (int i = 0; i < vec_str_line.size(); ++i)
+    StringWordOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid2);
+
+  width = 8;
+  for (int i = 0; i < vec_str_line.size(); ++i)
+    StringWordOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid8);
+  
+  string str_key_t;
+  StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
+  BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
+
+  // str_key_t is note empty
+  StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
+  BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
+  str_key_t.clear();
+
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, 0), exception); 
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, -1), exception); 
+  
+  string str_line;
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(str_line, str_key_t, 8), exception);   
+}
+
+BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
+{
+   
+  vector<string> vec_str_line =   {"a1a2a3  a5a6a7a8a9", \
+                                     "a2a3a4a5a6a7    ", \
+                                   "  a2a3a4a5a6      ", \
+                                   "a1  a3a4a5        ", \
+                               "abaca1a2a3a4  a6a7  a9", \
+                                     "a2a3a4a5  a7  a9" \
+                                 };
+
+  vector<string> vec_str_key_wid6 = {"a5a6a7a8a9", \
+                                   "a2a3a4a5a6a7", \
+                                   "", \
+                                   "", \
+                                   "a6a7", \
+                                   "a7" \
+                                };
+
+  vector<string> vec_str_key_wid2 = {"a5a6a7a8a9", \
+                                   "", \
+                                   "", \
+                                   "", \
+                                   "a9", \
+                                   "a9" \
+                                 };
+
+  vector<string> vec_str_key_wid8 = {"a5a6a7a8a9", \
+                                   "a2a3a4a5a6a7", \
+                                   "a2a3a4a5a6", \
+                                   "", \
+                                   "a6a7", \
+                                   "" \
+                                 };
+
+  vector<string> vec_str_key_t = {"","","","","",""}; 
+
+  int width = 6;
+  for (int i = 0; i < vec_str_line.size(); ++i)
+    StringWordOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid6);
+
+  width = 2;
+  for (int i = 0; i < vec_str_line.size(); ++i)
+    StringWordOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid2);
+
+  width = 8;
+  for (int i = 0; i < vec_str_line.size(); ++i)
+    StringWordOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid8);
+  
+  string str_key_t;
+  StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
+  BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
+
+  // str_key_t is note empty
+  StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
+  BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
+  str_key_t.clear();
+
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, 0), exception); 
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, -1), exception); 
+  
+  string str_line;
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordRight(str_line, str_key_t, 8), exception);   
+}
+
+BOOST_AUTO_TEST_SUITE_END( )
+
+/*
 // Include Fixtures
-#include "fixture_shredder.in"
+#include "fixture.in"
 
 // Class SingletonRandom
 // Disable this test_suite by default as the test of SingletonRandom has conflicts with the rest 
@@ -337,3 +502,5 @@ BOOST_AUTO_TEST_CASE (UTmain_test)
 }
 
 BOOST_AUTO_TEST_SUITE_END( )
+
+*/

@@ -6,20 +6,36 @@ struct Fixture_input
   
   vector<vector<string>> Fix_input;
   vector<vector<string>> Fix_input_r;
+  vector<string> Fix_input_merged;
+  vector<string> Fix_input_r_merged;
 
   Fixture_input() 
   {
-    vector<vector<string>> myinput = {{"ab","cd","ef","gh"}, \
-                                      {"ij","kl","mn","op"}, \
-                                      {"qr","st","uv","wx"}};
 
-    vector<vector<string>> myinput_r = {{"ab", "ij", "qr"},  \
-                                        {"cd","kl", "st" },  \
-                                        {"ef", "mn", "uv"},  \
+    // One column is like {"ab","c:","ef","gh"}
+    vector<vector<string>> myinput = {{"ab","c:","ef","gh"}, \
+                                      {"i,","kl","m ","op"}, \
+                                      {"qr","st","?v","wx"}};
+
+    vector<vector<string>> myinput_r = {{"ab", "i,", "qr"},  \
+                                        {"c:","kl", "st" },  \
+                                        {"ef", "m ", "?v"},  \
                                         {"gh", "op", "wx"}};
+
+
+    vector<string> myinput_merged = {"abi,qr",  \
+                                        "c:klst",  \
+                                        "efm ?v",  \
+                                        "ghopwx"};
+    
+    vector<string> myinput_r_merged = {"abc:efgh", \
+                                      "i,klm op", \
+                                      "qrst?vwx"};
 
     Fix_input.assign(myinput.begin(), myinput.end());
     Fix_input_r.assign(myinput_r.begin(), myinput_r.end());
+    Fix_input_merged.assign(myinput_merged.begin(), myinput_merged.end());
+    Fix_input_r_merged.assign(myinput_r_merged.begin(), myinput_r_merged.end());
   }
   
   ~Fixture_input(){}
@@ -49,14 +65,38 @@ struct file_gen
     }
     file.close();
   }
+
+  static void  create_file(const string file_nm, const set<string> text_lines)
+  {
+    ofstream file;
+  
+    file.open (file_nm);
+    if(!file)
+    {
+      throw runtime_error("file cannot open!");
+    }
+ 
+    if (text_lines.size() != 0) 
+    {
+      auto iter=text_lines.begin();
+      while (iter != text_lines.end())
+      {
+  
+        file << *iter <<endl;
+        ++iter;
+      }
+    }
+    file.close();
+  }
+
 };
 
-struct Fixture_file
+struct Fixture_file_vec
 {
   vector<string> Fix_orig_lines;
   vector<string> Fix_lines;
 
-  Fixture_file() 
+  Fixture_file_vec() 
   {
     Fix_orig_lines.push_back("This is a good start.");
     Fix_orig_lines.push_back("Tomorrow will be better");
@@ -76,7 +116,7 @@ struct Fixture_file
     file_gen::create_file("test_output1.ascii",Fix_lines);
   }
  
-  ~Fixture_file()
+  ~Fixture_file_vec()
   {
     try 
     {
@@ -91,6 +131,43 @@ struct Fixture_file
   }
 
 };
+
+struct Fixture_file_set
+{
+  set<string> Fix_lines;
+
+  Fixture_file_set() 
+  {
+
+    Fix_lines.emplace("This");
+    Fix_lines.emplace("good");
+    Fix_lines.emplace("test ");
+    Fix_lines.emplace(" 13hht");
+    // Contain tab
+    Fix_lines.emplace(" 13hht	");
+
+    file_gen::create_file("test_input.ascii",Fix_lines);
+   
+    set<string> empty_lines;
+    file_gen::create_file("test_input00.ascii",empty_lines);
+
+//    file_gen::create_file("test_output.ascii",Fix_lines);
+  }
+ 
+  ~Fixture_file_set()
+  {
+    try 
+    {
+      remove("test_input.ascii");
+      remove("test_input00.ascii");
+ //     remove("test_output.ascii");
+    }
+
+    catch(...) {}
+  }
+
+};
+
 
 struct Fixture_source_data
 {

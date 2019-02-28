@@ -2,16 +2,22 @@
 #define __SINGLETON_DICTION__
 
 #include<string>
+
+#ifdef UTFLAG
+#include<set>
+#else
 #include<unordered_set>
+#endif
 
 class SingletonDiction
 {
 #ifdef UTFLAG
   public:
+    std::set<std::string> uset_dictionary_;
 #else
   private:
-#endif
     std::unordered_set<std::string> uset_dictionary_;
+#endif
 
     SingletonDiction() = default;
     SingletonDiction(const SingletonDiction&) = delete;

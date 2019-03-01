@@ -8,7 +8,7 @@
 using namespace std;
 
 // Include Fixtures
-#include "fixture_shredder.in"
+#include "fixture.in"
 
 // Class SingletonRandom
 // Disable this test_suite by default as the test of SingletonRandom has conflicts with the rest 

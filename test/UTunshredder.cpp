@@ -5,11 +5,15 @@
 #include "../text_unshredder.h"
 #include "../singleton_diction.h"
 #include "../singleton_random.h"
+#include "../column_match_manager.h"
 
 using namespace std;
 
-// Class StringWordOperation_test
-BOOST_AUTO_TEST_SUITE(StringWordOperation_test);
+// Include Fixtures
+#include "fixture.in"
+
+// Class StringWordOperation
+BOOST_AUTO_TEST_SUITE (StringWordOperation_test);
 
 BOOST_AUTO_TEST_CASE (RemoveWordSuffix)
 {
@@ -49,22 +53,22 @@ BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
                                    "", \
                                    "", \
                                    "a3a4", \
-                                   "a3" \
+                                   "" \
                                 };
 
   vector<string> vec_str_key_wid2 = {"a1a2a3a4a5", \
                                    "", \
                                    "", \
                                    "", \
-                                   "a1", \
-                                   "a1" \
+                                   "", \
+                                   "" \
                                  };
 
   vector<string> vec_str_key_wid8 = {"a1a2a3a4a5", \
                                    "a3a4a5a6a7", \
                                    "a4a5a6a7a8a9", \
                                    "", \
-                                   "a3a4", \
+                                   "", \
                                    "" \
                                  };
 
@@ -117,22 +121,22 @@ BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
                                    "", \
                                    "", \
                                    "a6a7", \
-                                   "a7" \
+                                   "" \
                                 };
 
   vector<string> vec_str_key_wid2 = {"a5a6a7a8a9", \
                                    "", \
                                    "", \
                                    "", \
-                                   "a9", \
-                                   "a9" \
+                                   "", \
+                                   "" \
                                  };
 
   vector<string> vec_str_key_wid8 = {"a5a6a7a8a9", \
                                    "a2a3a4a5a6a7", \
                                    "a2a3a4a5a6", \
                                    "", \
-                                   "a6a7", \
+                                   "", \
                                    "" \
                                  };
 
@@ -169,338 +173,220 @@ BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
   BOOST_CHECK_THROW(StringWordOperation::FindLookupWordRight(str_line, str_key_t, 8), exception);   
 }
 
-BOOST_AUTO_TEST_SUITE_END( )
+BOOST_AUTO_TEST_SUITE_END ()
 
-/*
-// Include Fixtures
-#include "fixture.in"
-
-// Class SingletonRandom
-// Disable this test_suite by default as the test of SingletonRandom has conflicts with the rest 
-// testings which may use SingletonRandom class.
-// It can be invoked by option --run_test=SingletonRandom_test seperately with the rest tests.
-BOOST_AUTO_TEST_SUITE (SingletonRandom_test, * boost::unit_test::disabled())
+// Class SingletonDiction
+BOOST_AUTO_TEST_SUITE (SingletonDiction_test, * boost::unit_test::disabled())
 
 BOOST_AUTO_TEST_CASE (GetInstance_test)
 {
- 
-  // Exception if not setting s_max_val_ 
-  BOOST_CHECK_THROW(SingletonRandom::GetInstance(), exception);   
+  SingletonDiction & dict0 = SingletonDiction::GetInstance();
+  SingletonDiction & dict1 = SingletonDiction::GetInstance();
 
-  SingletonRandom::s_max_val_ = 50;
-  SingletonRandom & ran0 = SingletonRandom::GetInstance();
-  SingletonRandom & ran1 = SingletonRandom::GetInstance();
-
-  BOOST_CHECK(ran0.s_instance_numbers_ == 1);
-  BOOST_CHECK(ran1.s_instance_numbers_ == 1);
-
+  BOOST_CHECK (&dict0 == &dict1);
+  SingletonDiction & dict2 = SingletonDiction::GetInstance();
+  BOOST_CHECK (&dict0 == &dict2);
 }
 
-
-BOOST_AUTO_TEST_CASE (GenerateRandom_test)
+BOOST_AUTO_TEST_CASE (Init_test)
 {
-  unsigned val[20];
-  SingletonRandom::s_max_val_ = 50;
-  SingletonRandom & ran = SingletonRandom::GetInstance();
+  SingletonDiction & dict = SingletonDiction::GetInstance();
+  BOOST_CHECK(0 == dict.uset_dictionary_.size());
+  dict.Init();
+  BOOST_CHECK(17640 == dict.uset_dictionary_.size());
+  BOOST_CHECK (dict.uset_dictionary_.find("zucchini") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("Zulu") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("a") != (dict.uset_dictionary_.end()));
+}
 
-  for (int i = 0; i<20; ++i)
+BOOST_AUTO_TEST_CASE (BuildWordPiece_test)
+{
+  SingletonDiction & dict = SingletonDiction::GetInstance();
+  BOOST_CHECK(0 != dict.uset_dictionary_.size());
+
+  if (dict.uset_dictionary_.empty())
+    dict.Init();
+
+  dict.BuildWordPiece();
+  BOOST_WARN_GE(dict.uset_dictionary_.size(),17640*5);
+  BOOST_CHECK (dict.uset_dictionary_.find("zucchini") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("ucch") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("zucchi") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("cch") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("Zulu") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("ulu") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("Zu") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK (dict.uset_dictionary_.find("a") != (dict.uset_dictionary_.end()));
+
+  dict.uset_dictionary_.clear();
+  BOOST_CHECK_THROW(dict.BuildWordPiece(), exception);   
+}
+
+BOOST_AUTO_TEST_CASE (LookupDict_test)
+{
+  SingletonDiction & dict = SingletonDiction::GetInstance();
+  if (dict.uset_dictionary_.empty())
   {
-      val[i] = ran.GenerateRandom();
-      BOOST_CHECK_LE(val[i],50);
-      BOOST_CHECK_GE(val[i],0);
-
-      if (i > 3)
-      {
-        BOOST_WARN_NE(val[i],val[i-1]);
-        BOOST_WARN_NE(val[i],val[i-2]);
-        BOOST_WARN_NE(val[i],val[i-3]);
-        BOOST_WARN_NE(val[i],val[i-4]);
-      }
-  }
-}
-
-BOOST_AUTO_TEST_SUITE_END( )
-
-// Class TextFileOperation
-BOOST_AUTO_TEST_SUITE(TextFileOperation_test);
-
-BOOST_FIXTURE_TEST_CASE (ReadText_vector_test, Fixture_file_vec)
-{
-  vector<string> lines_t;
-
-  TextFileOperation::ReadText("test_input.ascii", lines_t);
-  // ReadText() will append blank charactors to ensure all lines have the same number of charactors
-  BOOST_CHECK(lines_t == Fix_lines);   
-  lines_t.clear();
-
-  // Test file with blanks at the end of lines.
-  TextFileOperation::ReadText("test_input1.ascii", lines_t);
-  BOOST_CHECK(lines_t == Fix_lines);   
-  lines_t.clear();
-  
-  // File not exist, throw an exception  
-  BOOST_CHECK_THROW(TextFileOperation::ReadText("test_input99.ascii", lines_t),exception);
-  lines_t.clear();
-
-  // Test empty file 
-  TextFileOperation::ReadText("test_input00.ascii", lines_t);
-
-  BOOST_CHECK(lines_t.size() == 0);   
-
-  // Test invalid input 
-  BOOST_CHECK_THROW(TextFileOperation::ReadText("", lines_t), exception);   
-
-}
-
-
-BOOST_FIXTURE_TEST_CASE (ReadText_set_test, Fixture_file_set)
-{
-  set<string> lines_t;
-
-  TextFileOperation::ReadText("test_input.ascii", lines_t);
-  BOOST_CHECK(lines_t == Fix_lines);   
-
-  // Test when lines_t is not empty
-  TextFileOperation::ReadText("test_input.ascii", lines_t);
-  BOOST_CHECK(lines_t == Fix_lines);   
-  lines_t.clear();
-  
-  // File not exist, throw an exception  
-  BOOST_CHECK_THROW(TextFileOperation::ReadText("test_input99.ascii", lines_t),exception);
-  lines_t.clear();
-
-  // Test empty file 
-  TextFileOperation::ReadText("test_input00.ascii", lines_t);
-
-  BOOST_CHECK(lines_t.size() == 0);   
-
-  // Test invalid input 
-  BOOST_CHECK_THROW(TextFileOperation::ReadText("", lines_t), exception);   
-
-}
-
-BOOST_FIXTURE_TEST_CASE (WriteText_test, Fixture_file_vec)
-{
-
-  // Test invalid input 
-  BOOST_CHECK_THROW(TextFileOperation::WriteText("", Fix_orig_lines), exception);   
-
-  TextFileOperation::WriteText("test_output_t.ascii", Fix_orig_lines);
-  // When cmp return non-zero value, Boost will detect it and quit with fatal error.
-  BOOST_CHECK(system ("cmp -l test_output_t.ascii test_output.ascii >/dev/null 2>&1") == 0);   
-
-  TextFileOperation::WriteText("test_output_t1.ascii", Fix_lines);
-  BOOST_CHECK(system ("cmp -l test_output_t1.ascii test_output1.ascii >/dev/null 2>&1") == 0);   
-  
-  // When file exists, should overwite the file.
-  TextFileOperation::WriteText("test_output_t1.ascii", Fix_lines);
-  BOOST_CHECK(system ("cmp -l test_output_t1.ascii test_output1.ascii >/dev/null 2>&1") == 0);   
-
-  system("rm -rf test_output_t*.ascii");
-
-}
-
-BOOST_AUTO_TEST_SUITE_END( )
-
-// Class TextStripOperation 
-BOOST_FIXTURE_TEST_SUITE(TextStripOperation_test, Fixture_input);
-
-BOOST_AUTO_TEST_CASE (Disorder_test)
-{
-  vector<vector<string>> input1 = Fix_input;
-  TextStripOperation::Disorder(input1);
-
-//  BOOST_CHECK_NE(input1,input);
-//  BOOST_CHECK(input1 != input);
-  BOOST_WARN(input1 != Fix_input);
-
-  int found = 0; 
- 
-  for (int i=0; i<3; ++i)
-  {
-     for (int k=0; k<3; ++k)
-     {
-       if (Fix_input[i][0] == input1[k][0])
-       {
-          for (int j=1; j<4; ++j)
-          {
-            BOOST_CHECK(Fix_input[i][j] == input1[k][j]);
-          }
-          ++found;
-          break;
-       }
-     } 
+    dict.Init();
+    dict.BuildWordPiece();
   }
 
-  BOOST_CHECK(found == 3);
+  BOOST_CHECK (true == dict.LookupDict("Zu"));
+  BOOST_CHECK (true == dict.LookupDict("ucch"));
+  BOOST_CHECK (true == dict.LookupDict("cch"));
+  BOOST_CHECK (true == dict.LookupDict("a"));
+  BOOST_CHECK (true == dict.LookupDict("good"));
+  BOOST_CHECK (true == dict.LookupDict("birth"));
 
-  vector<vector<string>> input2;
-  BOOST_CHECK_THROW(TextStripOperation::Disorder(input2), exception);   
-  
+  BOOST_CHECK (false == dict.LookupDict("wz"));
+  BOOST_CHECK (false == dict.LookupDict("z"));
+  BOOST_CHECK (false == dict.LookupDict("goood"));
+  BOOST_CHECK (false == dict.LookupDict("Birth"));
+  BOOST_CHECK (false == dict.LookupDict("Birth"));
+
+  BOOST_CHECK (false == dict.LookupDict("!"));
+
+  string key = "good";
+  BOOST_CHECK (true == dict.LookupDict(key));
+
+  key.clear();
+  BOOST_CHECK_THROW(dict.LookupDict(key), exception);   
+
+  BOOST_CHECK_THROW(dict.LookupDict(""), exception);   
 }
 
+BOOST_AUTO_TEST_SUITE_END ()
 
-BOOST_AUTO_TEST_CASE (Transpose_test)
-{
-  vector<vector<string>> input1;
-
-  TextStripOperation::Transpose(Fix_input, input1);
-  BOOST_CHECK(input1 == Fix_input_r);
-
-  vector<vector<string>> input2 = Fix_input;
-  TextStripOperation::Transpose(Fix_input, input2);
-  BOOST_CHECK(input2 == Fix_input_r);
-
-  // For empty input
-  vector<vector<string>> input3,input4;
-
-  BOOST_CHECK_THROW(TextStripOperation::Transpose(input3, input4), exception);   
-
-}
-
-BOOST_AUTO_TEST_CASE (MergeText_test)
-{
-  vector<string> input_merged;
-
-  TextStripOperation::MergeText(Fix_input, input_merged);
-  BOOST_CHECK(input_merged == Fix_input_merged);
-  input_merged.clear();
-
-  TextStripOperation::MergeText(Fix_input_r, input_merged);
-  BOOST_CHECK(input_merged == Fix_input_r_merged);
-
-  // input_merged not empty
-  TextStripOperation::MergeText(Fix_input_r, input_merged);
-  BOOST_CHECK(input_merged == Fix_input_r_merged);
-  input_merged.clear();
-
-  // For empty input
-  vector<vector<string>> input3;
-  vector<string> input3_merged;
-
-  BOOST_CHECK_THROW(TextStripOperation::MergeText(input3, input3_merged), exception);   
- 
-}
-
-BOOST_AUTO_TEST_SUITE_END( )
-
-// Class TextShredder
-BOOST_AUTO_TEST_SUITE (TextShredder_test)
+// Class ColumnMatchManager
+BOOST_FIXTURE_TEST_SUITE(ColumnMatchManager_test, Fixture_columns);
 
 BOOST_AUTO_TEST_CASE (constructor_test)
 {
-  TextShredder shred0;
+  ColumnMatchManager column_match_mgr0;
+  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnX_wid2);
+  BOOST_CHECK (Fix_columns_wid2 == column_match_mgr1.vec_text_columns_);
+  BOOST_CHECK (Fix_columnX_wid2 == column_match_mgr1.vec_new_column_);
 
-  BOOST_CHECK(shred0.n_strip_width_ == 2);
-  BOOST_CHECK(shred0.str_in_filename_ == "full_text0.ascii");
-  BOOST_CHECK(shred0.str_out_filename_ == "shredded_text0.ascii");
+  ColumnMatchManager column_match_mgr2 = column_match_mgr1;
 
-  TextShredder shred1(3,"orign_input.ascii","input3.ascii");
-
-  BOOST_CHECK(shred1.n_strip_width_ == 3);
-  BOOST_CHECK(shred1.str_in_filename_ == "orign_input.ascii");
-  BOOST_CHECK(shred1.str_out_filename_ == "input3.ascii");
-
-  TextShredder shred2(2,"","");
-  BOOST_CHECK(shred2.n_strip_width_ == 2);
-  BOOST_CHECK(shred2.str_in_filename_ == "");
-  BOOST_CHECK(shred2.str_out_filename_ == "");
-
+  ColumnMatchManager column_match_mgr3 = ColumnMatchManager(Fix_columns_wid2, Fix_columnX_wid2);
+  BOOST_CHECK (Fix_columns_wid2 == column_match_mgr3.vec_text_columns_);
+  BOOST_CHECK (Fix_columnX_wid2 == column_match_mgr3.vec_new_column_);
 }
 
-BOOST_FIXTURE_TEST_CASE(DoTextShredder_test, Fixture_source_data)
+BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
 {
-  // n_strip_width_ is 2 by default
-  TextShredder shred0;
+  vector<string> vec_keys;
+  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnX_wid2);
 
-  // Not populate vec_str_source_data_ and call DoTextShredder directly
-  BOOST_CHECK_THROW(shred0.DoTextShredder(),exception);
+  vector<string> vec_keys_right1 = {"good", "will", "wil"};
+  column_match_mgr1.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right1 == vec_keys);
 
-  // Populate vec_str_source_data_
-  shred0.vec_str_source_data_.assign(Fix_lines.begin(), Fix_lines.end());
-  shred0.DoTextShredder();
+  vector<string> vec_keys_left1 = {"0", "0", "iluse"};
+  column_match_mgr1.BuildLookupKey(vec_keys, LEFT);
+  BOOST_CHECK (vec_keys_left1 == vec_keys);
 
-  // Verify vec_str_shredded_text_  
-  BOOST_CHECK(shred0.vec_str_shredded_text_ == Fix_shredded_text_wid2);
+  ColumnMatchManager column_match_mgr2(Fix_columns_wid3, Fix_columnY_wid3);
 
-  // Initialize with n_strip_width_ = 3
-  TextShredder shred1(3,"x","y");
- 
-  // Populate vec_str_source_data_
-  shred1.vec_str_source_data_.assign(Fix_lines.begin(), Fix_lines.end());
-  shred1.DoTextShredder();
+  vector<string> vec_keys_right2 = {"stas", "borr", "beaus"};
+  vec_keys.clear();
+  column_match_mgr2.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right2 == vec_keys);
 
-  //verify vec_str_shredded_text_  
-  BOOST_CHECK(shred1.vec_str_shredded_text_ == Fix_shredded_text_wid3);
+  vector<string> vec_keys_left2 = {"0", "orrow", "ause"};
+  vec_keys.clear();
+  column_match_mgr2.BuildLookupKey(vec_keys, LEFT);
+  BOOST_CHECK (vec_keys_left2 == vec_keys);
+
+  // vec_keys is not empty
+  column_match_mgr2.BuildLookupKey(vec_keys, LEFT);
+  BOOST_CHECK (vec_keys_left2 == vec_keys);
+
+  ColumnMatchManager column_match_mgr0;
+  BOOST_CHECK_THROW(column_match_mgr0.BuildLookupKey(vec_keys, LEFT), exception);   
+
+  // Verify special charactors correctly converted into blank delimiter
+  vector<vector<string>> columns_special = { {"go?yes!", "[no],he","i won't"},{"my-bed ","(nowayf", "said:ok"}};
+  vector<string> column_letter =  {"abcdefg", "abcdefg","abcdefg"};
+
+  ColumnMatchManager column_match_mgr3(columns_special, column_letter);
+
+  vector<string> vec_keys_right3 = {"0", "nowayfabcdefg", "okabcdefg"};
+  vec_keys.clear();
+  column_match_mgr3.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right3 == vec_keys);
+
+  vector<string> vec_keys_left3 = {"abcdefggo", "0", "abcdefgi"};
+  vec_keys.clear();
+  column_match_mgr3.BuildLookupKey(vec_keys, LEFT);
+  BOOST_CHECK (vec_keys_left3 == vec_keys);
+
+  vector<string> column_spec =  {"abc,efg", "abc.efg","abc:efg"};
+
+  ColumnMatchManager column_match_mgr4(columns_special, column_spec);
+
+  vector<string> vec_keys_right4 = {"0", "nowayfabc", "okabc"};
+  vec_keys.clear();
+  column_match_mgr4.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right4 == vec_keys);
+
+  vector<string> vec_keys_left4 = {"efggo", "0", "efgi"};
+  vec_keys.clear();
+  column_match_mgr4.BuildLookupKey(vec_keys, LEFT);
+  BOOST_CHECK (vec_keys_left4 == vec_keys);
+
+  // Verify the handling on 's, 'd, 't
+  vector<string> column_spec_s_d_t1 =  {"abcdefg", "abc'd,g","abc's fg"};
+  ColumnMatchManager column_match_mgr5(columns_special, column_spec_s_d_t1);
+
+  vector<string> vec_keys_right5 = {"0", "nowayfabc", "okabc"};
+  vec_keys.clear();
+  column_match_mgr5.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right5 == vec_keys);
+
+  vector<string> column_spec_s_d_t2 =  {"abcdefg", "abc fg","'s abcd"};
+  ColumnMatchManager column_match_mgr6(columns_special, column_spec_s_d_t2);
+
+  vector<string> vec_keys_right6 = {"0", "nowayfabc", "0"};
+  vec_keys.clear();
+  column_match_mgr6.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right6 == vec_keys);
+
+  // Verify the handling on capital letters or non alphabetic charactors
+  vector<string> column_spec_cap =  {"abcdefg", "abC,efg","abc'h fg"};
+  ColumnMatchManager column_match_mgr7(columns_special, column_spec_cap);
+
+  vector<string> vec_keys_right7 = {"0", "0", "0"};
+  vec_keys.clear();
+  column_match_mgr7.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right7 == vec_keys);
+
+  vector<string> column_spec_digit =  {"abcdefg", "abc\\efg","abc3 fg"};
+  ColumnMatchManager column_match_mgr8(columns_special, column_spec_digit);
+
+  vector<string> vec_keys_right8 = {"0", "0", "0"};
+  vec_keys.clear();
+  column_match_mgr8.BuildLookupKey(vec_keys, RIGHT);
+  BOOST_CHECK (vec_keys_right8 == vec_keys);
 }
 
-BOOST_FIXTURE_TEST_CASE(GetInput_test,Fixture_file_vec)
+BOOST_AUTO_TEST_SUITE_END ()
+
+/*
+// Class  xxxx
+BOOST_AUTO_TEST_SUITE ();
+
+BOOST_AUTO_TEST_CASE ()
 {
-  TextShredder shred0(2,"test_input1.ascii","");
-  shred0.GetInput();
 
-  BOOST_CHECK(shred0.vec_str_source_data_ == Fix_lines);
-
-  TextShredder shred1(2,"NotExist","");
-  BOOST_CHECK_THROW(shred1.GetInput(),exception);
-
-  TextShredder shred2(2,"","xy.ascii");
-  BOOST_CHECK_THROW(shred2.GetInput(),exception);
 }
 
-BOOST_FIXTURE_TEST_CASE(CreateOutput_test,Fixture_data_file)
+BOOST_AUTO_TEST_CASE ()
 {
 
-  TextShredder shred0(2,"test_input.out","");
-  BOOST_CHECK_THROW(shred0.CreateOutput(),exception);
-
-  TextShredder shred1(2,"xy.ascii","test_output_t2.ascii");
-
-  // When vec_str_shredded_text_ containis no data
-  BOOST_CHECK_THROW(shred1.CreateOutput(),exception);
-  
-  // Populate vec_str_shredded_text_
-  shred1.vec_str_shredded_text_.assign(Fix_shredded_text_wid2.begin(),Fix_shredded_text_wid2.end());
-  shred1.CreateOutput();
-
-  // When cmp return non-zero value, Boost will detect it and quit with fatal error.
-  BOOST_CHECK(system ("cmp -l test_output2.ascii test_output_t2.ascii >/dev/null 2>&1") == 0);   
-
-  TextShredder shred2(3,"xy.ascii","test_output_t3.ascii");
-
-  // Populate vec_str_shredded_text_
-  shred2.vec_str_shredded_text_.assign(Fix_shredded_text_wid3.begin(), Fix_shredded_text_wid3.end());
-  shred2.CreateOutput();
-
-  // When cmp return non-zero value, Boost will detect it and quit with fatal error.
-  BOOST_CHECK(system ("cmp -l test_output3.ascii test_output_t3.ascii >/dev/null 2>&1") == 0);   
-
-  system("rm -rf test_output_t*.ascii");
 }
 
-BOOST_AUTO_TEST_SUITE_END( )
-
-// Mainly focus on  parameter interface test for main() function.
-// Funcationality test will be fully covered by system level test.
-BOOST_FIXTURE_TEST_SUITE(UTmain_test, Fixture_file_vec);
-
-BOOST_AUTO_TEST_CASE (UTmain_test)
-{
-  BOOST_CHECK(UTmain(2,"test_input.ascii", "test_output_t1.ascii") == 0);
-
-  BOOST_CHECK(UTmain(100,"test_input.ascii", "test_output_t2.ascii") == 0);
-
-  BOOST_CHECK(UTmain(0,"test_input.ascii", "test_output_t.ascii") == 1);
-
-  BOOST_CHECK(UTmain(-2,"test_input.ascii", "test_output_t.ascii") == 1);
-
-  BOOST_CHECK(UTmain(2,"", "test_output_t.ascii") == 1);
-
-  BOOST_CHECK(UTmain(3,"test_input.ascii", "") == 1);
-
-  system("rm -rf test_output_t*.ascii");
-}
-
-BOOST_AUTO_TEST_SUITE_END( )
+BOOST_AUTO_TEST_SUITE_END ()
 
 */

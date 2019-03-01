@@ -29,6 +29,7 @@ class SingletonDiction
     static SingletonDiction& GetInstance();
 
     void Init();
+    void BuildWordPiece();
     bool LookupDict(std::string str_letters);
 };
 #endif

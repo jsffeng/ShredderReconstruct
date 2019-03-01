@@ -231,4 +231,69 @@ struct Fixture_data_file :  Fixture_source_data
   }
 };
 
+struct Fixture_columns :  Fixture_source_data
+{
+
+// For strip width is 2
+// Columns: 0  1  2  3  4  5  6  7  8  9  10 11
+//         |Th|is| i|s |a |go|od| s|ta|rt|  |  |
+//         |To|mo|rr|ow| w|il|l |be| b|et|t |  |
+//         |be|ca|us|e |it| w|il|l |be| s|uc|c |
+
+  vector<vector<string>> Fix_columns_wid2;  // Column 2 - 5
+  vector<string> Fix_columnX_wid2;  // Column 6
+  vector<string> Fix_columnY_wid2;  // Column 1
+  vector<string> Fix_columnZ_wid2;  // Column 7
+
+// For strip width is 3
+// Columns: 0   1   2   3   4   5   6   7
+//         |Thi|s i|s a| go|od |sta|rt |   |
+//         |Tom|orr|ow |wil|l b|e b|ett|   |
+//         |bec|aus|e i|t w|ill| be| su|cc |
+
+  vector<vector<string>> Fix_columns_wid3; // Column 2 - 5
+  vector<string> Fix_columnX_wid3; // Column 6
+  vector<string> Fix_columnY_wid3; // Column 1
+  vector<string> Fix_columnZ_wid3; // Column 7
+
+  Fixture_columns()
+  {
+    vector<vector<string>> vec_str_temp;
+    // For strip width is 2
+    TextStripOperation::Transpose(Fix_shredded_text_wid2, vec_str_temp);
+   
+    auto iter_start = vec_str_temp.begin() + 2; 
+    auto iter_end = vec_str_temp.begin() + 6; 
+    Fix_columns_wid2.assign(iter_start, iter_end); 
+  
+    Fix_columnX_wid2.assign(iter_end->begin(),iter_end->end()); 
+  
+    --iter_start;
+    Fix_columnY_wid2.assign(iter_start->begin(),iter_start->end()); 
+  
+    ++iter_end;
+    Fix_columnZ_wid2.assign(iter_end->begin(),iter_end->end()); 
+
+    // For strip width is 3
+
+    vec_str_temp.clear();
+    TextStripOperation::Transpose(Fix_shredded_text_wid3, vec_str_temp);
+   
+    auto iter1_start = vec_str_temp.begin() + 2; 
+    auto iter1_end = vec_str_temp.begin() + 6; 
+    Fix_columns_wid3.assign(iter1_start, iter1_end); 
+  
+    Fix_columnX_wid3.assign(iter1_end->begin(),iter1_end->end()); 
+  
+    --iter1_start;
+    Fix_columnY_wid3.assign(iter1_start->begin(),iter1_start->end()); 
+  
+    ++iter1_end;
+    Fix_columnZ_wid3.assign(iter1_end->begin(),iter1_end->end()); 
+  }
+  
+  ~Fixture_columns() {}
+
+};
+
 // Fixtures End

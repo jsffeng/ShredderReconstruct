@@ -189,7 +189,7 @@ void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key
   string str_key_t;
 
   if (str_line.size() == 0 || n_column_width <= 0)
-    throw runtime_error("Invalid input to function FindLookupWordLeft!");
+    throw runtime_error("Invalid input to function FindLookupWordLeft()!");
 
   int n_boundary = n_column_width; 
   for (int k = 0; k < str_line.size(); ++k)
@@ -207,7 +207,7 @@ void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key
     }
     else
     {
-      if (k >= n_boundary) 
+      if (k > n_boundary) 
       {
         break;
       }
@@ -233,7 +233,7 @@ void StringWordOperation::FindLookupWordRight(string & str_line, string & str_ke
   string str_key_t;
 
   if (str_line.size() == 0 || n_column_width <= 0)
-    throw runtime_error("Invalid input to function FindLookupWordRight!");
+    throw runtime_error("Invalid input to function FindLookupWordRight()!");
 
   int n_boundary = str_line.size() - n_column_width - 1; 
 
@@ -252,7 +252,7 @@ void StringWordOperation::FindLookupWordRight(string & str_line, string & str_ke
     }
     else
     {
-      if (k <= n_boundary)
+      if (k < n_boundary)
       {
         break;
       }
@@ -273,7 +273,7 @@ bool StringWordOperation::RemoveWordSuffix(string &str_lookup_key)
   vector<string> vec_suffix = {"ing", "ed", "es", "s"};
 
   if (str_lookup_key.size() == 0)
-    throw runtime_error("Invalid input to function RemoveWordSuffix!");
+    throw runtime_error("Invalid input to function RemoveWordSuffix()!");
   
   int n_position = str_lookup_key.size(); 
   int n_position_t, n_length_t;

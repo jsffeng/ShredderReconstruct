@@ -39,6 +39,10 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns
 }
 
 // Result stored to vec_key_column
+// If any key word's size is equal or less than 2, just record "0" into vec_key_column,
+// because dictionary lookup will be ignored for it. 
+// Example of vec_key_column content: {"0", "0", "iluse"}, {"good", "will", "wil"}
+
 void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDirections enum_direct) 
 {
   vector<string> vec_merged_column;
@@ -75,28 +79,32 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
 
     // Extract the key word used for searching from a series of words delimited by ' '
     if (enum_direct == LEFT)
-    {
+    { 
+       // str_key_temp could be any string, including empty string ""
        StringWordOperation::FindLookupWordLeft(str_merge_t, str_key_temp, n_column_width_t); 
     }
     else
     {
+       // str_key_temp could be any string, including empty string ""
        StringWordOperation::FindLookupWordRight(str_merge_t, str_key_temp, n_column_width_t); 
     }
 
-    // Remove 's, 'd  at the end of the word if there is
-
-    int n_position = str_key_temp.size() - 2;
-    string str_tmp = str_key_temp.substr(n_position, 2);
-    
-    if ("\'s" == str_tmp || "\'d" == str_tmp)
+    // Remove 's, 'd, 't  at the end of the word if there is
+    if (str_key_temp.size() > 2)
     {
-      str_key_temp.erase(n_position,2);
-    } 
+      int n_position = str_key_temp.size() - 2;
+      string str_tmp = str_key_temp.substr(n_position, 2);
+      
+      if ("\'s" == str_tmp || "\'d" == str_tmp || "\'t" == str_tmp)
+      {
+        str_key_temp.erase(n_position,2);
+      } 
+    }
 
     // If length of word is equal to or less than 2, ignore dictionary lookup
     if (str_key_temp.size() <= 2)
     {
-      str_key_temp = "";
+      str_key_temp = "0";
     }
     else
     {
@@ -106,13 +114,13 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
         // If any charactor is upper case letter, ignore dictionary lookup
         if (!isalpha(str_key_temp[i]) || isupper(str_key_temp[i]))
         {
-          str_key_temp = "";
+          str_key_temp = "0";
           break;
         }
       }
     }
 
-    vec_key_column.push_back(str_key_temp);
+    vec_key_column.emplace_back(str_key_temp);
     str_key_temp.clear();
   } 
 }
@@ -133,7 +141,7 @@ void ColumnMatchManager::CalculateMatchRate()
    
     for (int k = 0; k < vec_word_column.size(); ++k) 
     { 
-      if (!vec_word_column[k].empty()) 
+      if (vec_word_column[k].size() >= 2) 
       {
         b_flag_lookup = singleton_dict.LookupDict(vec_word_column[k]);
 

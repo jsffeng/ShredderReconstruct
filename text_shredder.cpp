@@ -33,7 +33,7 @@ void TextShredder::CreateOutput()
     } 
   
     str_sub.append("|"); 
-    vec_temp.push_back(str_sub);
+    vec_temp.emplace_back(str_sub);
     str_sub.clear();
   }
 
@@ -71,10 +71,10 @@ void TextShredder::DoTextShredder()
       str_sub = iter->substr(n_position, n_strip_width_); 
       // Ensure the last column in the paragraph has the same width of strip
       while (str_sub.length() < n_strip_width_) str_sub.append(" ");
-      vec_temp.push_back(str_sub);
+      vec_temp.emplace_back(str_sub);
       n_position = n_position + n_strip_width_;
     }
-    vec_str_shredded_text_.push_back(vec_temp);
+    vec_str_shredded_text_.emplace_back(vec_temp);
     vec_temp.clear();
 
     ++iter;

@@ -34,6 +34,43 @@ using namespace std;
 // Class ColumnMatchManager constructor
 ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns,vector<string> & vec_new_column)
 {
+  bool b_valid_flag = true;
+  int n_size_t;
+
+  if (vec_text_columns.empty() || vec_new_column.empty())
+    throw runtime_error("Invalid input to constructor of class ColumnMatchManager");
+
+  n_size_t = vec_new_column.begin()->size();
+
+  // The lengths of all members in vec_new_column need to be the same. If not, will cause breakage
+  // in the later processing.
+  auto iter = vec_new_column.begin();
+  while (iter != vec_new_column.end())
+  {
+    if (iter->size() != n_size_t)
+    {
+      b_valid_flag = false;
+      break;
+    }
+    ++iter;
+  }
+
+  // The size of vec_new_column must be the same with the size of a member of vec_text_columns.
+  // If not, will cause breakage in the later processing.
+  if (vec_new_column.size() != vec_text_columns.begin()->size())
+     b_valid_flag = false;
+
+  // Stop here if any check above is not as expected.
+  if (false == b_valid_flag)
+    throw runtime_error("Invalid input to constructor of class ColumnMatchManager");
+
+  // It is okay for this class if any string in vec_text_columns is empty. However, in the context of
+  // this program, no empty string will appear as the blank charactor will always be used to record
+  // "empty" when read from the text page or text strips.
+  
+  // It is also okay for this class if not all strings in vec_text_columns have the same length. But in
+  // this program, all strings in vec_text_columns,vec_new_column, etc. should have the same lengths
+  // after read from the text page or text strips.
   vec_text_columns_.assign(vec_text_columns.begin(), vec_text_columns.end());
   vec_new_column_.assign(vec_new_column.begin(),vec_new_column.end());
 }
@@ -89,13 +126,13 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
        StringWordOperation::FindLookupWordRight(str_merge_t, str_key_temp, n_column_width_t); 
     }
 
-    // Remove 's, 'd, 't  at the end of the word if there is
+    // Remove 's, 'd at the end of the word if there is
     if (str_key_temp.size() > 2)
     {
       int n_position = str_key_temp.size() - 2;
       string str_tmp = str_key_temp.substr(n_position, 2);
       
-      if ("\'s" == str_tmp || "\'d" == str_tmp || "\'t" == str_tmp)
+      if ("\'s" == str_tmp || "\'d" == str_tmp)
       {
         str_key_temp.erase(n_position,2);
       } 

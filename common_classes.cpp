@@ -32,7 +32,7 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
   {
       n_length = str_line.length();
       if (n_length > n_max_length) n_max_length = n_length;
-      vec_str_text_lines.push_back(str_line);
+      vec_str_text_lines.emplace_back(str_line);
   }
 
   f_infile.close();
@@ -120,7 +120,7 @@ void TextStripOperation::Disorder(vector<vector<string>>& vec_str_input)
     for (int i = 0; i < s_random_number_; ++i)
     {
        n_temp = random_instance.GenerateRandom();
-       vec_str_input.insert(vec_str_input.end(), vec_str_input[n_temp]);	
+       vec_str_input.emplace(vec_str_input.end(), vec_str_input[n_temp]);	
        vec_str_input.erase(vec_str_input.begin() + n_temp);
     }
   }
@@ -143,10 +143,10 @@ void TextStripOperation::Transpose(vector<vector<string>>& vec_str_input, vector
   {
     for (int j = 0; j< vec_str_input.size(); ++j)
     {
-      vec_temp.push_back(vec_str_input[j][i]);
+      vec_temp.emplace_back(vec_str_input[j][i]);
     }
 
-    vec_str_input_trans.push_back(vec_temp);
+    vec_str_input_trans.emplace_back(vec_temp);
     vec_temp.clear();
   }
 
@@ -172,7 +172,7 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
       str_temp.append(vec_str_input[i][j]);
     }
 
-    vec_str_text.push_back(str_temp);
+    vec_str_text.emplace_back(str_temp);
     str_temp.clear();
   }
 }
@@ -188,7 +188,7 @@ void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key
 {
   string str_key_t;
 
-  if (str_line.size() == 0 || n_column_width <= 0)
+  if (str_line.size() == 0 || n_column_width <= 0 || str_line.size() <= n_column_width)
     throw runtime_error("Invalid input to function FindLookupWordLeft()!");
 
   int n_boundary = n_column_width; 
@@ -232,7 +232,7 @@ void StringWordOperation::FindLookupWordRight(string & str_line, string & str_ke
 {
   string str_key_t;
 
-  if (str_line.size() == 0 || n_column_width <= 0)
+  if (str_line.size() == 0 || n_column_width <= 0 || str_line.size() <= n_column_width)
     throw runtime_error("Invalid input to function FindLookupWordRight()!");
 
   int n_boundary = str_line.size() - n_column_width - 1; 

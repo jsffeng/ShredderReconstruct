@@ -22,7 +22,7 @@ ALLSRCS := $(wildcard $(SRC_PATH)/*.cpp)
 ALLOBJS := $(ALLSRCS:.cpp=.o)
 
 OBJS_SHRED := common_classes.o singleton_random.o text_shredder.o shred_main.o
-OBJS_UNSHRED := common_classes.o singleton_random.o singleton_diction.o column_match_manager.o
+OBJS_UNSHRED := common_classes.o singleton_random.o singleton_diction.o column_match_manager.o column_select_manager.o
 
 
 # UT test code

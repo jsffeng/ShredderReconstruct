@@ -336,17 +336,17 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   column_match_mgr4.BuildLookupKey(vec_keys, LEFT);
   BOOST_CHECK (vec_keys_left4 == vec_keys);
 
-  // Verify the handling on 's, 'd, 't
-  vector<string> column_spec_s_d_t1 =  {"abcdefg", "abc'd,g","abc's fg"};
-  ColumnMatchManager column_match_mgr5(columns_special, column_spec_s_d_t1);
+  // Verify the handling on 's, 'd
+  vector<string> column_spec_s_d1 =  {"abcdefg", "abc'd,g","abc's g"};
+  ColumnMatchManager column_match_mgr5(columns_special, column_spec_s_d1);
 
   vector<string> vec_keys_right5 = {"0", "nowayfabc", "okabc"};
   vec_keys.clear();
   column_match_mgr5.BuildLookupKey(vec_keys, RIGHT);
   BOOST_CHECK (vec_keys_right5 == vec_keys);
 
-  vector<string> column_spec_s_d_t2 =  {"abcdefg", "abc fg","'s abcd"};
-  ColumnMatchManager column_match_mgr6(columns_special, column_spec_s_d_t2);
+  vector<string> column_spec_s_d2 =  {"abcdefg", "abc  fg","'s abcd"};
+  ColumnMatchManager column_match_mgr6(columns_special, column_spec_s_d2);
 
   vector<string> vec_keys_right6 = {"0", "nowayfabc", "0"};
   vec_keys.clear();
@@ -354,7 +354,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   BOOST_CHECK (vec_keys_right6 == vec_keys);
 
   // Verify the handling on capital letters or non alphabetic charactors
-  vector<string> column_spec_cap =  {"abcdefg", "abC,efg","abc'h fg"};
+  vector<string> column_spec_cap =  {"abcdefg", "abC,efg","abc'h g"};
   ColumnMatchManager column_match_mgr7(columns_special, column_spec_cap);
 
   vector<string> vec_keys_right7 = {"0", "0", "0"};

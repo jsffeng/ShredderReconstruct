@@ -22,9 +22,10 @@ void TextUnshredder::DoTextUnshredder()
 {
 
  column_select_manager_.Init(vec_text_columns_);
+ int n_value;
  while (column_select_manager_.vec_column_pool_ ! = NULL && column_select_manager_.b_failure_flag_ == false)
  { 
-   column_select_manager_.RebuildColumnsByBestMatch();
+    column_select_manager_.RebuildColumnsByBestMatch();
  }
 
 // vector<string> vec_merged_text_trans;

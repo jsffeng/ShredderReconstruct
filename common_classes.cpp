@@ -188,7 +188,7 @@ void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key
 {
   string str_key_t;
 
-  if (str_line.size() == 0 || n_column_width <= 0 || str_line.size() <= n_column_width)
+  if (str_line.empty() || n_column_width <= 0 || str_line.size() <= n_column_width)
     throw runtime_error("Invalid input to function FindLookupWordLeft()!");
 
   int n_boundary = n_column_width; 

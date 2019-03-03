@@ -20,6 +20,7 @@ class ColumnMatchManager
     void FindMergedWordLeft(std::string & str_line, std::string & str_key);
     void FindMergedWordRight(std::string & str_line, std::string & str_key);
   public:
+
     // Record match rate By different directions: LEFT and RIGHT
     MatchRate column_match_rate_[LIMIT];
 

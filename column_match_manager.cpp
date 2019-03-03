@@ -76,7 +76,7 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns
 }
 
 // Result stored to vec_key_column
-// If any key word's size is equal or less than 2, just record "0" into vec_key_column,
+// If any key word's size is less than 2, just record "0" into vec_key_column,
 // because dictionary lookup will be ignored for it. 
 // Example of vec_key_column content: {"0", "0", "iluse"}, {"good", "will", "wil"}
 
@@ -139,7 +139,7 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
     }
 
     // If length of word is equal to or less than 2, ignore dictionary lookup
-    if (str_key_temp.size() <= 2)
+    if (str_key_temp.size() < 2)
     {
       str_key_temp = "0";
     }
@@ -207,9 +207,14 @@ void ColumnMatchManager::CalculateMatchRate()
       }
     }
 
-    column_match_rate_[i].f_match_rate = (n_found + 1)/(n_notfound + 1);
-    column_match_rate_[i].f_notmatch_rate = n_notfound/vec_word_column.size();
+    float f_found = static_cast<float> (n_found);
+    float f_notfound = static_cast<float> (n_notfound);
+
+    column_match_rate_[i].f_match_rate = (f_found + 1)/ (f_notfound + 1);
+    column_match_rate_[i].f_notmatch_rate = (f_notfound)/ vec_word_column.size();
 
     vec_word_column.clear(); 
+    n_found = 0;
+    n_notfound = 0;
   }
 }

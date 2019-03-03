@@ -93,13 +93,19 @@ BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
   StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
 
-  // str_key_t is note empty
+  // str_key_t is not empty
   StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
   str_key_t.clear();
 
+  // Throw exceptions for invalid input
+
   BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, 0), exception); 
   BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, -1), exception); 
+
+  BOOST_CHECK_NO_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() - 1)); 
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size()), exception); 
+  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() + 1), exception); 
   
   string str_line;
   BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(str_line, str_key_t, 8), exception);   
@@ -161,7 +167,7 @@ BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
   StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
 
-  // str_key_t is note empty
+  // str_key_t is not empty
   StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
   str_key_t.clear();
@@ -272,6 +278,28 @@ BOOST_AUTO_TEST_CASE (constructor_test)
   ColumnMatchManager column_match_mgr3 = ColumnMatchManager(Fix_columns_wid2, Fix_columnX_wid2);
   BOOST_CHECK (Fix_columns_wid2 == column_match_mgr3.vec_text_columns_);
   BOOST_CHECK (Fix_columnX_wid2 == column_match_mgr3.vec_new_column_);
+
+  vector<vector<string>> columns_A = { {" ", "","GOOD"},{"OK ","", "YES"}};
+
+  vector<string> column_A =  {"abcd", "abcd","abcd"};
+  BOOST_CHECK_NO_THROW(ColumnMatchManager(columns_A, column_A));   
+
+  // When strings in the new column didn't have the same length.
+  vector<string> column_A1 =  {"abcd", "abcd","abc"};
+  BOOST_CHECK_THROW(ColumnMatchManager(columns_A, column_A1), exception);   
+ 
+  // When size of new column is not equal to the size of other columns
+  vector<string> column_A2 =  {"abcd", "abcd"};
+  BOOST_CHECK_THROW(ColumnMatchManager(columns_A, column_A2), exception);   
+
+  // When columns is empty
+  columns_A.clear();
+  BOOST_CHECK_THROW(ColumnMatchManager(columns_A, column_A), exception);   
+
+  // When the new column is empty
+  vector<vector<string>> columns_B = { {" ", "","GOOD"},{"OK ","", "YES"}};
+  vector<string> column_B;
+  BOOST_CHECK_THROW(ColumnMatchManager(columns_B, column_B), exception);   
 }
 
 BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
@@ -294,7 +322,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   column_match_mgr2.BuildLookupKey(vec_keys, RIGHT);
   BOOST_CHECK (vec_keys_right2 == vec_keys);
 
-  vector<string> vec_keys_left2 = {"0", "orrow", "ause"};
+  vector<string> vec_keys_left2 = {"is", "orrow", "ause"};
   vec_keys.clear();
   column_match_mgr2.BuildLookupKey(vec_keys, LEFT);
   BOOST_CHECK (vec_keys_left2 == vec_keys);
@@ -348,7 +376,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   vector<string> column_spec_s_d2 =  {"abcdefg", "abc  fg","'s abcd"};
   ColumnMatchManager column_match_mgr6(columns_special, column_spec_s_d2);
 
-  vector<string> vec_keys_right6 = {"0", "nowayfabc", "0"};
+  vector<string> vec_keys_right6 = {"0", "nowayfabc", "ok"};
   vec_keys.clear();
   column_match_mgr6.BuildLookupKey(vec_keys, RIGHT);
   BOOST_CHECK (vec_keys_right6 == vec_keys);
@@ -369,6 +397,81 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   vec_keys.clear();
   column_match_mgr8.BuildLookupKey(vec_keys, RIGHT);
   BOOST_CHECK (vec_keys_right8 == vec_keys);
+}
+
+BOOST_AUTO_TEST_CASE (CalculateMatchRate_test)
+{
+  SingletonDiction & dict = SingletonDiction::GetInstance();
+  if (dict.uset_dictionary_.empty())
+  {
+    dict.Init();
+    dict.BuildWordPiece();
+  }
+
+//  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnX_wid2);
+//  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnZ_wid2);
+  ColumnMatchManager column_match_mgr1(Fix_columns_wid3, Fix_columnZ_wid3);
+  column_match_mgr1.CalculateMatchRate();
+/*
+  cout <<"Left match" << column_match_mgr1.column_match_rate_[0].f_match_rate<< endl;
+  cout << "Left not match" <<column_match_mgr1.column_match_rate_[0].f_notmatch_rate<< endl;
+  cout <<"right match"<< column_match_mgr1.column_match_rate_[1].f_match_rate<< endl;
+  cout << "right not match" << column_match_mgr1.column_match_rate_[1].f_notmatch_rate<< endl;
+
+*/
+/*
+wid = 2
+X:
+Running 6 test cases...
+Left match0.5
+Left not match0.333333
+right match4
+right not match0
+
+Y:
+
+Running 6 test cases...
+Left match3
+Left not match0
+right match1.5
+right not match0.333333
+
+Z:
+
+Running 6 test cases...
+Left match0.5
+Left not match0.333333
+right match0.5
+right not match0.333333
+
+wid = 3
+
+X
+Running 6 test cases...
+Left match1
+Left not match0.333333
+right match3
+right not match0
+
+
+Y:
+
+Left match4
+Left not match0
+right match4
+right not match0
+
+
+Z:
+
+./test/UTunshredder --log_level=warning;echo
+Running 6 test cases...
+Left match1
+Left not match0
+right match0.5
+right not match0.333333
+
+*/
 }
 
 BOOST_AUTO_TEST_SUITE_END ()

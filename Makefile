@@ -10,8 +10,8 @@ TEST_DIR := ./test
 TARGET_SHRED := shredder
 TARGET_UNSHRED := unshredder
 
-#ALLTARGETS := $(TARGET_SHRED) $(TARGET_UNSHRED)
-ALLTARGETS := $(TARGET_SHRED)
+ALLTARGETS := $(TARGET_SHRED) $(TARGET_UNSHRED)
+#ALLTARGETS := $(TARGET_SHRED)
 
 TEST_TARGET_SHRED := $(TEST_DIR)/UT$(TARGET_SHRED)
 TEST_TARGET_UNSHRED := $(TEST_DIR)/UT$(TARGET_UNSHRED)
@@ -22,7 +22,7 @@ ALLSRCS := $(wildcard $(SRC_PATH)/*.cpp)
 ALLOBJS := $(ALLSRCS:.cpp=.o)
 
 OBJS_SHRED := common_classes.o singleton_random.o text_shredder.o shred_main.o
-OBJS_UNSHRED := common_classes.o singleton_random.o singleton_diction.o column_match_manager.o column_select_manager.o
+OBJS_UNSHRED := common_classes.o singleton_random.o singleton_diction.o column_match_manager.o column_select_manager.o text_unshredder.o unshred_main.o
 
 
 # UT test code
@@ -86,6 +86,9 @@ bld: $(ALLTARGETS)
 ut:  $(TEST_ALLTARGETS)
 
 $(TARGET_SHRED): $(OBJS_SHRED)
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
+
+$(TARGET_UNSHRED): $(OBJS_UNSHRED)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
 
 $(TEST_TARGET_SHRED): $(TEST_OBJS_SHRED) $(UT_TEST_OBJS_SHRED) 

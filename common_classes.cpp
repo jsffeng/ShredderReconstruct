@@ -14,7 +14,7 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
   f_infile.open(str_filename);
   if (!f_infile)
   {
-     throw runtime_error("file cannot open to read!");
+     throw runtime_error("File cannot open to read!");
   }
 
   if (!vec_str_text_lines.empty())
@@ -56,7 +56,7 @@ void TextFileOperation::ReadText(const string str_filename, set<string> &uset_st
   f_infile.open(str_filename);
   if (!f_infile)
   {
-    throw runtime_error("file cannot open to read!");
+    throw runtime_error("File cannot open to read!");
   }
 
   if (!uset_str_text_lines.empty())
@@ -79,7 +79,7 @@ void TextFileOperation::WriteText(const string str_filename, const vector<string
 
   if (!f_outfile)
   {
-     throw runtime_error("file cannot open to write!");
+     throw runtime_error("File cannot open to write!");
   }
 
   for (int i = 0; i < vec_str_text_lines.size(); ++i)

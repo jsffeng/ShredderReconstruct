@@ -1,4 +1,4 @@
-#include<random>
+#include <random>
 #include "singleton_random.h"
 
 using namespace std;

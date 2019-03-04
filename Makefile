@@ -109,7 +109,6 @@ $(TEST_TARGET_UNSHRED): $(TEST_OBJS_UNSHRED) $(UT_TEST_OBJS_UNSHRED)
 run_ut: ut
 	$(TEST_TARGET_SHRED) --run_test=SingletonRandom_test --log_level=warning;echo
 	$(TEST_TARGET_SHRED) --log_level=warning;echo
-	$(TEST_TARGET_UNSHRED) --run_test=SingletonDiction_test --log_level=warning;echo
 	$(TEST_TARGET_UNSHRED) --log_level=warning;echo
 collect_cov:
 	lcov --rc lcov_branch_coverage=1 -d . -b . -c -o $(COV_FILE)

@@ -1,4 +1,4 @@
-#include<fstream>
+#include <fstream>
 #include "common_classes.h"
 #include "singleton_diction.h"
 

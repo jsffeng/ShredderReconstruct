@@ -1,7 +1,7 @@
 #ifndef __SINGLETON_RANDOM__
 #define __SINGLETON_RANDOM__
 
-#include<memory>
+#include <memory>
 
 // A Singleton class to generate random number. Here is the reason for only 1 instance allowed for 
 // this class:

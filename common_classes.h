@@ -1,14 +1,9 @@
 #ifndef __COMMON_CLASS__
 #define __COMMON_CLASS__
 
-#include<vector>
-#include<string>
-
-#ifdef UTFLAG 
-#include<set>
-#else
-#include<unordered_set>
-#endif
+#include <vector>
+#include <string>
+#include <set>
 
 class TextFileOperation
 {
@@ -18,11 +13,7 @@ class TextFileOperation
     static void ReadText(const std::string str_filename, std::vector<std::string> &vec_str_text_lines);
 
     // Common function for reading text lines from an input file, usually used to store dictionary
-#ifdef UTFLAG 
     static void ReadText(const std::string str_filename, std::set<std::string> &uset_str_text_lines);
-#else
-    static void ReadText(const std::string str_filename, std::unordered_set<std::string> &uset_str_text_lines);
-#endif
 
     // Common function for writing text strips to an output file
     // Common function for writing text strips to an output file

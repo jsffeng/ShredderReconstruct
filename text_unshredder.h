@@ -1,8 +1,8 @@
 #ifndef __UNSHREDDER__
 #define __UNSHREDDER__
 
-#include<vector>
-#include<string>
+#include <vector>
+#include <string>
 #include "column_select_manager.h"
 
 // To construct text strips to a text page
@@ -44,5 +44,11 @@ class TextUnshredder
     // Generate final output file with vec_merged_text_
     void CreateOutput(); 
 };
+
+#ifdef UTFLAG
+  // To change main() to UTmain() so as to be tested by Unit Testing
+  extern int UTmain(const std::string str_infile, const std::string str_outfile);
+#endif
+
 
 #endif

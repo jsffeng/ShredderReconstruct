@@ -256,7 +256,7 @@ BOOST_FIXTURE_TEST_CASE(DoTextShredder_test, Fixture_source_data)
   shred0.DoTextShredder();
 
   // Verify vec_str_shredded_text_  
-  BOOST_CHECK(shred0.vec_str_shredded_text_ == Fix_shredded_text_wid2);
+  BOOST_CHECK(shred0.vec_str_shredded_text_ == Fix_shredded_text_wid_2);
 
   // Initialize with n_strip_width_ = 3
   TextShredder shred1(3,"x","y");
@@ -266,7 +266,7 @@ BOOST_FIXTURE_TEST_CASE(DoTextShredder_test, Fixture_source_data)
   shred1.DoTextShredder();
 
   //verify vec_str_shredded_text_  
-  BOOST_CHECK(shred1.vec_str_shredded_text_ == Fix_shredded_text_wid3);
+  BOOST_CHECK(shred1.vec_str_shredded_text_ == Fix_shredded_text_wid_3);
 }
 
 BOOST_FIXTURE_TEST_CASE(GetInput_test,Fixture_file_vec)
@@ -295,7 +295,7 @@ BOOST_FIXTURE_TEST_CASE(CreateOutput_test,Fixture_data_file)
   BOOST_CHECK_THROW(shred1.CreateOutput(),exception);
   
   // Populate vec_str_shredded_text_
-  shred1.vec_str_shredded_text_.assign(Fix_shredded_text_wid2.begin(),Fix_shredded_text_wid2.end());
+  shred1.vec_str_shredded_text_.assign(Fix_shredded_text_wid_2.begin(),Fix_shredded_text_wid_2.end());
   shred1.CreateOutput();
 
   // When cmp return non-zero value, Boost will detect it and quit with fatal error.
@@ -304,7 +304,7 @@ BOOST_FIXTURE_TEST_CASE(CreateOutput_test,Fixture_data_file)
   TextShredder shred2(3,"xy.ascii","test_output_t3.ascii");
 
   // Populate vec_str_shredded_text_
-  shred2.vec_str_shredded_text_.assign(Fix_shredded_text_wid3.begin(), Fix_shredded_text_wid3.end());
+  shred2.vec_str_shredded_text_.assign(Fix_shredded_text_wid_3.begin(), Fix_shredded_text_wid_3.end());
   shred2.CreateOutput();
 
   // When cmp return non-zero value, Boost will detect it and quit with fatal error.

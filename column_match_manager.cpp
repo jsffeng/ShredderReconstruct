@@ -138,22 +138,27 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
       } 
     }
 
-    // If length of word is equal to or less than 2, ignore dictionary lookup
+    // If length of word is less than 2, ignore dictionary lookup
     if (str_key_temp.size() < 2)
     {
       str_key_temp = "0";
     }
     else
     {
+      // If any charactor is a number or non alphabetic such as '\'','\\', ignore dictionary lookup 
       for (int i = 0; i < str_key_temp.size(); ++i)
       {
-        // If any charactor is a number or non alphabetic such as '\'','\\', ignore dictionary lookup 
-        // If any charactor is upper case letter, ignore dictionary lookup
-        if (!isalpha(str_key_temp[i]) || isupper(str_key_temp[i]))
+        if (!isalpha(str_key_temp[i]))
         {
           str_key_temp = "0";
           break;
         }
+      }
+
+      // Converted to lower case if any charactor is upper case letter
+      if ("0" != str_key_temp)
+      {
+        boost::algorithm::to_lower(str_key_temp);
       }
     }
 
@@ -166,14 +171,15 @@ void ColumnMatchManager::CalculateMatchRate()
 {
   vector<string> vec_word_column;
 
-  int n_found = 0;
-  int n_notfound = 0;
   bool b_flag_lookup, b_flag_suffix;
 
   SingletonDiction & singleton_dict = SingletonDiction::GetInstance();
 
   for(TwoWayDirections i = LEFT; i < LIMIT; i = (TwoWayDirections)(i+1))
   {
+    int n_found = 0;
+    int n_notfound = 0;
+
     BuildLookupKey(vec_word_column, i);
    
     for (int k = 0; k < vec_word_column.size(); ++k) 
@@ -214,7 +220,5 @@ void ColumnMatchManager::CalculateMatchRate()
     column_match_rate_[i].f_notmatch_rate = (f_notfound)/ vec_word_column.size();
 
     vec_word_column.clear(); 
-    n_found = 0;
-    n_notfound = 0;
   }
 }

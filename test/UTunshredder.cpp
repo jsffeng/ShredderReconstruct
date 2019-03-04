@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
                                    "" \
                                 };
 
-  vector<string> vec_str_key_wid2 = {"a1a2a3a4a5", \
+  vector<string> vec_str_key_wid_2 = {"a1a2a3a4a5", \
                                    "", \
                                    "", \
                                    "", \
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
   width = 2;
   for (int i = 0; i < vec_str_line.size(); ++i)
     StringWordOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
-  BOOST_CHECK(vec_str_key_t == vec_str_key_wid2);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid_2);
 
   width = 8;
   for (int i = 0; i < vec_str_line.size(); ++i)
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
                                    "" \
                                 };
 
-  vector<string> vec_str_key_wid2 = {"a5a6a7a8a9", \
+  vector<string> vec_str_key_wid_2 = {"a5a6a7a8a9", \
                                    "", \
                                    "", \
                                    "", \
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
   width = 2;
   for (int i = 0; i < vec_str_line.size(); ++i)
     StringWordOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
-  BOOST_CHECK(vec_str_key_t == vec_str_key_wid2);
+  BOOST_CHECK(vec_str_key_t == vec_str_key_wid_2);
 
   width = 8;
   for (int i = 0; i < vec_str_line.size(); ++i)
@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
 BOOST_AUTO_TEST_SUITE_END ()
 
 // Class SingletonDiction
-BOOST_AUTO_TEST_SUITE (SingletonDiction_test, * boost::unit_test::disabled())
+BOOST_AUTO_TEST_SUITE (SingletonDiction_test)
 
 BOOST_AUTO_TEST_CASE (GetInstance_test)
 {
@@ -269,15 +269,15 @@ BOOST_FIXTURE_TEST_SUITE(ColumnMatchManager_test, Fixture_columns);
 BOOST_AUTO_TEST_CASE (constructor_test)
 {
   ColumnMatchManager column_match_mgr0;
-  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnX_wid2);
-  BOOST_CHECK (Fix_columns_wid2 == column_match_mgr1.vec_text_columns_);
-  BOOST_CHECK (Fix_columnX_wid2 == column_match_mgr1.vec_new_column_);
+  ColumnMatchManager column_match_mgr1(Fix_columns_wid_2, Fix_columnX_wid_2);
+  BOOST_CHECK (Fix_columns_wid_2 == column_match_mgr1.vec_text_columns_);
+  BOOST_CHECK (Fix_columnX_wid_2 == column_match_mgr1.vec_new_column_);
 
   ColumnMatchManager column_match_mgr2 = column_match_mgr1;
 
-  ColumnMatchManager column_match_mgr3 = ColumnMatchManager(Fix_columns_wid2, Fix_columnX_wid2);
-  BOOST_CHECK (Fix_columns_wid2 == column_match_mgr3.vec_text_columns_);
-  BOOST_CHECK (Fix_columnX_wid2 == column_match_mgr3.vec_new_column_);
+  ColumnMatchManager column_match_mgr3 = ColumnMatchManager(Fix_columns_wid_2, Fix_columnX_wid_2);
+  BOOST_CHECK (Fix_columns_wid_2 == column_match_mgr3.vec_text_columns_);
+  BOOST_CHECK (Fix_columnX_wid_2 == column_match_mgr3.vec_new_column_);
 
   vector<vector<string>> columns_A = { {" ", "","GOOD"},{"OK ","", "YES"}};
 
@@ -305,7 +305,7 @@ BOOST_AUTO_TEST_CASE (constructor_test)
 BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
 {
   vector<string> vec_keys;
-  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnX_wid2);
+  ColumnMatchManager column_match_mgr1(Fix_columns_wid_2, Fix_columnX_wid_2);
 
   vector<string> vec_keys_right1 = {"good", "will", "wil"};
   column_match_mgr1.BuildLookupKey(vec_keys, RIGHT);
@@ -315,7 +315,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   column_match_mgr1.BuildLookupKey(vec_keys, LEFT);
   BOOST_CHECK (vec_keys_left1 == vec_keys);
 
-  ColumnMatchManager column_match_mgr2(Fix_columns_wid3, Fix_columnY_wid3);
+  ColumnMatchManager column_match_mgr2(Fix_columns_wid_3, Fix_columnY_wid_3);
 
   vector<string> vec_keys_right2 = {"stas", "borr", "beaus"};
   vec_keys.clear();
@@ -381,11 +381,11 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   column_match_mgr6.BuildLookupKey(vec_keys, RIGHT);
   BOOST_CHECK (vec_keys_right6 == vec_keys);
 
-  // Verify the handling on capital letters or non alphabetic charactors
+  // Verify the handling on capital letters and non alphabetic charactors
   vector<string> column_spec_cap =  {"abcdefg", "abC,efg","abc'h g"};
   ColumnMatchManager column_match_mgr7(columns_special, column_spec_cap);
 
-  vector<string> vec_keys_right7 = {"0", "0", "0"};
+  vector<string> vec_keys_right7 = {"0", "nowayfabc", "0"};
   vec_keys.clear();
   column_match_mgr7.BuildLookupKey(vec_keys, RIGHT);
   BOOST_CHECK (vec_keys_right7 == vec_keys);
@@ -399,7 +399,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   BOOST_CHECK (vec_keys_right8 == vec_keys);
 }
 
-BOOST_AUTO_TEST_CASE (CalculateMatchRate_test)
+BOOST_AUTO_TEST_CASE (CalculateMatchRate_test_tmp)
 {
   SingletonDiction & dict = SingletonDiction::GetInstance();
   if (dict.uset_dictionary_.empty())
@@ -408,9 +408,9 @@ BOOST_AUTO_TEST_CASE (CalculateMatchRate_test)
     dict.BuildWordPiece();
   }
 
-//  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnX_wid2);
-//  ColumnMatchManager column_match_mgr1(Fix_columns_wid2, Fix_columnZ_wid2);
-  ColumnMatchManager column_match_mgr1(Fix_columns_wid3, Fix_columnZ_wid3);
+//  ColumnMatchManager column_match_mgr1(Fix_columns_wid_2, Fix_columnX_wid_2);
+//  ColumnMatchManager column_match_mgr1(Fix_columns_wid_2, Fix_columnZ_wid_2);
+  ColumnMatchManager column_match_mgr1(Fix_columns_wid_3, Fix_columnZ_wid_3);
   column_match_mgr1.CalculateMatchRate();
 /*
   cout <<"Left match" << column_match_mgr1.column_match_rate_[0].f_match_rate<< endl;
@@ -476,20 +476,195 @@ right not match0.333333
 
 BOOST_AUTO_TEST_SUITE_END ()
 
-/*
-// Class  xxxx
-BOOST_AUTO_TEST_SUITE ();
+// Class  ColumnSelectManager
+BOOST_FIXTURE_TEST_SUITE (ColumnSelectManager_test, Fixture_columns);
 
-BOOST_AUTO_TEST_CASE ()
+BOOST_AUTO_TEST_CASE (constructor_test_tmp)
 {
+  ColumnSelectManager column_sel_mgr1;
+  BOOST_CHECK(-1 == column_sel_mgr1.best_match_column_.n_number_in_pool);
+  BOOST_CHECK(LEFT == column_sel_mgr1.best_match_column_.enum_best_match_direct);
+  BOOST_CHECK(false == column_sel_mgr1.b_failure_flag_);
+}
+
+BOOST_AUTO_TEST_CASE (Init_test_tmp)
+{
+  ColumnSelectManager column_sel_mgr1;
+  column_sel_mgr1.Init(Fix_columns_wid_3);
+ 
+/*
+  PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
+  PrintVectorString (column_sel_mgr1.vec_column_pool_, "vec_column_pool_");
+
+  ColumnSelectManager column_sel_mgr2;
+  column_sel_mgr2.Init(Fix_columns_wid_3);
+
+  PrintVectorString (column_sel_mgr2.vec_selected_columns_, "vec_selected_columns_");
+  PrintVectorString (column_sel_mgr2.vec_column_pool_, "vec_column_pool_");
+
+  ColumnSelectManager column_sel_mgr3;
+  column_sel_mgr3.Init(Fix_columns_wid_3);
+
+  PrintVectorString (column_sel_mgr3.vec_selected_columns_, "vec_selected_columns_");
+  PrintVectorString (column_sel_mgr3.vec_column_pool_, "vec_column_pool_");
+*/
 
 }
 
-BOOST_AUTO_TEST_CASE ()
+BOOST_AUTO_TEST_CASE (FindBestMatch_test_tmp)
 {
+
+  ColumnSelectManager column_sel_mgr1;
+  column_sel_mgr1.Init(Fix_columns_wid_3);
+
+ /* 
+  PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
+  PrintVectorString (column_sel_mgr1.vec_column_pool_, "vec_column_pool_");
+ */
+  column_sel_mgr1.FindBestMatch();
+
+  /*
+  cout << "n_number_in_pool" << column_sel_mgr1.best_match_column_.n_number_in_pool << endl;
+  cout << "enum_best_match_direct" << column_sel_mgr1.best_match_column_.enum_best_match_direct << endl;
+  cout << "b_failure_flag_" << column_sel_mgr1.b_failure_flag_ << endl;
+  */
+}
+
+BOOST_AUTO_TEST_CASE (AddToSelectedColumns_test_tmp)
+{
+  
+  ColumnSelectManager column_sel_mgr1;
+  column_sel_mgr1.Init(Fix_columns_wid_3);
+
+  // If BestMatchColumn.n_number_in_pool is -1 (default value), throw exception
+  BOOST_CHECK_THROW(column_sel_mgr1.AddToSelectedColumns(), exception);   
+
+  column_sel_mgr1.best_match_column_.n_number_in_pool = 2;
+  column_sel_mgr1.best_match_column_.enum_best_match_direct = LEFT;
+
+  column_sel_mgr1.AddToSelectedColumns();
+
+/*
+  PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
+*/
+
+}
+
+BOOST_AUTO_TEST_CASE (DeleteFromColumnPool_test_tmp)
+{
+  ColumnSelectManager column_sel_mgr1;
+  column_sel_mgr1.Init(Fix_columns_wid_3);
+
+  // If BestMatchColumn.n_number_in_pool is -1 (default value), throw exception
+  BOOST_CHECK_THROW(column_sel_mgr1.DeleteFromColumnPool(), exception);   
+
+  column_sel_mgr1.best_match_column_.n_number_in_pool = 2;
+  column_sel_mgr1.best_match_column_.enum_best_match_direct = LEFT;
+
+  column_sel_mgr1.DeleteFromColumnPool();
+
+/*
+  cout << "n_number_in_pool" << column_sel_mgr1.best_match_column_.n_number_in_pool << endl;
+  cout << "enum_best_match_direct" << column_sel_mgr1.best_match_column_.enum_best_match_direct << endl;
+
+  PrintVectorString (column_sel_mgr1.vec_column_pool_, "vec_column_pool_");
+
+*/
+}
+
+BOOST_AUTO_TEST_CASE (RebuildColumnsByBestMatch_test_tmp)
+{
+
+  ColumnSelectManager column_sel_mgr1;
+  column_sel_mgr1.Init(Fix_columns_wid_3);
+
+  column_sel_mgr1.RebuildColumnsByBestMatch();
+
+/*
+  PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
+  PrintVectorString (column_sel_mgr1.vec_column_pool_, "vec_column_pool_");
+*/
+
+  column_sel_mgr1.RebuildColumnsByBestMatch();
+/*
+  PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
+  PrintVectorString (column_sel_mgr1.vec_column_pool_, "vec_column_pool_");
+
+  cout << "n_number_in_pool" << column_sel_mgr1.best_match_column_.n_number_in_pool << endl;
+  cout << "enum_best_match_direct" << column_sel_mgr1.best_match_column_.enum_best_match_direct << endl;
+  cout << "b_failure_flag_" << column_sel_mgr1.b_failure_flag_ << endl;
+*/
+}
+
+BOOST_AUTO_TEST_SUITE_END ()
+
+// Class TextUnshredder
+BOOST_FIXTURE_TEST_SUITE (TextUnshredder_test, Fixture_columns);
+
+BOOST_AUTO_TEST_CASE (constructor_test)
+{
+
+  TextUnshredder unshred1("input.ascii","test_output.ascii");
+
+  BOOST_CHECK(unshred1.str_in_filename_ == "input.ascii");
+  BOOST_CHECK(unshred1.str_out_filename_ == "test_output.ascii");
+  BOOST_CHECK(false == unshred1.b_premature_flag_);
+  BOOST_CHECK(0 == unshred1.n_premature_column_count_);
+
+}
+
+BOOST_AUTO_TEST_CASE (GetInput_test_tmp)
+{
+  TextUnshredder unshred1("shredded_text.ascii","test_output.ascii");
+  unshred1.GetInput();
+/*
+  PrintVectorString (unshred1.vec_text_columns_, "vec_text_columns_");
+*/
+}
+
+
+BOOST_AUTO_TEST_CASE (CreateOutput_test_tmp)
+{
+  TextUnshredder unshred1("shredded_text.ascii","test_output.ascii");
+  unshred1.CreateOutput();
+
+  system("rm -rf test_output*.ascii");
+}
+
+
+BOOST_AUTO_TEST_CASE (DoTextUnshredder_test_tmp)
+{
+  TextUnshredder unshred1("shredded_text.ascii","output.ascii");
+  unshred1.GetInput();
+  
+  SingletonDiction & dict = SingletonDiction::GetInstance();
+  if (dict.uset_dictionary_.empty())
+  {
+    dict.Init();
+    dict.BuildWordPiece();
+  }
+
+ unshred1.DoTextUnshredder();
+
+/*
+ PrintVectorString (unshred1.vec_merged_text_, "vec_merged_text_");
+ cout <<"failure_flag" << unshred1.b_premature_flag_<< endl;
+*/
 
 }
 
 BOOST_AUTO_TEST_SUITE_END ()
 
-*/
+// Mainly focus on  parameter interface test for main() function.
+// Funcationality test will be fully covered by system level test.
+BOOST_AUTO_TEST_SUITE (UTmain_test);
+
+BOOST_AUTO_TEST_CASE (UTmain_test_tmp)
+{
+  BOOST_CHECK(UTmain("shredded_text.ascii", "test_output.ascii") == 0);
+  BOOST_CHECK(UTmain("test_input.ascii", "test_output1.ascii") == 1);
+
+  system("rm -rf test_output*.ascii");
+}
+
+BOOST_AUTO_TEST_SUITE_END ()

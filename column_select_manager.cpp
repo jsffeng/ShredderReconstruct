@@ -4,7 +4,8 @@
 
 using namespace std;
 
-const float kToleranceRate = 0.15;
+const float kToleranceRate = 0.25;
+const float kAcceptableMatchRate = 1;
 
 // Class ColumnSelectManager constructor
 ColumnSelectManager::ColumnSelectManager()
@@ -28,11 +29,15 @@ void ColumnSelectManager::Init(const vector<vector<string>> & columns)
 
     if (n_column_size < 2)
       throw runtime_error("Invalid input to function ColumnSelectManager::Init()");
-      
+   
     SingletonRandom::s_max_val_ = n_column_size - 1;
     SingletonRandom & random_instance = SingletonRandom::GetInstance();
 
+#ifndef UTFLAG
     unsigned int n_temp = random_instance.GenerateRandom();
+#else
+    unsigned int n_temp = 0;
+#endif
 
     vec_selected_columns_.emplace_back(columns[n_temp]);
 
@@ -43,8 +48,8 @@ void ColumnSelectManager::Init(const vector<vector<string>> & columns)
 // Class ColumnSelectManager
 void ColumnSelectManager::AddToSelectedColumns()
 {     
-  if (best_match_column_.n_number_in_pool == -1) 
-    throw runtime_error("Function AddToSelectedColumns() should not be called when best_match_column_.n_number_in_pool is equal to -1");
+  if (best_match_column_.n_number_in_pool < 0 || best_match_column_.n_number_in_pool >= static_cast<int>(vec_column_pool_.size())) 
+    throw runtime_error("Abnormal Error");
 
   if (best_match_column_.enum_best_match_direct == LEFT)
   {
@@ -62,9 +67,13 @@ void ColumnSelectManager::DeleteFromColumnPool()
   if (best_match_column_.n_number_in_pool == -1) 
     throw runtime_error("Function DeleteFromColumnPool() should not be called when best_match_column_.n_number_in_pool is -1");
 
+  if (best_match_column_.n_number_in_pool < 0 || best_match_column_.n_number_in_pool >= vec_column_pool_.size()) 
+    throw runtime_error("Abnormal Error");
+
   vec_column_pool_.erase(vec_column_pool_.begin() + best_match_column_.n_number_in_pool);
+
   // Reset the following is -1 after removing it from vec_column_pool_
-  best_match_column_.n_number_in_pool == -1;
+  best_match_column_.n_number_in_pool = -1;
 }
 
 // Class ColumnSelectManager
@@ -80,13 +89,14 @@ void ColumnSelectManager::FindBestMatch()
    TwoWayDirections enum_direct_t;
 
    int n_number = -1;
-   float f_best_match_rate = 0;
+   float f_best_match_rate = kAcceptableMatchRate;
 
    auto iter = vec_column_pool_.begin();
+
    while (iter != vec_column_pool_.end() )
-   {
+   {   
        ColumnMatchManager * p_column_match_manager = new ColumnMatchManager(vec_selected_columns_, *iter); 
-       
+ 
        p_column_match_manager->CalculateMatchRate();
        for(TwoWayDirections j = LEFT ;j < LIMIT; j = (TwoWayDirections)(j + 1))
        {

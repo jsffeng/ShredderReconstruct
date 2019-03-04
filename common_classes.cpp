@@ -1,11 +1,5 @@
-#include<fstream>
-
-#ifdef UTFLAG
-#include<set>
-#else
-#include<unordered_set>
-#endif
-
+#include <fstream>
+#include <set>
 #include "common_classes.h"
 #include "singleton_random.h"
 
@@ -54,11 +48,7 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
 }
 
 // Common function for reading text lines from an input file, usually used to store dictionary
-#ifdef UTFLAG
 void TextFileOperation::ReadText(const string str_filename, set<string> &uset_str_text_lines)
-#else
-void TextFileOperation::ReadText(const string str_filename, unordered_set<string> &uset_str_text_lines)
-#endif
 {
   string str_line;
   ifstream f_infile;

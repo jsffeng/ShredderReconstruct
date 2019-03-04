@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info - ShredderReconstruct/singleton_random.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">ShredderReconstruct</a> - singleton_random.cpp<span style="font-size: 80%;"> (source / <a href="singleton_random.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-03-05 01:55:31</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">26</td>
+            <td class="headerCovTableEntryLo">57.7 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : #include &lt;random&gt;</a>
+<span class="lineNum">       2 </span>                :            : #include &quot;singleton_random.h&quot;
+<span class="lineNum">       3 </span>                :            : 
+<span class="lineNum">       4 </span>                :            : using namespace std;
+<span class="lineNum">       5 </span>                :            : 
+<span class="lineNum">       6 </span>                :            : #ifdef UTFLAG
+<span class="lineNum">       7 </span>                :            : int SingletonRandom::s_instance_numbers_ = 0;
+<span class="lineNum">       8 </span>                :            : #endif
+<span class="lineNum">       9 </span>                :            : unsigned int SingletonRandom::s_max_val_ = 0;
+<a name="10"><span class="lineNum">      10 </span>                :<span class="lineCov">          3 : std::unique_ptr&lt;SingletonRandom&gt; SingletonRandom::p_instance_ = nullptr;</span></a>
+<span class="lineNum">      11 </span>                :            : 
+<span class="lineNum">      12 </span>                :<span class="lineCov">         12 : SingletonRandom&amp; SingletonRandom::GetInstance()</span>
+<span class="lineNum">      13 </span>                :            : {
+<span class="lineNum">      14 </span>                :            :   // Following will be used if multi-threads
+<span class="lineNum">      15 </span>                :            :   // static once_flag oc_flag;
+<span class="lineNum">      16 </span>                :            :   
+<span class="lineNum">      17 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 11 times"> + </span>]:<span class="lineCov">         12 :   if (s_max_val_ == 0)</span>
+<span class="lineNum">      18 </span>                :            :   {
+<span class="lineNum">      19 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;Need to set s_max_val_ value before using SingletonRandom!&quot;);        </span>
+<span class="lineNum">      20 </span>                :            :   }
+<span class="lineNum">      21 </span>                :            : 
+<span class="lineNum">      22 </span>                :            :   // Following will be used if multi-threads
+<span class="lineNum">      23 </span>                :            :   // call_once(oc_flag, [&amp;](){ p_instance_.reset(new SingletonRandom);});
+<span class="lineNum">      24 </span>                :            : 
+<span class="lineNum">      25 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchCov" title="Branch 2 was taken 8 times"> + </span>]:<span class="lineCov">         11 :   if (p_instance_ == nullptr)</span>
+<span class="lineNum">      26 </span>                :            :   {
+<span class="lineNum">      27 </span>                :<span class="lineCov">          3 :      p_instance_.reset(new SingletonRandom);</span>
+<span class="lineNum">      28 </span>                :            : #ifdef UTFLAG
+<span class="lineNum">      29 </span>                :<span class="lineCov">          3 :      s_instance_numbers_++;  </span>
+<span class="lineNum">      30 </span>                :            : #endif 
+<span class="lineNum">      31 </span>                :            :   }
+<span class="lineNum">      32 </span>                :            : 
+<span class="lineNum">      33 </span>                :<span class="lineCov">         11 :   return *p_instance_;</span>
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            : }
+<a name="36"><span class="lineNum">      36 </span>                :            : </a>
+<span class="lineNum">      37 </span>                :            : // Generate random numbers
+<span class="lineNum">      38 </span>                :<span class="lineCov">         60 : unsigned int SingletonRandom::GenerateRandom()</span>
+<span class="lineNum">      39 </span>                :            : {
+<span class="lineNum">      40 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 58 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         60 :   static default_random_engine s_engine(time(0));</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 7 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
+<span class="lineNum">      41 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 58 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         60 :   static uniform_int_distribution&lt;unsigned&gt; s_uniform(0, s_max_val_);</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 6 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>][<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>]
+<a name="42"><span class="lineNum">      42 </span>                :            : </a>
+<span class="lineNum">      43 </span>                :<span class="lineCov">         60 :   return s_uniform(s_engine);</span>
+<span class="lineNum">      44 </span>[<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         12 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

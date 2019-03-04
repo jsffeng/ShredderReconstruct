@@ -172,8 +172,8 @@ struct Fixture_file_set
 struct Fixture_source_data
 {
   vector<string> Fix_lines;
-  vector<vector<string>> Fix_shredded_text_wid2;
-  vector<vector<string>> Fix_shredded_text_wid3;
+  vector<vector<string>> Fix_shredded_text_wid_2;
+  vector<vector<string>> Fix_shredded_text_wid_3;
 
 
   Fixture_source_data() 
@@ -182,17 +182,17 @@ struct Fixture_source_data
     Fix_lines.push_back("Tomorrow will be bett  ");
     Fix_lines.push_back("because it will be succ");
 
-    vector<vector<string>> myshredded_wid2 = {{"Th","is"," i","s ","a ","go","od"," s","ta","rt","  ","  "}, \
+    vector<vector<string>> myshredded_wid_2 = {{"Th","is"," i","s ","a ","go","od"," s","ta","rt","  ","  "}, \
                                           {"To","mo","rr","ow"," w","il","l ","be"," b","et","t ","  "}, \
                                           {"be","ca","us","e ","it"," w","il","l ","be"," s","uc","c "}};
 
 
-    vector<vector<string>> myshredded_wid3 = {{"Thi","s i","s a"," go","od ","sta","rt ","   "}, \
+    vector<vector<string>> myshredded_wid_3 = {{"Thi","s i","s a"," go","od ","sta","rt ","   "}, \
                                           {"Tom","orr","ow ","wil","l b","e b","ett","   "}, \
                                           {"bec","aus","e i","t w","ill"," be"," su","cc "}};
 
-    Fix_shredded_text_wid2.assign(myshredded_wid2.begin(), myshredded_wid2.end());
-    Fix_shredded_text_wid3.assign(myshredded_wid3.begin(), myshredded_wid3.end());
+    Fix_shredded_text_wid_2.assign(myshredded_wid_2.begin(), myshredded_wid_2.end());
+    Fix_shredded_text_wid_3.assign(myshredded_wid_3.begin(), myshredded_wid_3.end());
 
   }
 
@@ -201,21 +201,21 @@ struct Fixture_source_data
 
 struct Fixture_data_file :  Fixture_source_data
 {
-  vector<string> format_lines_wid2;
-  vector<string> format_lines_wid3;
+  vector<string> format_lines_wid_2;
+  vector<string> format_lines_wid_3;
 
   Fixture_data_file()
   {
-    format_lines_wid2.push_back("|Th|is| i|s |a |go|od| s|ta|rt|  |  |");
-    format_lines_wid2.push_back("|To|mo|rr|ow| w|il|l |be| b|et|t |  |");
-    format_lines_wid2.push_back("|be|ca|us|e |it| w|il|l |be| s|uc|c |");
+    format_lines_wid_2.push_back("|Th|is| i|s |a |go|od| s|ta|rt|  |  |");
+    format_lines_wid_2.push_back("|To|mo|rr|ow| w|il|l |be| b|et|t |  |");
+    format_lines_wid_2.push_back("|be|ca|us|e |it| w|il|l |be| s|uc|c |");
 
-    format_lines_wid3.push_back("|Thi|s i|s a| go|od |sta|rt |   |");
-    format_lines_wid3.push_back("|Tom|orr|ow |wil|l b|e b|ett|   |");
-    format_lines_wid3.push_back("|bec|aus|e i|t w|ill| be| su|cc |");
+    format_lines_wid_3.push_back("|Thi|s i|s a| go|od |sta|rt |   |");
+    format_lines_wid_3.push_back("|Tom|orr|ow |wil|l b|e b|ett|   |");
+    format_lines_wid_3.push_back("|bec|aus|e i|t w|ill| be| su|cc |");
 
-    file_gen::create_file("test_output2.ascii",format_lines_wid2);
-    file_gen::create_file("test_output3.ascii",format_lines_wid3);
+    file_gen::create_file("test_output2.ascii",format_lines_wid_2);
+    file_gen::create_file("test_output3.ascii",format_lines_wid_3);
 
   }
 
@@ -240,10 +240,10 @@ struct Fixture_columns :  Fixture_source_data
 //         |To|mo|rr|ow| w|il|l |be| b|et|t |  |
 //         |be|ca|us|e |it| w|il|l |be| s|uc|c |
 
-  vector<vector<string>> Fix_columns_wid2;  // Column 2 - 5
-  vector<string> Fix_columnX_wid2;  // Column 6
-  vector<string> Fix_columnY_wid2;  // Column 1
-  vector<string> Fix_columnZ_wid2;  // Column 7
+  vector<vector<string>> Fix_columns_wid_2;  // Column 2 - 5
+  vector<string> Fix_columnX_wid_2;  // Column 6
+  vector<string> Fix_columnY_wid_2;  // Column 1
+  vector<string> Fix_columnZ_wid_2;  // Column 7
 
 // For strip width is 3
 // Columns: 0   1   2   3   4   5   6   7
@@ -251,49 +251,67 @@ struct Fixture_columns :  Fixture_source_data
 //         |Tom|orr|ow |wil|l b|e b|ett|   |
 //         |bec|aus|e i|t w|ill| be| su|cc |
 
-  vector<vector<string>> Fix_columns_wid3; // Column 2 - 5
-  vector<string> Fix_columnX_wid3; // Column 6
-  vector<string> Fix_columnY_wid3; // Column 1
-  vector<string> Fix_columnZ_wid3; // Column 7
+  vector<vector<string>> Fix_columns_wid_3; // Column 2 - 5
+  vector<string> Fix_columnX_wid_3; // Column 6
+  vector<string> Fix_columnY_wid_3; // Column 1
+  vector<string> Fix_columnZ_wid_3; // Column 7
 
   Fixture_columns()
   {
     vector<vector<string>> vec_str_temp;
     // For strip width is 2
-    TextStripOperation::Transpose(Fix_shredded_text_wid2, vec_str_temp);
+    TextStripOperation::Transpose(Fix_shredded_text_wid_2, vec_str_temp);
    
     auto iter_start = vec_str_temp.begin() + 2; 
     auto iter_end = vec_str_temp.begin() + 6; 
-    Fix_columns_wid2.assign(iter_start, iter_end); 
+    Fix_columns_wid_2.assign(iter_start, iter_end); 
   
-    Fix_columnX_wid2.assign(iter_end->begin(),iter_end->end()); 
+    Fix_columnX_wid_2.assign(iter_end->begin(),iter_end->end()); 
   
     --iter_start;
-    Fix_columnY_wid2.assign(iter_start->begin(),iter_start->end()); 
+    Fix_columnY_wid_2.assign(iter_start->begin(),iter_start->end()); 
   
     ++iter_end;
-    Fix_columnZ_wid2.assign(iter_end->begin(),iter_end->end()); 
+    Fix_columnZ_wid_2.assign(iter_end->begin(),iter_end->end()); 
 
     // For strip width is 3
 
     vec_str_temp.clear();
-    TextStripOperation::Transpose(Fix_shredded_text_wid3, vec_str_temp);
+    TextStripOperation::Transpose(Fix_shredded_text_wid_3, vec_str_temp);
    
     auto iter1_start = vec_str_temp.begin() + 2; 
     auto iter1_end = vec_str_temp.begin() + 6; 
-    Fix_columns_wid3.assign(iter1_start, iter1_end); 
+    Fix_columns_wid_3.assign(iter1_start, iter1_end); 
   
-    Fix_columnX_wid3.assign(iter1_end->begin(),iter1_end->end()); 
+    Fix_columnX_wid_3.assign(iter1_end->begin(),iter1_end->end()); 
   
     --iter1_start;
-    Fix_columnY_wid3.assign(iter1_start->begin(),iter1_start->end()); 
+    Fix_columnY_wid_3.assign(iter1_start->begin(),iter1_start->end()); 
   
     ++iter1_end;
-    Fix_columnZ_wid3.assign(iter1_end->begin(),iter1_end->end()); 
+    Fix_columnZ_wid_3.assign(iter1_end->begin(),iter1_end->end()); 
   }
   
   ~Fixture_columns() {}
 
+  void PrintVectorString (vector<vector<string>> vec_str_text, string str_msg)
+  {
+    for (int i = 0; i < vec_str_text.size(); ++i)
+    {
+      cout << str_msg;
+      for (int j = 0; j < vec_str_text.begin()->size(); ++j)
+         cout << " " << vec_str_text[i][j];
+      cout << endl;
+    }
+  }
+
+  void PrintVectorString (vector<string> vec_str_text, string str_msg)
+  {
+    for (int i = 0; i < vec_str_text.size(); ++i)
+    {
+      cout << str_msg << vec_str_text[i] << endl;
+    }
+  }
 };
 
 // Fixtures End

@@ -1,8 +1,8 @@
 #ifndef __SHREDDER__
 #define __SHREDDER__
 
-#include<vector>
-#include<string>
+#include <vector>
+#include <string>
 
 class TextShredder
 {

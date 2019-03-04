@@ -1,5 +1,6 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/trim.hpp>
 #include "common_classes.h"
 #include "text_unshredder.h"
 
@@ -29,6 +30,14 @@ void TextUnshredder::GetInput()
   for (int i = 0; i < vec_str_lines.size(); ++i)
   {
     boost::split(vec_str_temp, vec_str_lines[i], boost::is_any_of("|"), boost::token_compress_on); 
+
+    // There will be "" added in the begining and the end if vec_str_lines is like |ab|cd|, remove them if so
+    if (vec_str_temp.begin()->empty())
+       vec_str_temp.erase(vec_str_temp.begin()); 
+
+    if ((vec_str_temp.end() - 1)->empty())
+       vec_str_temp.erase(vec_str_temp.end() - 1); 
+
     vec_text_temp.emplace_back(vec_str_temp);
     vec_str_temp.clear();
   }
@@ -62,6 +71,11 @@ void TextUnshredder::GetInput()
 // Class TextUnshredder
 void TextUnshredder::CreateOutput()
 {
+  for ( int i = 0; i < vec_merged_text_.size(); ++i)
+  {
+    boost::trim_right_if (vec_merged_text_[i], boost::is_any_of(" "));
+  }
+
   TextFileOperation::WriteText(str_out_filename_, vec_merged_text_);
 }
 
@@ -84,10 +98,10 @@ void TextUnshredder::DoTextUnshredder()
     // Simply move column_select_manager_.vec_column_pool_ to 
     // column_select_manager_.vec_selected_columns_
     column_select_manager_.best_match_column_.enum_best_match_direct = RIGHT;
-    column_select_manager_.best_match_column_.n_number_in_pool = 0; 
     
     while (!column_select_manager_.vec_column_pool_.empty())
     {
+      column_select_manager_.best_match_column_.n_number_in_pool = 0; 
       column_select_manager_.AddToSelectedColumns();
       column_select_manager_.DeleteFromColumnPool();
     }

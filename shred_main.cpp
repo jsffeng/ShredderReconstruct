@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include "text_shredder.h"
 
 using namespace std;

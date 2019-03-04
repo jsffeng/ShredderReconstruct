@@ -122,8 +122,8 @@ void ColumnSelectManager::FindBestMatch()
 
    if (n_number == -1)
    {
-      // f_best_match_rate should be 0 at this time, otherwise, throw an error.
-      if (f_best_match_rate != 0)
+      // f_best_match_rate should be equal to kAcceptableMatchRate at this time, otherwise, throw an error.
+      if (f_best_match_rate != kAcceptableMatchRate)
         throw runtime_error("Abnormal error!");
 
       // Failed to find any matching columns, pre-majured!

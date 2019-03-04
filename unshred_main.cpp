@@ -32,7 +32,7 @@ int UTmain(const string str_infile, const string str_outfile)
 
     if (text_unshredder.b_premature_flag_ == true) 
     {
-       cout <<"Partially restored! Number of "<< text_unshredder.n_premature_column_count_ << "text strips cannot be restored successfully and just append to the right side!" << endl;
+       cout <<"Partially restored! Number of "<< text_unshredder.n_premature_column_count_ << " text strips cannot be restored successfully and just append to the right side!" << endl;
     }
     else
     {

@@ -97,7 +97,7 @@ ColumnSelectManager
 # To construct text strips to a text page
 TextUnshredder
 ---------------------------------------
-# Store text data read from str_in_filename_
+# Store text data read from GetInput()
 - vector<vector<string>> vec_text_columns_
 # Store final result
 - vector<string> vec_merged_text_
@@ -116,23 +116,31 @@ TextUnshredder
 ---------------------------------------
 ########### Regular Classes End ###############
 
+typedef enum 
+{
+    NOTSTART = 0,
+    INPROGRESS = 1,
+    COMPLETE = 2
+} ThreadStatus;
+
 ########### MainThread Class Start ###############
 MainThread
 ---------------------------------------
-# Store final result
-- static vector<string> vec_merged_text_
-+ bool b_premature_flag_
-# Size of unselected columns
-+ int n_premature_column_count_
-- ColumnSelectManager column_select_manager_
+# Store final result, default contain blank strings
++ static vector<string> vec_final_merged_text_
+# default b_premature_flag_ = false
++ static bool b_premature_flag_
+# Size of unselected columns, default n_premature_column_count_ = 0
++ static int n_premature_column_count_
+# default thread_status_ = NOTSTART
++ static ThreadStatus thread_status_
 ---------------------------------------
-# b_premature_flag_ = false, n_premature_column_count_ = 0
-+ TextUnshredder(const string str_in_file, const string str_out_file)
-# Populate vec_text_columns_ from str_in_filename_, with calling text_strip::transpose
-
-# Generate final output file with vec_merged_text_
-+ CreateOutput (const string str_out_file) : void
-
++ static RunThreadUnshredder() : void
+#- static UpdateThreadStatus() : void
+#- static ProcessThreadResult() : void
+- UpdateThreadStatus() : void
+- ProcessThreadResult() : void
+---------------------------------------
 ########### ThreadEntry Class End #################
 
 Class relationship:

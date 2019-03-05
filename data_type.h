@@ -14,4 +14,11 @@ typedef enum
     LIMIT = 2
 } TwoWayDirections;
 
+typedef enum
+{
+    NOTSTART = 0,
+    INPROGRESS = 1,
+    COMPLETE = 2
+} ThreadStatus;
+
 #endif

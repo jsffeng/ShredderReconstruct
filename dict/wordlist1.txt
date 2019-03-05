@@ -2006,8 +2006,8 @@ drizzly
 drone
 drool
 droop
-drop-down
 dropbox
+drop-down
 dropkick
 droplet
 dropout
@@ -6637,7 +6637,6 @@ synthesis
 synthetic
 syrup
 system
-t-shirt
 tabasco
 tabby
 tableful
@@ -6909,6 +6908,7 @@ trusting
 trustless
 truth
 try
+t-shirt
 tubby
 tubeless
 tubular
@@ -7745,12 +7745,12 @@ yiddish
 yield
 yin
 yippee
-yo-yo
 yodel
 yoga
 yogurt
 yonder
 yoyo
+yo-yo
 yummy
 zap
 zealous

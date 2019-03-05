@@ -1,0 +1,55 @@
+########### Common Classes Start ############
+SingletonRandom
+---------------------------------------
+- static unique_ptr<SingletonRandom> p_instance_
++ static unsigned int s_max_val_
+---------------------------------------
++ static GetInstance() : SingletonRandom&
++ GenerateRandom() :unsigned int
+---------------------------------------
+
+TextFileOperation
+---------------------------------------
++ static ReadText(const string str_filename, vector<std::string> &vec_str_text_lines) : void
++ static WriteText(const string str_filename, const vector<std::string> vec_str_text_lines) : void
+---------------------------------------
+
+TextStripOperation
+---------------------------------------
+- static const int s_random_number_
+---------------------------------------
++ static Disorder(vector<vector<string>>& vec_str_input) : void
++ static Transpose(vector<vector<string>>& vec_str_input, vector<vector<string>>& vec_str_input_trans) : void
+---------------------------------------
+########### Common Classes End ############
+
+########### Regular Classes Start ##############
+# Handle a page of text
+TextShredder
+---------------------------------------
+- const int n_strip_width_
+- const string str_in_filename_
+- const string str_out_filename_
+- vector<string> vec_str_source_data_
+- vector<vector<string>> vec_str_shredded_text_
+- vector<vector<string>> vec_str_trans_shredded_text_
+---------------------------------------
++ TextShredder(const int n_width, const string str_in_file, const string str_out_file)
++ GetInput() : void
++ CreateOutput() : void
++ DoTextShredder() : void
+---------------------------------------
+########### Regular Classes End ###############
+
+
+Class relationship:
+==================
+
+TextStripOperation ----------> SingletonRandom (dependency)
+    ^	
+    : 
+    :
+    : (dependency)
+    :
+TextShredder ..........> TextFileOperation (dependency)
+

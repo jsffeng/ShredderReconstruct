@@ -51,8 +51,8 @@ CFLAGS += $(foreach dir, $(INCLUDE_PATH), -I$(dir))
 LDFLAGS += $(foreach lib, $(LIBRARY_PATH), -L$(lib))
 
 # if multi-threads,
-# LIBS += pthread
-# LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))
+ LIBS += pthread
+ LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))
 
 LIBS += boost_regex
 LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))

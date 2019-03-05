@@ -197,41 +197,41 @@ BOOST_AUTO_TEST_CASE (GetInstance_test)
 BOOST_AUTO_TEST_CASE (Init_test)
 {
   SingletonDiction & dict = SingletonDiction::GetInstance();
-  BOOST_CHECK(0 == dict.uset_dictionary_.size());
+  BOOST_CHECK(0 == dict.set_dictionary_.size());
   dict.Init();
-  BOOST_CHECK(17640 == dict.uset_dictionary_.size());
-  BOOST_CHECK (dict.uset_dictionary_.find("zucchini") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("Zulu") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("a") != (dict.uset_dictionary_.end()));
+  BOOST_CHECK(17641 == dict.set_dictionary_.size());
+  BOOST_CHECK (dict.set_dictionary_.find("zucchini") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("Zulu") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("a") != (dict.set_dictionary_.end()));
 }
 
 BOOST_AUTO_TEST_CASE (BuildWordPiece_test)
 {
   SingletonDiction & dict = SingletonDiction::GetInstance();
-  BOOST_CHECK(0 != dict.uset_dictionary_.size());
+  BOOST_CHECK(0 != dict.set_dictionary_.size());
 
-  if (dict.uset_dictionary_.empty())
+  if (dict.set_dictionary_.empty())
     dict.Init();
 
   dict.BuildWordPiece();
-  BOOST_WARN_GE(dict.uset_dictionary_.size(),17640*5);
-  BOOST_CHECK (dict.uset_dictionary_.find("zucchini") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("ucch") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("zucchi") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("cch") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("Zulu") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("ulu") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("Zu") != (dict.uset_dictionary_.end()));
-  BOOST_CHECK (dict.uset_dictionary_.find("a") != (dict.uset_dictionary_.end()));
+  BOOST_WARN_GE(dict.set_dictionary_.size(),17640*5);
+  BOOST_CHECK (dict.set_dictionary_.find("zucchini") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("ucch") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("zucchi") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("cch") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("Zulu") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("ulu") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("Zu") != (dict.set_dictionary_.end()));
+  BOOST_CHECK (dict.set_dictionary_.find("a") != (dict.set_dictionary_.end()));
 
-  dict.uset_dictionary_.clear();
+  dict.set_dictionary_.clear();
   BOOST_CHECK_THROW(dict.BuildWordPiece(), exception);   
 }
 
 BOOST_AUTO_TEST_CASE (LookupDict_test)
 {
   SingletonDiction & dict = SingletonDiction::GetInstance();
-  if (dict.uset_dictionary_.empty())
+  if (dict.set_dictionary_.empty())
   {
     dict.Init();
     dict.BuildWordPiece();
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
 BOOST_AUTO_TEST_CASE (CalculateMatchRate_test_tmp)
 {
   SingletonDiction & dict = SingletonDiction::GetInstance();
-  if (dict.uset_dictionary_.empty())
+  if (dict.set_dictionary_.empty())
   {
     dict.Init();
     dict.BuildWordPiece();
@@ -638,7 +638,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredder_test_tmp)
   unshred1.GetInput();
   
   SingletonDiction & dict = SingletonDiction::GetInstance();
-  if (dict.uset_dictionary_.empty())
+  if (dict.set_dictionary_.empty())
   {
     dict.Init();
     dict.BuildWordPiece();
@@ -661,8 +661,8 @@ BOOST_AUTO_TEST_SUITE (UTmain_test);
 
 BOOST_AUTO_TEST_CASE (UTmain_test_tmp)
 {
-  BOOST_CHECK(UTmain("shredded_text.ascii", "test_output.ascii") == 0);
-  BOOST_CHECK(UTmain("test_input.ascii", "test_output1.ascii") == 1);
+  BOOST_CHECK(UTmain("shredded_text.ascii", "test_output.ascii") != 2);
+  BOOST_CHECK(UTmain("test_input.ascii", "test_output1.ascii") == 2);
 
   system("rm -rf test_output*.ascii");
 }

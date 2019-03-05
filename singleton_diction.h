@@ -11,7 +11,7 @@ class SingletonDiction
 #else
   private:
 #endif
-    std::set<std::string> uset_dictionary_;
+    std::set<std::string> set_dictionary_;
 
     SingletonDiction() = default;
     SingletonDiction(const SingletonDiction&) = delete;

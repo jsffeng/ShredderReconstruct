@@ -1,4 +1,5 @@
-#include "singleton_random.h"
+#include <stdexcept>
+#include "common_classes.h"
 #include "column_match_manager.h"
 #include "column_select_manager.h"
 
@@ -29,20 +30,14 @@ void ColumnSelectManager::Init(const vector<vector<string>> & columns)
 
     if (n_column_size < 2)
       throw runtime_error("Invalid input to function ColumnSelectManager::Init()");
-   
-    SingletonRandom::s_max_val_ = n_column_size - 1;
-    SingletonRandom & random_instance = SingletonRandom::GetInstance();
-
-#ifndef UTFLAG
-    unsigned int n_temp = random_instance.GenerateRandom();
-#else
-    unsigned int n_temp = 0;
-#endif
-
-    vec_selected_columns_.emplace_back(columns[n_temp]);
 
     vec_column_pool_.assign(columns.begin(),columns.end());
-    vec_column_pool_.erase(vec_column_pool_.begin() + n_temp);
+    TextStripOperation::Disorder(vec_column_pool_);
+   
+    vec_selected_columns_.emplace_back(*vec_column_pool_.begin());
+
+    vec_column_pool_.erase(vec_column_pool_.begin());
+
 }
 
 // Class ColumnSelectManager

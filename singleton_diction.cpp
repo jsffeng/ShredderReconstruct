@@ -12,19 +12,19 @@ SingletonDiction & SingletonDiction::GetInstance()
 
 void SingletonDiction::Init()
 {
-  TextFileOperation::ReadText("dict/wordlist.txt", uset_dictionary_);
+  TextFileOperation::ReadText("dict/wordlist.txt", set_dictionary_);
 }
 
 void SingletonDiction::BuildWordPiece()
 {
-  if (uset_dictionary_.empty())
-    throw runtime_error("uset_dictionary_ is empty, function BuildWordPiece() quit!");
+  if (set_dictionary_.empty())
+    throw runtime_error("set_dictionary_ is empty, function BuildWordPiece() quit!");
 
   int n_size;
   string str_sub;
 
-  auto iter = uset_dictionary_.begin();
-  while (iter != uset_dictionary_.end())
+  auto iter = set_dictionary_.begin();
+  while (iter != set_dictionary_.end())
   {
     n_size = (*iter).size();
     
@@ -40,7 +40,7 @@ void SingletonDiction::BuildWordPiece()
          for (int n_len = 2; n_len <= n_size - n_pos; ++n_len)
          {
            str_sub = iter->substr(n_pos, n_len);
-           uset_dictionary_.insert(str_sub);
+           set_dictionary_.insert(str_sub);
          }
       }
     }
@@ -55,7 +55,7 @@ bool SingletonDiction::LookupDict(string str_letters)
     throw runtime_error("Invalid input to function LookupDicti()!");
 
   // If letters found in dictionary, return true, otherwise, return false.
-  if (uset_dictionary_.find(str_letters) != (uset_dictionary_.end()))
+  if (set_dictionary_.find(str_letters) != (set_dictionary_.end()))
   {
     return true;
   }

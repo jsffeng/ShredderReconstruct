@@ -48,7 +48,7 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
 }
 
 // Common function for reading text lines from an input file, usually used to store dictionary
-void TextFileOperation::ReadText(const string str_filename, set<string> &uset_str_text_lines)
+void TextFileOperation::ReadText(const string str_filename, set<string> &set_str_text_lines)
 {
   string str_line;
   ifstream f_infile;
@@ -59,12 +59,12 @@ void TextFileOperation::ReadText(const string str_filename, set<string> &uset_st
     throw runtime_error("File cannot open to read!");
   }
 
-  if (!uset_str_text_lines.empty())
-    uset_str_text_lines.clear();
+  if (!set_str_text_lines.empty())
+    set_str_text_lines.clear();
 
   while (getline(f_infile, str_line))
   {
-    uset_str_text_lines.insert(str_line);
+    set_str_text_lines.insert(str_line);
   }
 
   f_infile.close();

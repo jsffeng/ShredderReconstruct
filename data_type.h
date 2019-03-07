@@ -17,8 +17,8 @@ typedef enum
 typedef enum
 {
     NOTSTART = 0,
-    INPROGRESS = 1,
-    COMPLETE = 2
+    PARTICIAL = 1,
+    SUCCESS = 2
 } ThreadStatus;
 
 #endif

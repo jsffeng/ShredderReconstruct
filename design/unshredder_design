@@ -98,20 +98,20 @@ ColumnSelectManager
 TextUnshredder
 ---------------------------------------
 # Store text data read from GetInput()
-- vector<vector<string>> vec_text_columns_
++ vector<vector<string>> vec_text_columns_
 # Store final result
-- vector<string> vec_merged_text_
++ vector<string> vec_merged_text_
 + bool b_premature_flag_
 # Size of unselected columns
 + int n_premature_column_count_
 - ColumnSelectManager column_select_manager_
 ---------------------------------------
 # b_premature_flag_ = false, n_premature_column_count_ = 0
-+ TextUnshredder(const string str_in_file, const string str_out_file)
-# Populate vec_text_columns_ from str_in_filename_, with calling text_strip::transpose
++ TextUnshredder()
+# Populate vec_text_columns_ from input file, with calling text_strip::transpose
 + GetInput(const string str_in_file) : void
 + DoTextUnshredder() : void
-# Generate final output file with vec_merged_text_
+# Generate final output file
 + CreateOutput(const string str_out_file) : void
 ---------------------------------------
 ########### Regular Classes End ###############
@@ -119,13 +119,16 @@ TextUnshredder
 typedef enum 
 {
     NOTSTART = 0,
-    INPROGRESS = 1,
-    COMPLETE = 2
+    PARTICIAL = 1,
+    SUCCESS = 2
 } ThreadStatus;
 
 ########### MainThread Class Start ###############
 MainThread
 ---------------------------------------
+# mutex for all threads
+- static mutex status_mutex_;
+- static mutex data_mutex_;
 # Store final result, default contain blank strings
 + static vector<string> vec_final_merged_text_
 # default b_premature_flag_ = false
@@ -133,17 +136,18 @@ MainThread
 # Size of unselected columns, default n_premature_column_count_ = 0
 + static int n_premature_column_count_
 # default thread_status_ = NOTSTART
-+ static ThreadStatus thread_status_
+- static ThreadStatus thread_status_
+# Increase the number any exception throw from a thread
++ static int n_thread_abnormals_
 ---------------------------------------
-+ static RunThreadUnshredder() : void
-#- static UpdateThreadStatus() : void
-#- static ProcessThreadResult() : void
-- UpdateThreadStatus() : void
-- ProcessThreadResult() : void
++ static DoTextUnshredderInThread(TextUnshredder text_unshred) : int
+- static UpdateThreadStatus(ThreadStatus status) : void
+- static RecordThreadResult(vector<string> vec_final_merged_text, int n_premature_column_count,bool b_premature_flag) : void
+- static RecordThreadAbnormals() : void
 ---------------------------------------
 ########### ThreadEntry Class End #################
 
-Class relationship:
+Class relationship (excluding MainThread):
 ==================
 
 TextStripOperation 
@@ -197,31 +201,4 @@ Main algorithm:
    - Mark pre-matured if no remaining columns satisfy (f_notmatch_rate > kToleranceRate and f_match_rate > kAcceptableMatchRate). In this situation, the partial selected columns will be provided.
 
 4. Testing show the result is sensative to first selected column as well as the column sequence in the remaining column pool. With adjusting the first selected and column sequence, in ~80% , it may lead to pre-matured situation, and in ~20%, it can lead to successful result.  With this , decided to choose multi-thread to enhance the programme with different selected column and different column sequences (randomly)
-
-
-==========
-Same input text strip file, initial column choose the 2nd column
-jason@jason-ThinkPad-T60:~/Project/github_dev/ShredderReconstruct$ unshredder;cat restored_text.ascii
-Successfully restored!
-Claude Shannon founded information
-theory, which is the basis of
-probabilistic language models and
-of the code breaking methods that
-you would use to solve this problem,
-with the paper titled "A Mathematical
-Theory of Communication," published
-in this year.
-
-Same input text strip file, initial column choose the 1st column
-
-jason@jason-ThinkPad-T60:~/Project/github_dev/ShredderReconstruct$ unshredder;cat restored_text.ascii
-Partially restored! Number of 13text strips cannot be restored successfully and just append to the right side!
-Claude Sha  on fou iedndnnnfmatior  on
-theory, wh  h is tas bheicisf    o
-probabilis  c lang mgeuatiods anel  d
-of the cod  breakiet mnge ho thads  t
-you would m,e to s tveolushiprobs   le
-with the pcaer tit"Ad leap Mhemaatl ti
-Theory of d mmunicn,ioatCo" blispu  he
-in this ye  .           ar
 

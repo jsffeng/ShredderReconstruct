@@ -18,11 +18,14 @@ TEST_TARGET_UNSHRED := $(TEST_DIR)/UT$(TARGET_UNSHRED)
 
 TEST_ALLTARGETS := $(TEST_TARGET_SHRED) $(TEST_TARGET_UNSHRED)
 
+MULTI_THREAD_OBJ_NAME = singleton_random
+
 ALLSRCS := $(wildcard $(SRC_PATH)/*.cpp)
 ALLOBJS := $(ALLSRCS:.cpp=.o)
+ALLOBJS += $(MULTI_THREAD_OBJ_NAME)_multi.o
 
 OBJS_SHRED := common_classes.o singleton_random.o text_shredder.o shred_main.o
-OBJS_UNSHRED := common_classes.o singleton_random.o singleton_diction.o column_match_manager.o column_select_manager.o text_unshredder.o unshred_main.o
+OBJS_UNSHRED := common_classes.o singleton_random_multi.o singleton_diction.o column_match_manager.o column_select_manager.o text_unshredder.o main_thread.o unshred_main.o
 
 
 # UT test code
@@ -45,15 +48,14 @@ LIBRARY_PATH += /usr/lib
 LIBRARY_PATH += /usr/local/lib
 
 CFLAGS += -std=gnu++11
-DUTFLAG += -DUTFLAG
+DUTFLAG := -DUTFLAG
+MULTI_THREAD_FLAG := -DMULTI_THREAD_FLAG
 
 CFLAGS += $(foreach dir, $(INCLUDE_PATH), -I$(dir))
 LDFLAGS += $(foreach lib, $(LIBRARY_PATH), -L$(lib))
 
-# if multi-threads,
- LIBS += pthread
- LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))
-
+# For executables using multi-threads
+LIBS += pthread
 LIBS += boost_regex
 LIBFLAGS += $(foreach lib, $(LIBS), -l$(lib))
 
@@ -86,13 +88,15 @@ bld: $(ALLTARGETS)
 ut:  $(TEST_ALLTARGETS)
 
 $(TARGET_SHRED): $(OBJS_SHRED)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
+#	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 $(TARGET_UNSHRED): $(OBJS_UNSHRED)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
 
 $(TEST_TARGET_SHRED): $(TEST_OBJS_SHRED) $(UT_TEST_OBJS_SHRED) 
-	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ $(LIBFLAGS)
+#	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ $(LIBFLAGS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ 
 
 $(TEST_TARGET_UNSHRED): $(TEST_OBJS_UNSHRED) $(UT_TEST_OBJS_UNSHRED) 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ $(LIBFLAGS)
@@ -100,8 +104,14 @@ $(TEST_TARGET_UNSHRED): $(TEST_OBJS_UNSHRED) $(UT_TEST_OBJS_UNSHRED)
 %.o:%.cpp
 	$(CC) $(CFLAGS) -o $@ -c $< 
 
+$(MULTI_THREAD_OBJ_NAME)_multi.o: $(MULTI_THREAD_OBJ_NAME).cpp
+	$(CC) $(CFLAGS) $(MULTI_THREAD_FLAG) -o $@ -c $<
+
 %_test.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) $(GCOV_CFLAGS) -o $@ -c $<
+
+$(MULTI_THREAD_OBJ_NAME)_multi_test.o: $(MULTI_THREAD_OBJ_NAME).cpp
+	$(CC) $(DUTFLAG) $(CFLAGS) $(MULTI_THREAD_FLAG) $(GCOV_CFLAGS) -o $@ -c $<
 
 %_utest.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) -o $@ -c $<

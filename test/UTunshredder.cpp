@@ -604,10 +604,8 @@ BOOST_FIXTURE_TEST_SUITE (TextUnshredder_test, Fixture_columns);
 BOOST_AUTO_TEST_CASE (constructor_test)
 {
 
-  TextUnshredder unshred1("input.ascii","test_output.ascii");
+  TextUnshredder unshred1;
 
-  BOOST_CHECK(unshred1.str_in_filename_ == "input.ascii");
-  BOOST_CHECK(unshred1.str_out_filename_ == "test_output.ascii");
   BOOST_CHECK(false == unshred1.b_premature_flag_);
   BOOST_CHECK(0 == unshred1.n_premature_column_count_);
 
@@ -615,8 +613,9 @@ BOOST_AUTO_TEST_CASE (constructor_test)
 
 BOOST_AUTO_TEST_CASE (GetInput_test_tmp)
 {
-  TextUnshredder unshred1("shredded_text.ascii","test_output.ascii");
-  unshred1.GetInput();
+  TextUnshredder unshred1;
+  unshred1.GetInput("shredded_text.ascii");
+  BOOST_CHECK_THROW(unshred1.GetInput("test_input.ascii"), exception);   
 /*
   PrintVectorString (unshred1.vec_text_columns_, "vec_text_columns_");
 */
@@ -625,8 +624,8 @@ BOOST_AUTO_TEST_CASE (GetInput_test_tmp)
 
 BOOST_AUTO_TEST_CASE (CreateOutput_test_tmp)
 {
-  TextUnshredder unshred1("shredded_text.ascii","test_output.ascii");
-  unshred1.CreateOutput();
+  TextUnshredder unshred1;
+  unshred1.CreateOutput("test_output.ascii");
 
   system("rm -rf test_output*.ascii");
 }
@@ -634,8 +633,8 @@ BOOST_AUTO_TEST_CASE (CreateOutput_test_tmp)
 
 BOOST_AUTO_TEST_CASE (DoTextUnshredder_test_tmp)
 {
-  TextUnshredder unshred1("shredded_text.ascii","output.ascii");
-  unshred1.GetInput();
+  TextUnshredder unshred1;
+  unshred1.GetInput("shredded_text.ascii");
   
   SingletonDiction & dict = SingletonDiction::GetInstance();
   if (dict.set_dictionary_.empty())
@@ -665,6 +664,7 @@ BOOST_AUTO_TEST_CASE (UTmain_test_tmp)
   BOOST_CHECK(UTmain("test_input.ascii", "test_output1.ascii") == 2);
 
   system("rm -rf test_output*.ascii");
+
 }
 
 BOOST_AUTO_TEST_SUITE_END ()

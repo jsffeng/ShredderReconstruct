@@ -7,7 +7,7 @@
 using namespace std;
 
 // Class TextUnshredder constructor
-TextUnshredder::TextUnshredder(const string str_in_file, const string str_out_file) : str_in_filename_(str_in_file), str_out_filename_(str_out_file)
+TextUnshredder::TextUnshredder()
 {
   b_premature_flag_ = false;
   n_premature_column_count_ = 0;
@@ -18,14 +18,14 @@ TextUnshredder::TextUnshredder(const string str_in_file, const string str_out_fi
 // The text strip delimiter uses "|", so the text should not contain "|". In case that it contains,
 // need to replace "|" with other special charactors, such as "*", etc before running this programme.
 
-void TextUnshredder::GetInput()
+void TextUnshredder::GetInput(const string str_in_file)
 {
   vector<string> vec_str_lines;
   vector<string> vec_str_temp;
   
   vector<vector<string>> vec_text_temp;
   
-  TextFileOperation::ReadText(str_in_filename_, vec_str_lines);
+  TextFileOperation::ReadText(str_in_file, vec_str_lines);
   
   for (int i = 0; i < vec_str_lines.size(); ++i)
   {
@@ -69,14 +69,14 @@ void TextUnshredder::GetInput()
 }
 
 // Class TextUnshredder
-void TextUnshredder::CreateOutput()
+void TextUnshredder::CreateOutput(const string str_out_file)
 {
   for ( int i = 0; i < vec_merged_text_.size(); ++i)
   {
     boost::trim_right_if (vec_merged_text_[i], boost::is_any_of(" "));
   }
 
-  TextFileOperation::WriteText(str_out_filename_, vec_merged_text_);
+  TextFileOperation::WriteText(str_out_file, vec_merged_text_);
 }
 
 // Class TextUnshredder

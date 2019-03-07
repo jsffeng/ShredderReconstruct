@@ -1,3 +1,7 @@
+#ifdef MULTI_THREAD_FLAG
+#include<mutex>
+#endif
+
 #include <random>
 #include "singleton_random.h"
 
@@ -12,7 +16,9 @@ std::unique_ptr<SingletonRandom> SingletonRandom::p_instance_ = nullptr;
 SingletonRandom& SingletonRandom::GetInstance()
 {
   // Following will be used if multi-threads
-  // static once_flag oc_flag;
+#ifdef MULTI_THREAD_FLAG
+   static once_flag oc_flag;
+#endif
   
   if (s_max_val_ == 0)
   {
@@ -20,16 +26,17 @@ SingletonRandom& SingletonRandom::GetInstance()
   }
 
   // Following will be used if multi-threads
-  // call_once(oc_flag, [&](){ p_instance_.reset(new SingletonRandom);});
-
+#ifdef MULTI_THREAD_FLAG
+   call_once(oc_flag, [&](){ p_instance_.reset(new SingletonRandom);});
+#else
   if (p_instance_ == nullptr)
   {
      p_instance_.reset(new SingletonRandom);
-#ifdef UTFLAG
-     s_instance_numbers_++;  
-#endif 
+  #ifdef UTFLAG
+     s_instance_numbers_++; 
+  #endif 
   }
-
+#endif
   return *p_instance_;
 
 }

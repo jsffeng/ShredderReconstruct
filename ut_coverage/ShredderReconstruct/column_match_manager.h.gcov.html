@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-03-05 01:55:31</td>
+            <td class="headerValue">2019-03-08 21:55:38</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">1</td>
@@ -76,7 +76,7 @@
 <span class="lineNum">       5 </span>                :            : #include &lt;string&gt;
 <a name="6"><span class="lineNum">       6 </span>                :            : #include &quot;data_type.h&quot;</a>
 <span class="lineNum">       7 </span>                :            : 
-<span class="lineNum">       8 </span>                :<span class="lineCov">        730 : class ColumnMatchManager</span>
+<span class="lineNum">       8 </span>                :<span class="lineCov">       7544 : class ColumnMatchManager</span>
 <span class="lineNum">       9 </span>                :            : {
 <span class="lineNum">      10 </span>                :            : #ifdef UTFLAG
 <span class="lineNum">      11 </span>                :            :   public:
@@ -96,14 +96,13 @@
 <span class="lineNum">      25 </span>                :            :     MatchRate column_match_rate_[LIMIT];
 <span class="lineNum">      26 </span>                :            : 
 <span class="lineNum">      27 </span>                :            :     ColumnMatchManager(std::vector&lt;std::vector&lt;std::string&gt;&gt; &amp; vec_text_columns, std::vector&lt;std::string&gt; &amp; vec_new_column);
-<span class="lineNum">      28 </span>                :            :     ColumnMatchManager() {}
-<span class="lineNum">      29 </span>                :            : 
-<span class="lineNum">      30 </span>                :            :     // Populate column_match_rate_[]
-<span class="lineNum">      31 </span>                :            :     void CalculateMatchRate();
-<span class="lineNum">      32 </span>                :            :     bool RemoveWordSuffix(std::string &amp;str_lookup_key);
-<span class="lineNum">      33 </span>                :            : };
-<span class="lineNum">      34 </span>                :            : 
-<span class="lineNum">      35 </span>                :            : #endif
+<span class="lineNum">      28 </span>                :            : 
+<span class="lineNum">      29 </span>                :            :     // Populate column_match_rate_[]
+<span class="lineNum">      30 </span>                :            :     void CalculateMatchRate();
+<span class="lineNum">      31 </span>                :            :     bool RemoveWordSuffix(std::string &amp;str_lookup_key);
+<span class="lineNum">      32 </span>                :            : };
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #endif
 </pre>
       </td>
     </tr>

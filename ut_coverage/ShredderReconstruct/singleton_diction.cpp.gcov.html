@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-03-05 01:55:31</td>
+            <td class="headerValue">2019-03-08 21:55:38</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">4</td>
@@ -75,64 +75,64 @@
 <span class="lineNum">       4 </span>                :            : 
 <a name="5"><span class="lineNum">       5 </span>                :            : using namespace std;</a>
 <span class="lineNum">       6 </span>                :            : 
-<span class="lineNum">       7 </span>                :<span class="lineCov">        361 : SingletonDiction &amp; SingletonDiction::GetInstance()  </span>
+<span class="lineNum">       7 </span>                :<span class="lineCov">       3770 : SingletonDiction &amp; SingletonDiction::GetInstance()  </span>
 <span class="lineNum">       8 </span>                :            : {  
-<span class="lineNum">       9 </span>[<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 360 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">        361 :   static SingletonDiction s_instance; </span>
-<span class="lineNum">      10 </span>                :<span class="lineCov">        361 :   return s_instance; </span>
+<span class="lineNum">       9 </span>[<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 3769 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">       3770 :   static SingletonDiction s_instance; </span>
+<span class="lineNum">      10 </span>                :<span class="lineCov">       3770 :   return s_instance; </span>
 <a name="11"><span class="lineNum">      11 </span>                :            : }</a>
 <span class="lineNum">      12 </span>                :            : 
 <span class="lineNum">      13 </span>                :<span class="lineCov">          4 : void SingletonDiction::Init()</span>
 <span class="lineNum">      14 </span>                :            : {
-<span class="lineNum">      15 </span>[<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">          4 :   TextFileOperation::ReadText(&quot;dict/wordlist.txt&quot;, uset_dictionary_);</span>
+<span class="lineNum">      15 </span>[<span class="branchCov" title="Branch 2 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">          4 :   TextFileOperation::ReadText(&quot;dict/wordlist.txt&quot;, set_dictionary_);</span>
 <a name="16"><span class="lineNum">      16 </span>                :<span class="lineCov">          4 : }</span></a>
 <span class="lineNum">      17 </span>                :            : 
 <span class="lineNum">      18 </span>                :<span class="lineCov">          5 : void SingletonDiction::BuildWordPiece()</span>
 <span class="lineNum">      19 </span>                :            : {
-<span class="lineNum">      20 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>]:<span class="lineCov">          5 :   if (uset_dictionary_.empty())</span>
-<span class="lineNum">      21 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;uset_dictionary_ is empty, function BuildWordPiece() quit!&quot;);</span>
+<span class="lineNum">      20 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchCov" title="Branch 2 was taken 4 times"> + </span>]:<span class="lineCov">          5 :   if (set_dictionary_.empty())</span>
+<span class="lineNum">      21 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;set_dictionary_ is empty, function BuildWordPiece() quit!&quot;);</span>
 <span class="lineNum">      22 </span>                :            : 
 <span class="lineNum">      23 </span>                :            :   int n_size;
 <span class="lineNum">      24 </span>                :<span class="lineCov">          8 :   string str_sub;</span>
 <span class="lineNum">      25 </span>                :            : 
-<span class="lineNum">      26 </span>                :<span class="lineCov">          4 :   auto iter = uset_dictionary_.begin();</span>
-<span class="lineNum">      27 </span>        [<span class="branchCov" title="Branch 2 was taken 323880 times"> + </span><span class="branchCov" title="Branch 3 was taken 4 times"> + </span>]:<span class="lineCov">     323884 :   while (iter != uset_dictionary_.end())</span>
+<span class="lineNum">      26 </span>                :<span class="lineCov">          4 :   auto iter = set_dictionary_.begin();</span>
+<span class="lineNum">      27 </span>        [<span class="branchCov" title="Branch 2 was taken 323900 times"> + </span><span class="branchCov" title="Branch 3 was taken 4 times"> + </span>]:<span class="lineCov">     323904 :   while (iter != set_dictionary_.end())</span>
 <span class="lineNum">      28 </span>                :            :   {
-<span class="lineNum">      29 </span>                :<span class="lineCov">     323880 :     n_size = (*iter).size();</span>
+<span class="lineNum">      29 </span>                :<span class="lineCov">     323900 :     n_size = (*iter).size();</span>
 <span class="lineNum">      30 </span>                :            :     
-<span class="lineNum">      31 </span>        [<span class="branchCov" title="Branch 0 was taken 2192 times"> + </span><span class="branchCov" title="Branch 1 was taken 321688 times"> + </span>]:<span class="lineCov">     323880 :     if ( n_size &lt;= 2) </span>
+<span class="lineNum">      31 </span>        [<span class="branchCov" title="Branch 0 was taken 2192 times"> + </span><span class="branchCov" title="Branch 1 was taken 321708 times"> + </span>]:<span class="lineCov">     323900 :     if ( n_size &lt;= 2) </span>
 <span class="lineNum">      32 </span>                :            :     {
 <span class="lineNum">      33 </span>                :<span class="lineCov">       2192 :       ++iter;</span>
 <span class="lineNum">      34 </span>                :<span class="lineCov">       2192 :       continue;</span>
 <span class="lineNum">      35 </span>                :            :     }
 <span class="lineNum">      36 </span>                :            :     else
 <span class="lineNum">      37 </span>                :            :     {
-<span class="lineNum">      38 </span>        [<span class="branchCov" title="Branch 0 was taken 1825748 times"> + </span><span class="branchCov" title="Branch 1 was taken 321688 times"> + </span>]:<span class="lineCov">    2147436 :       for (int n_pos = 0; n_pos &lt; n_size - 1; ++n_pos) </span>
+<span class="lineNum">      38 </span>        [<span class="branchCov" title="Branch 0 was taken 1825948 times"> + </span><span class="branchCov" title="Branch 1 was taken 321708 times"> + </span>]:<span class="lineCov">    2147656 :       for (int n_pos = 0; n_pos &lt; n_size - 1; ++n_pos) </span>
 <span class="lineNum">      39 </span>                :            :       {
-<span class="lineNum">      40 </span>        [<span class="branchCov" title="Branch 0 was taken 6969840 times"> + </span><span class="branchCov" title="Branch 1 was taken 1825748 times"> + </span>]:<span class="lineCov">    8795588 :          for (int n_len = 2; n_len &lt;= n_size - n_pos; ++n_len)</span>
+<span class="lineNum">      40 </span>        [<span class="branchCov" title="Branch 0 was taken 6970960 times"> + </span><span class="branchCov" title="Branch 1 was taken 1825948 times"> + </span>]:<span class="lineCov">    8796908 :          for (int n_len = 2; n_len &lt;= n_size - n_pos; ++n_len)</span>
 <span class="lineNum">      41 </span>                :            :          {
-<span class="lineNum">      42 </span>[<span class="branchCov" title="Branch 2 was taken 6969840 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 6969840 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">    6969840 :            str_sub = iter-&gt;substr(n_pos, n_len);</span>
-<span class="lineNum">      43 </span>        [<span class="branchCov" title="Branch 1 was taken 6969840 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">    6969840 :            uset_dictionary_.insert(str_sub);</span>
+<span class="lineNum">      42 </span>[<span class="branchCov" title="Branch 2 was taken 6970960 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 6970960 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">    6970960 :            str_sub = iter-&gt;substr(n_pos, n_len);</span>
+<span class="lineNum">      43 </span>        [<span class="branchCov" title="Branch 1 was taken 6970960 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">    6970960 :            set_dictionary_.insert(str_sub);</span>
 <span class="lineNum">      44 </span>                :            :          }
 <span class="lineNum">      45 </span>                :            :       }
 <span class="lineNum">      46 </span>                :            :     }
-<span class="lineNum">      47 </span>                :<span class="lineCov">     321688 :     ++iter;</span>
+<span class="lineNum">      47 </span>                :<span class="lineCov">     321708 :     ++iter;</span>
 <span class="lineNum">      48 </span>                :            :   }
 <a name="49"><span class="lineNum">      49 </span>                :<span class="lineCov">          4 : }</span></a>
 <span class="lineNum">      50 </span>                :            : 
-<span class="lineNum">      51 </span>                :<span class="lineCov">       2979 : bool SingletonDiction::LookupDict(string str_letters)</span>
+<span class="lineNum">      51 </span>                :<span class="lineCov">      35888 : bool SingletonDiction::LookupDict(string str_letters)</span>
 <span class="lineNum">      52 </span>                :            : {
 <span class="lineNum">      53 </span>                :            : 
-<span class="lineNum">      54 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 2977 times"> + </span>]:<span class="lineCov">       2979 :   if (str_letters.empty())</span>
+<span class="lineNum">      54 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 35886 times"> + </span>]:<span class="lineCov">      35888 :   if (str_letters.empty())</span>
 <span class="lineNum">      55 </span>        [<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          2 :     throw runtime_error(&quot;Invalid input to function LookupDicti()!&quot;);</span>
 <span class="lineNum">      56 </span>                :            : 
 <span class="lineNum">      57 </span>                :            :   // If letters found in dictionary, return true, otherwise, return false.
-<span class="lineNum">      58 </span>[<span class="branchCov" title="Branch 2 was taken 2977 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 935 times"> + </span><span class="branchCov" title="Branch 6 was taken 2042 times"> + </span>]:<span class="lineCov">       2977 :   if (uset_dictionary_.find(str_letters) != (uset_dictionary_.end()))</span>
+<span class="lineNum">      58 </span>[<span class="branchCov" title="Branch 2 was taken 35886 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 7858 times"> + </span><span class="branchCov" title="Branch 6 was taken 28028 times"> + </span>]:<span class="lineCov">      35886 :   if (set_dictionary_.find(str_letters) != (set_dictionary_.end()))</span>
 <span class="lineNum">      59 </span>                :            :   {
-<span class="lineNum">      60 </span>                :<span class="lineCov">        935 :     return true;</span>
+<span class="lineNum">      60 </span>                :<span class="lineCov">       7858 :     return true;</span>
 <span class="lineNum">      61 </span>                :            :   }
 <span class="lineNum">      62 </span>                :            :   else
 <span class="lineNum">      63 </span>                :            :   {  
-<span class="lineNum">      64 </span>                :<span class="lineCov">       2977 :     return false;</span>
+<span class="lineNum">      64 </span>                :<span class="lineCov">      35886 :     return false;</span>
 <span class="lineNum">      65 </span>                :            :   }
 <span class="lineNum">      66 </span>                :            : }
 </pre>

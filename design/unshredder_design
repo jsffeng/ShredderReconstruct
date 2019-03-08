@@ -123,8 +123,8 @@ typedef enum
     SUCCESS = 2
 } ThreadStatus;
 
-########### MainThread Class Start ###############
-MainThread
+########### ThreadController Class Start ###############
+ThreadController
 ---------------------------------------
 # mutex for all threads
 - static mutex status_mutex_;
@@ -145,9 +145,9 @@ MainThread
 - static RecordThreadResult(vector<string> vec_final_merged_text, int n_premature_column_count,bool b_premature_flag) : void
 - static RecordThreadAbnormals() : void
 ---------------------------------------
-########### ThreadEntry Class End #################
+########### ThreadController Class End #################
 
-Class relationship (excluding MainThread):
+Class relationship (excluding ThreadController):
 ==================
 
 TextStripOperation 

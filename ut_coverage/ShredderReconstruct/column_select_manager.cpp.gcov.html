@@ -31,13 +31,13 @@
             <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">62</td>
+            <td class="headerCovTableEntry">69</td>
             <td class="headerCovTableEntry">73</td>
-            <td class="headerCovTableEntryMed">84.9 %</td>
+            <td class="headerCovTableEntryHi">94.5 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-03-05 01:55:31</td>
+            <td class="headerValue">2019-03-08 21:55:38</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -49,9 +49,9 @@
             <td></td>
             <td></td>
             <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">44</td>
-            <td class="headerCovTableEntry">86</td>
-            <td class="headerCovTableEntryLo">51.2 %</td>
+            <td class="headerCovTableEntry">66</td>
+            <td class="headerCovTableEntry">94</td>
+            <td class="headerCovTableEntryLo">70.2 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -69,175 +69,178 @@
       <td>
 <pre class="sourceHeading">           Branch data     Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>                :            : #include &quot;singleton_random.h&quot;</a>
-<span class="lineNum">       2 </span>                :            : #include &quot;column_match_manager.h&quot;
-<span class="lineNum">       3 </span>                :            : #include &quot;column_select_manager.h&quot;
-<span class="lineNum">       4 </span>                :            : 
-<span class="lineNum">       5 </span>                :            : using namespace std;
-<span class="lineNum">       6 </span>                :            : 
-<span class="lineNum">       7 </span>                :            : const float kToleranceRate = 0.25;
-<span class="lineNum">       8 </span>                :            : const float kAcceptableMatchRate = 1;
-<a name="9"><span class="lineNum">       9 </span>                :            : </a>
-<span class="lineNum">      10 </span>                :            : // Class ColumnSelectManager constructor
-<span class="lineNum">      11 </span>                :<span class="lineCov">         24 : ColumnSelectManager::ColumnSelectManager()</span>
-<span class="lineNum">      12 </span>                :            : {
-<span class="lineNum">      13 </span>                :<span class="lineCov">         12 :   b_failure_flag_ = false;</span>
-<span class="lineNum">      14 </span>                :<span class="lineCov">         12 :   best_match_column_.n_number_in_pool = -1;</span>
-<span class="lineNum">      15 </span>                :<span class="lineCov">         12 :   best_match_column_.enum_best_match_direct = LEFT;</span>
-<span class="lineNum">      16 </span>                :<span class="lineCov">         12 : }</span>
-<span class="lineNum">      17 </span>                :            : 
-<a name="18"><span class="lineNum">      18 </span>                :            : // Class ColumnSelectManager</a>
-<span class="lineNum">      19 </span>                :            : // Init vec_selected_columns_ and vec_column_pool_ with columns. 
-<span class="lineNum">      20 </span>                :<span class="lineCov">          7 : void ColumnSelectManager::Init(const vector&lt;vector&lt;string&gt;&gt; &amp; columns)</span>
-<span class="lineNum">      21 </span>                :            : {
-<span class="lineNum">      22 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 7 times"> + </span>]:<span class="lineCov">          7 :     if (!vec_selected_columns_.empty())</span>
-<span class="lineNum">      23 </span>                :<span class="lineNoCov">          0 :       vec_selected_columns_.clear();</span>
-<span class="lineNum">      24 </span>                :            : 
-<span class="lineNum">      25 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 7 times"> + </span>]:<span class="lineCov">          7 :     if (!vec_selected_columns_.empty())</span>
-<span class="lineNum">      26 </span>                :<span class="lineNoCov">          0 :       vec_column_pool_.clear();</span>
-<span class="lineNum">      27 </span>                :            : 
-<span class="lineNum">      28 </span>                :<span class="lineCov">          7 :     int n_column_size = columns.size();</span>
-<span class="lineNum">      29 </span>                :            : 
-<span class="lineNum">      30 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 7 times"> + </span>]:<span class="lineCov">          7 :     if (n_column_size &lt; 2)</span>
-<span class="lineNum">      31 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :       throw runtime_error(&quot;Invalid input to function ColumnSelectManager::Init()&quot;);</span>
-<span class="lineNum">      32 </span>                :            :    
-<span class="lineNum">      33 </span>                :<span class="lineCov">          7 :     SingletonRandom::s_max_val_ = n_column_size - 1;</span>
-<span class="lineNum">      34 </span>                :<span class="lineCov">          7 :     SingletonRandom &amp; random_instance = SingletonRandom::GetInstance();</span>
+<a name="1"><span class="lineNum">       1 </span>                :            : #include &lt;stdexcept&gt;</a>
+<span class="lineNum">       2 </span>                :            : #include &quot;common_classes.h&quot;
+<span class="lineNum">       3 </span>                :            : #include &quot;column_match_manager.h&quot;
+<span class="lineNum">       4 </span>                :            : #include &quot;column_select_manager.h&quot;
+<span class="lineNum">       5 </span>                :            : 
+<span class="lineNum">       6 </span>                :            : using namespace std;
+<span class="lineNum">       7 </span>                :            : 
+<span class="lineNum">       8 </span>                :            : const float kToleranceRate = 0.25;
+<span class="lineNum">       9 </span>                :            : const float kAcceptableMatchRate = 1;
+<a name="10"><span class="lineNum">      10 </span>                :            : </a>
+<span class="lineNum">      11 </span>                :            : // Class ColumnSelectManager constructor
+<span class="lineNum">      12 </span>                :<span class="lineCov">         44 : ColumnSelectManager::ColumnSelectManager()</span>
+<span class="lineNum">      13 </span>                :            : {
+<span class="lineNum">      14 </span>                :<span class="lineCov">         22 :   b_failure_flag_ = false;</span>
+<span class="lineNum">      15 </span>                :<span class="lineCov">         22 :   best_match_column_.n_number_in_pool = -1;</span>
+<span class="lineNum">      16 </span>                :<span class="lineCov">         22 :   best_match_column_.enum_best_match_direct = LEFT;</span>
+<span class="lineNum">      17 </span>                :<span class="lineCov">         22 : }</span>
+<span class="lineNum">      18 </span>                :            : 
+<a name="19"><span class="lineNum">      19 </span>                :            : // Class ColumnSelectManager</a>
+<span class="lineNum">      20 </span>                :            : // Init vec_selected_columns_ and vec_column_pool_ with columns. 
+<span class="lineNum">      21 </span>                :<span class="lineCov">         34 : void ColumnSelectManager::Init(const vector&lt;vector&lt;string&gt;&gt; &amp; columns)</span>
+<span class="lineNum">      22 </span>                :            : {
+<span class="lineNum">      23 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 34 times"> + </span>]:<span class="lineCov">         34 :     if (!vec_selected_columns_.empty())</span>
+<span class="lineNum">      24 </span>                :<span class="lineNoCov">          0 :       vec_selected_columns_.clear();</span>
+<span class="lineNum">      25 </span>                :            : 
+<span class="lineNum">      26 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 34 times"> + </span>]:<span class="lineCov">         34 :     if (!vec_selected_columns_.empty())</span>
+<span class="lineNum">      27 </span>                :<span class="lineNoCov">          0 :       vec_column_pool_.clear();</span>
+<span class="lineNum">      28 </span>                :            : 
+<span class="lineNum">      29 </span>                :<span class="lineCov">         34 :     int n_column_size = columns.size();</span>
+<span class="lineNum">      30 </span>                :            : 
+<span class="lineNum">      31 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 31 times"> + </span>]:<span class="lineCov">         34 :     if (n_column_size &lt; 2)</span>
+<span class="lineNum">      32 </span>        [<span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          3 :       throw runtime_error(&quot;Invalid input to function ColumnSelectManager::Init()&quot;);</span>
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :<span class="lineCov">         31 :     vec_column_pool_.assign(columns.begin(),columns.end());</span>
 <span class="lineNum">      35 </span>                :            : 
 <span class="lineNum">      36 </span>                :            : #ifndef UTFLAG
-<span class="lineNum">      37 </span>                :            :     unsigned int n_temp = random_instance.GenerateRandom();
-<span class="lineNum">      38 </span>                :            : #else
-<span class="lineNum">      39 </span>                :<span class="lineCov">          7 :     unsigned int n_temp = 0;</span>
-<span class="lineNum">      40 </span>                :            : #endif
+<span class="lineNum">      37 </span>                :            :     TextStripOperation::Disorder(vec_column_pool_);
+<span class="lineNum">      38 </span>                :            : #endif
+<span class="lineNum">      39 </span>                :            :   
+<span class="lineNum">      40 </span>        [<span class="branchCov" title="Branch 3 was taken 31 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         31 :     vec_selected_columns_.emplace_back(*vec_column_pool_.begin());</span>
 <span class="lineNum">      41 </span>                :            : 
-<span class="lineNum">      42 </span>                :<span class="lineCov">          7 :     vec_selected_columns_.emplace_back(columns[n_temp]);</span>
+<span class="lineNum">      42 </span>        [<span class="branchCov" title="Branch 3 was taken 31 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         31 :     vec_column_pool_.erase(vec_column_pool_.begin());</span>
 <span class="lineNum">      43 </span>                :            : 
-<span class="lineNum">      44 </span>                :<span class="lineCov">          7 :     vec_column_pool_.assign(columns.begin(),columns.end());</span>
-<span class="lineNum">      45 </span>        [<span class="branchCov" title="Branch 4 was taken 7 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          7 :     vec_column_pool_.erase(vec_column_pool_.begin() + n_temp);</span>
-<span class="lineNum">      46 </span>                :<span class="lineCov">          7 : }</span>
-<a name="47"><span class="lineNum">      47 </span>                :            : </a>
-<span class="lineNum">      48 </span>                :            : // Class ColumnSelectManager
-<span class="lineNum">      49 </span>                :<span class="lineCov">         40 : void ColumnSelectManager::AddToSelectedColumns()</span>
-<span class="lineNum">      50 </span>                :            : {     
-<span class="lineNum">      51 </span>[<span class="branchCov" title="Branch 0 was taken 39 times"> + </span><span class="branchCov" title="Branch 1 was taken 1 time"> + </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 39 times"> + </span>]:<span class="lineCov">         40 :   if (best_match_column_.n_number_in_pool &lt; 0 || best_match_column_.n_number_in_pool &gt;= static_cast&lt;int&gt;(vec_column_pool_.size())) </span>
-<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 5 was taken 1 time"> + </span><span class="branchCov" title="Branch 6 was taken 39 times"> + </span>]
-<span class="lineNum">      52 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;Abnormal Error&quot;);</span>
-<span class="lineNum">      53 </span>                :            : 
-<span class="lineNum">      54 </span>        [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 29 times"> + </span>]:<span class="lineCov">         39 :   if (best_match_column_.enum_best_match_direct == LEFT)</span>
-<span class="lineNum">      55 </span>                :            :   {
-<span class="lineNum">      56 </span>        [<span class="branchCov" title="Branch 4 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         10 :     vec_selected_columns_.emplace(vec_selected_columns_.begin(), vec_column_pool_[best_match_column_.n_number_in_pool]);</span>
-<span class="lineNum">      57 </span>                :            :   }
-<span class="lineNum">      58 </span>                :            :   else
-<span class="lineNum">      59 </span>                :            :   {
-<span class="lineNum">      60 </span>                :<span class="lineCov">         29 :     vec_selected_columns_.emplace_back(vec_column_pool_[best_match_column_.n_number_in_pool]);</span>
-<span class="lineNum">      61 </span>                :            :   }
-<span class="lineNum">      62 </span>                :<span class="lineCov">         39 : }</span>
-<a name="63"><span class="lineNum">      63 </span>                :            : </a>
-<span class="lineNum">      64 </span>                :            : // Class ColumnSelectManager
-<span class="lineNum">      65 </span>                :<span class="lineCov">         40 : void ColumnSelectManager::DeleteFromColumnPool()</span>
-<span class="lineNum">      66 </span>                :            : {
-<span class="lineNum">      67 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 39 times"> + </span>]:<span class="lineCov">         40 :   if (best_match_column_.n_number_in_pool == -1) </span>
-<span class="lineNum">      68 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;Function DeleteFromColumnPool() should not be called when best_match_column_.n_number_in_pool is -1&quot;);</span>
-<span class="lineNum">      69 </span>                :            : 
-<span class="lineNum">      70 </span>[<span class="branchCov" title="Branch 0 was taken 39 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchNoCov" title="Branch 3 was not taken"> - </span><span class="branchCov" title="Branch 4 was taken 39 times"> + </span>]:<span class="lineCov">         39 :   if (best_match_column_.n_number_in_pool &lt; 0 || best_match_column_.n_number_in_pool &gt;= vec_column_pool_.size()) </span>
-<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 5 was not taken"> - </span><span class="branchCov" title="Branch 6 was taken 39 times"> + </span>]
-<span class="lineNum">      71 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     throw runtime_error(&quot;Abnormal Error&quot;);</span>
+<span class="lineNum">      44 </span>                :<span class="lineCov">         31 : }</span>
+<a name="45"><span class="lineNum">      45 </span>                :            : </a>
+<span class="lineNum">      46 </span>                :            : // Class ColumnSelectManager
+<span class="lineNum">      47 </span>                :<span class="lineCov">        401 : void ColumnSelectManager::AddToSelectedColumns()</span>
+<span class="lineNum">      48 </span>                :            : {     
+<span class="lineNum">      49 </span>[<span class="branchCov" title="Branch 0 was taken 400 times"> + </span><span class="branchCov" title="Branch 1 was taken 1 time"> + </span>][<span class="branchCov" title="Branch 3 was taken 1 time"> + </span><span class="branchCov" title="Branch 4 was taken 399 times"> + </span>]:<span class="lineCov">        401 :   if (best_match_column_.n_number_in_pool &lt; 0 || best_match_column_.n_number_in_pool &gt;= static_cast&lt;int&gt;(vec_column_pool_.size())) </span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 5 was taken 2 times"> + </span><span class="branchCov" title="Branch 6 was taken 399 times"> + </span>]
+<span class="lineNum">      50 </span>        [<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          2 :     throw runtime_error(&quot;Abnormal Error&quot;);</span>
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 398 times"> + </span>]:<span class="lineCov">        399 :   if (best_match_column_.enum_best_match_direct == LEFT)</span>
+<span class="lineNum">      53 </span>                :            :   {
+<span class="lineNum">      54 </span>        [<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          1 :     vec_selected_columns_.emplace(vec_selected_columns_.begin(), vec_column_pool_[best_match_column_.n_number_in_pool]);</span>
+<span class="lineNum">      55 </span>                :            :   }
+<span class="lineNum">      56 </span>                :            :   else
+<span class="lineNum">      57 </span>                :            :   {
+<span class="lineNum">      58 </span>                :<span class="lineCov">        398 :     vec_selected_columns_.emplace_back(vec_column_pool_[best_match_column_.n_number_in_pool]);</span>
+<span class="lineNum">      59 </span>                :            :   }
+<span class="lineNum">      60 </span>                :<span class="lineCov">        399 : }</span>
+<a name="61"><span class="lineNum">      61 </span>                :            : </a>
+<span class="lineNum">      62 </span>                :            : // Class ColumnSelectManager
+<span class="lineNum">      63 </span>                :<span class="lineCov">        400 : void ColumnSelectManager::DeleteFromColumnPool()</span>
+<span class="lineNum">      64 </span>                :            : {
+<span class="lineNum">      65 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 399 times"> + </span>]:<span class="lineCov">        400 :   if (best_match_column_.n_number_in_pool == -1) </span>
+<span class="lineNum">      66 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;Function DeleteFromColumnPool() should not be called when best_match_column_.n_number_in_pool is -1&quot;);</span>
+<span class="lineNum">      67 </span>                :            : 
+<span class="lineNum">      68 </span>[<span class="branchCov" title="Branch 0 was taken 399 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 1 time"> + </span><span class="branchCov" title="Branch 4 was taken 398 times"> + </span>]:<span class="lineCov">        399 :   if (best_match_column_.n_number_in_pool &lt; 0 || best_match_column_.n_number_in_pool &gt;= vec_column_pool_.size()) </span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 5 was taken 1 time"> + </span><span class="branchCov" title="Branch 6 was taken 398 times"> + </span>]
+<span class="lineNum">      69 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;Abnormal Error&quot;);</span>
+<span class="lineNum">      70 </span>                :            : 
+<span class="lineNum">      71 </span>        [<span class="branchCov" title="Branch 4 was taken 398 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">        398 :   vec_column_pool_.erase(vec_column_pool_.begin() + best_match_column_.n_number_in_pool);</span>
 <span class="lineNum">      72 </span>                :            : 
-<span class="lineNum">      73 </span>        [<span class="branchCov" title="Branch 4 was taken 39 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">         39 :   vec_column_pool_.erase(vec_column_pool_.begin() + best_match_column_.n_number_in_pool);</span>
-<span class="lineNum">      74 </span>                :            : 
-<span class="lineNum">      75 </span>                :            :   // Reset the following is -1 after removing it from vec_column_pool_
-<span class="lineNum">      76 </span>                :<span class="lineCov">         39 :   best_match_column_.n_number_in_pool = -1;</span>
-<span class="lineNum">      77 </span>                :<span class="lineCov">         39 : }</span>
-<a name="78"><span class="lineNum">      78 </span>                :            : </a>
-<span class="lineNum">      79 </span>                :            : // Class ColumnSelectManager
-<span class="lineNum">      80 </span>                :<span class="lineCov">         39 : void ColumnSelectManager::FindBestMatch()</span>
-<span class="lineNum">      81 </span>                :            : {
-<span class="lineNum">      82 </span>[<span class="branchCov" title="Branch 1 was taken 39 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 39 times"> + </span>]:<span class="lineCov">         39 :    if (vec_selected_columns_.empty() || vec_column_pool_.empty())</span>
-<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 6 was not taken"> - </span><span class="branchCov" title="Branch 7 was taken 39 times"> + </span>]
-<span class="lineNum">      83 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :      throw runtime_error(&quot;Cannot run function FindBestMatch() when vec_selected_columns_ and/or vec_column_pool_ empty!&quot;);</span>
-<span class="lineNum">      84 </span>                :            :     
-<span class="lineNum">      85 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 39 times"> + </span>]:<span class="lineCov">         39 :    if (best_match_column_.n_number_in_pool != -1)</span>
-<span class="lineNum">      86 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :      throw runtime_error(&quot;Should not run function FindBestMatch() when best_match_column_.n_number_in_pool is not equal to -1&quot;);</span>
-<span class="lineNum">      87 </span>                :            : 
-<span class="lineNum">      88 </span>                :            :    MatchRate match_rate_t;
-<span class="lineNum">      89 </span>                :            :    TwoWayDirections enum_direct_t;
-<span class="lineNum">      90 </span>                :            : 
-<span class="lineNum">      91 </span>                :<span class="lineCov">         39 :    int n_number = -1;</span>
-<span class="lineNum">      92 </span>                :<span class="lineCov">         39 :    float f_best_match_rate = kAcceptableMatchRate;</span>
+<span class="lineNum">      73 </span>                :            :   // Reset the following is -1 after removing it from vec_column_pool_
+<span class="lineNum">      74 </span>                :<span class="lineCov">        398 :   best_match_column_.n_number_in_pool = -1;</span>
+<span class="lineNum">      75 </span>                :<span class="lineCov">        398 : }</span>
+<a name="76"><span class="lineNum">      76 </span>                :            : </a>
+<span class="lineNum">      77 </span>                :            : // Class ColumnSelectManager
+<span class="lineNum">      78 </span>                :<span class="lineCov">        382 : void ColumnSelectManager::FindBestMatch()</span>
+<span class="lineNum">      79 </span>                :            : {
+<span class="lineNum">      80 </span>[<span class="branchCov" title="Branch 1 was taken 381 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>][<span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 381 times"> + </span>]:<span class="lineCov">        382 :    if (vec_selected_columns_.empty() || vec_column_pool_.empty())</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 6 was taken 1 time"> + </span><span class="branchCov" title="Branch 7 was taken 381 times"> + </span>]
+<span class="lineNum">      81 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :      throw runtime_error(&quot;Cannot run function FindBestMatch() when vec_selected_columns_ and/or vec_column_pool_ empty!&quot;);</span>
+<span class="lineNum">      82 </span>                :            :     
+<span class="lineNum">      83 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 380 times"> + </span>]:<span class="lineCov">        381 :    if (best_match_column_.n_number_in_pool != -1)</span>
+<span class="lineNum">      84 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :      throw runtime_error(&quot;Should not run function FindBestMatch() when best_match_column_.n_number_in_pool is not equal to -1&quot;);</span>
+<span class="lineNum">      85 </span>                :            : 
+<span class="lineNum">      86 </span>                :            :    MatchRate match_rate_t;
+<span class="lineNum">      87 </span>                :            :    TwoWayDirections enum_direct_t;
+<span class="lineNum">      88 </span>                :            : 
+<span class="lineNum">      89 </span>                :<span class="lineCov">        380 :    int n_number = -1;</span>
+<span class="lineNum">      90 </span>                :<span class="lineCov">        380 :    float f_best_match_rate = kAcceptableMatchRate;</span>
+<span class="lineNum">      91 </span>                :            : 
+<span class="lineNum">      92 </span>                :<span class="lineCov">        380 :    auto iter = vec_column_pool_.begin();</span>
 <span class="lineNum">      93 </span>                :            : 
-<span class="lineNum">      94 </span>                :<span class="lineCov">         39 :    auto iter = vec_column_pool_.begin();</span>
-<span class="lineNum">      95 </span>                :            : 
-<span class="lineNum">      96 </span>        [<span class="branchCov" title="Branch 2 was taken 350 times"> + </span><span class="branchCov" title="Branch 3 was taken 39 times"> + </span>]:<span class="lineCov">        389 :    while (iter != vec_column_pool_.end() )</span>
-<span class="lineNum">      97 </span>                :            :    {   
-<span class="lineNum">      98 </span>[<span class="branchCov" title="Branch 2 was taken 350 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 350 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">        350 :        ColumnMatchManager * p_column_match_manager = new ColumnMatchManager(vec_selected_columns_, *iter); </span>
-<span class="lineNum">      99 </span>                :            :  
-<span class="lineNum">     100 </span>        [<span class="branchCov" title="Branch 1 was taken 350 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">        350 :        p_column_match_manager-&gt;CalculateMatchRate();</span>
-<span class="lineNum">     101 </span>        [<span class="branchCov" title="Branch 0 was taken 700 times"> + </span><span class="branchCov" title="Branch 1 was taken 350 times"> + </span>]:<span class="lineCov">       1050 :        for(TwoWayDirections j = LEFT ;j &lt; LIMIT; j = (TwoWayDirections)(j + 1))</span>
-<span class="lineNum">     102 </span>                :            :        {
-<span class="lineNum">     103 </span>                :<span class="lineCov">        700 :          match_rate_t = p_column_match_manager-&gt;column_match_rate_[j];</span>
-<span class="lineNum">     104 </span>        [<span class="branchCov" title="Branch 0 was taken 394 times"> + </span><span class="branchCov" title="Branch 1 was taken 306 times"> + </span>]:<span class="lineCov">        700 :          if (match_rate_t.f_notmatch_rate &gt; kToleranceRate)</span>
-<span class="lineNum">     105 </span>                :            :          {
-<span class="lineNum">     106 </span>                :<span class="lineCov">        394 :                continue;</span>
-<span class="lineNum">     107 </span>                :            :          }
-<span class="lineNum">     108 </span>                :            :            else
-<span class="lineNum">     109 </span>                :            :          {
-<span class="lineNum">     110 </span>        [<span class="branchCov" title="Branch 0 was taken 59 times"> + </span><span class="branchCov" title="Branch 1 was taken 247 times"> + </span>]:<span class="lineCov">        306 :             if (match_rate_t.f_match_rate &gt; f_best_match_rate)</span>
-<span class="lineNum">     111 </span>                :            :             {
-<span class="lineNum">     112 </span>                :<span class="lineCov">         59 :                  f_best_match_rate = match_rate_t.f_match_rate;</span>
-<span class="lineNum">     113 </span>                :<span class="lineCov">         59 :                  n_number = static_cast&lt;int&gt; (iter - vec_column_pool_.begin());</span>
-<span class="lineNum">     114 </span>                :<span class="lineCov">         59 :                  enum_direct_t = j;</span>
-<span class="lineNum">     115 </span>                :            :             }
-<span class="lineNum">     116 </span>                :            :          }
-<span class="lineNum">     117 </span>                :            :        }
-<span class="lineNum">     118 </span>                :            : 
-<span class="lineNum">     119 </span>        [<span class="branchCov" title="Branch 0 was taken 350 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">        350 :        delete p_column_match_manager;</span>
-<span class="lineNum">     120 </span>                :<span class="lineCov">        350 :        ++iter;</span>
-<span class="lineNum">     121 </span>                :            :    }
-<span class="lineNum">     122 </span>                :            : 
-<span class="lineNum">     123 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 39 times"> + </span>]:<span class="lineCov">         39 :    if (n_number == -1)</span>
-<span class="lineNum">     124 </span>                :            :    {
-<span class="lineNum">     125 </span>                :            :       // f_best_match_rate should be 0 at this time, otherwise, throw an error.
-<span class="lineNum">     126 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :       if (f_best_match_rate != 0)</span>
-<span class="lineNum">     127 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :         throw runtime_error(&quot;Abnormal error!&quot;);</span>
-<span class="lineNum">     128 </span>                :            : 
-<span class="lineNum">     129 </span>                :            :       // Failed to find any matching columns, pre-majured!
-<span class="lineNum">     130 </span>                :<span class="lineNoCov">          0 :       b_failure_flag_ = true;</span>
-<span class="lineNum">     131 </span>                :            :    }
-<span class="lineNum">     132 </span>                :            :    else
-<span class="lineNum">     133 </span>                :            :    { 
-<span class="lineNum">     134 </span>                :<span class="lineCov">         39 :      best_match_column_.n_number_in_pool = n_number; </span>
-<span class="lineNum">     135 </span>                :            : 
-<span class="lineNum">     136 </span>                :            :      // enum_direct_t must have been assigned a value, otherwise, throw an error.
-<span class="lineNum">     137 </span>[<span class="branchCov" title="Branch 0 was taken 29 times"> + </span><span class="branchCov" title="Branch 1 was taken 10 times"> + </span>][<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 29 times"> + </span>]:<span class="lineCov">         39 :      if (enum_direct_t != LEFT &amp;&amp; enum_direct_t != RIGHT )</span>
-<span class="lineNum">     138 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :        throw runtime_error(&quot;Abnormal error!&quot;);</span>
+<span class="lineNum">      94 </span>        [<span class="branchCov" title="Branch 2 was taken 3754 times"> + </span><span class="branchCov" title="Branch 3 was taken 380 times"> + </span>]:<span class="lineCov">       4134 :    while (iter != vec_column_pool_.end() )</span>
+<span class="lineNum">      95 </span>                :            :    {   
+<span class="lineNum">      96 </span>[<span class="branchCov" title="Branch 2 was taken 3754 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 3754 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">       3754 :        ColumnMatchManager * p_column_match_manager = new ColumnMatchManager(vec_selected_columns_, *iter); </span>
+<span class="lineNum">      97 </span>                :            :  
+<span class="lineNum">      98 </span>        [<span class="branchCov" title="Branch 1 was taken 3754 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">       3754 :        p_column_match_manager-&gt;CalculateMatchRate();</span>
+<span class="lineNum">      99 </span>        [<span class="branchCov" title="Branch 0 was taken 7508 times"> + </span><span class="branchCov" title="Branch 1 was taken 3754 times"> + </span>]:<span class="lineCov">      11262 :        for(TwoWayDirections j = LEFT ;j &lt; LIMIT; j = (TwoWayDirections)(j + 1))</span>
+<span class="lineNum">     100 </span>                :            :        {
+<span class="lineNum">     101 </span>                :<span class="lineCov">       7508 :          match_rate_t = p_column_match_manager-&gt;column_match_rate_[j];</span>
+<span class="lineNum">     102 </span>        [<span class="branchCov" title="Branch 0 was taken 4992 times"> + </span><span class="branchCov" title="Branch 1 was taken 2516 times"> + </span>]:<span class="lineCov">       7508 :          if (match_rate_t.f_notmatch_rate &gt; kToleranceRate)</span>
+<span class="lineNum">     103 </span>                :            :          {
+<span class="lineNum">     104 </span>                :<span class="lineCov">       4992 :                continue;</span>
+<span class="lineNum">     105 </span>                :            :          }
+<span class="lineNum">     106 </span>                :            :            else
+<span class="lineNum">     107 </span>                :            :          {
+<span class="lineNum">     108 </span>        [<span class="branchCov" title="Branch 0 was taken 488 times"> + </span><span class="branchCov" title="Branch 1 was taken 2028 times"> + </span>]:<span class="lineCov">       2516 :             if (match_rate_t.f_match_rate &gt; f_best_match_rate)</span>
+<span class="lineNum">     109 </span>                :            :             {
+<span class="lineNum">     110 </span>                :<span class="lineCov">        488 :                  f_best_match_rate = match_rate_t.f_match_rate;</span>
+<span class="lineNum">     111 </span>                :<span class="lineCov">        488 :                  n_number = static_cast&lt;int&gt; (iter - vec_column_pool_.begin());</span>
+<span class="lineNum">     112 </span>                :<span class="lineCov">        488 :                  enum_direct_t = j;</span>
+<span class="lineNum">     113 </span>                :            :             }
+<span class="lineNum">     114 </span>                :            :          }
+<span class="lineNum">     115 </span>                :            :        }
+<span class="lineNum">     116 </span>                :            : 
+<span class="lineNum">     117 </span>        [<span class="branchCov" title="Branch 0 was taken 3754 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">       3754 :        delete p_column_match_manager;</span>
+<span class="lineNum">     118 </span>                :<span class="lineCov">       3754 :        ++iter;</span>
+<span class="lineNum">     119 </span>                :            :    }
+<span class="lineNum">     120 </span>                :            : 
+<span class="lineNum">     121 </span>        [<span class="branchCov" title="Branch 0 was taken 24 times"> + </span><span class="branchCov" title="Branch 1 was taken 356 times"> + </span>]:<span class="lineCov">        380 :    if (n_number == -1)</span>
+<span class="lineNum">     122 </span>                :            :    {
+<span class="lineNum">     123 </span>                :            :       // f_best_match_rate should be equal to kAcceptableMatchRate at this time, otherwise, throw an error.
+<span class="lineNum">     124 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 24 times"> + </span>]:<span class="lineCov">         24 :       if (f_best_match_rate != kAcceptableMatchRate)</span>
+<span class="lineNum">     125 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :         throw runtime_error(&quot;Abnormal error!&quot;);</span>
+<span class="lineNum">     126 </span>                :            : 
+<span class="lineNum">     127 </span>                :            :       // Failed to find any matching columns, pre-majured!
+<span class="lineNum">     128 </span>                :<span class="lineCov">         24 :       b_failure_flag_ = true;</span>
+<span class="lineNum">     129 </span>                :            :    }
+<span class="lineNum">     130 </span>                :            :    else
+<span class="lineNum">     131 </span>                :            :    { 
+<span class="lineNum">     132 </span>                :<span class="lineCov">        356 :      best_match_column_.n_number_in_pool = n_number; </span>
+<span class="lineNum">     133 </span>                :            : 
+<span class="lineNum">     134 </span>                :            :      // enum_direct_t must have been assigned a value, otherwise, throw an error.
+<span class="lineNum">     135 </span>[<span class="branchCov" title="Branch 0 was taken 356 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>][<span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 356 times"> + </span>]:<span class="lineCov">        356 :      if (enum_direct_t != LEFT &amp;&amp; enum_direct_t != RIGHT )</span>
+<span class="lineNum">     136 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :        throw runtime_error(&quot;Abnormal error!&quot;);</span>
+<span class="lineNum">     137 </span>                :            : 
+<span class="lineNum">     138 </span>                :<span class="lineCov">        356 :      best_match_column_.enum_best_match_direct = enum_direct_t;</span>
 <span class="lineNum">     139 </span>                :            : 
-<span class="lineNum">     140 </span>                :<span class="lineCov">         39 :      best_match_column_.enum_best_match_direct = enum_direct_t;</span>
+<span class="lineNum">     140 </span>                :<span class="lineCov">        356 :      b_failure_flag_ = false;</span>
 <span class="lineNum">     141 </span>                :            :    }
-<span class="lineNum">     142 </span>                :<span class="lineCov">         39 : }</span>
+<span class="lineNum">     142 </span>                :<span class="lineCov">        380 : }</span>
 <a name="143"><span class="lineNum">     143 </span>                :            : </a>
 <span class="lineNum">     144 </span>                :            : // Class ColumnSelectManager
-<span class="lineNum">     145 </span>                :<span class="lineCov">         38 : void ColumnSelectManager::RebuildColumnsByBestMatch()</span>
+<span class="lineNum">     145 </span>                :<span class="lineCov">        380 : void ColumnSelectManager::RebuildColumnsByBestMatch()</span>
 <span class="lineNum">     146 </span>                :            : {
-<span class="lineNum">     147 </span>[<span class="branchCov" title="Branch 1 was taken 38 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 38 times"> + </span>]:<span class="lineCov">         38 :   if (vec_selected_columns_.empty() || vec_column_pool_.empty())</span>
-<span class="lineNum">         </span>        [<span class="branchNoCov" title="Branch 6 was not taken"> - </span><span class="branchCov" title="Branch 7 was taken 38 times"> + </span>]
-<span class="lineNum">     148 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     throw runtime_error(&quot;Cannot run function RebuildColumnsByBestMatch() when vec_selected_columns_ and/or vec_column_pool_ empty!&quot;);</span>
+<span class="lineNum">     147 </span>[<span class="branchCov" title="Branch 1 was taken 379 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>][<span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 379 times"> + </span>]:<span class="lineCov">        380 :   if (vec_selected_columns_.empty() || vec_column_pool_.empty())</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 6 was taken 1 time"> + </span><span class="branchCov" title="Branch 7 was taken 379 times"> + </span>]
+<span class="lineNum">     148 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;Cannot run function RebuildColumnsByBestMatch() when vec_selected_columns_ and/or vec_column_pool_ empty!&quot;);</span>
 <span class="lineNum">     149 </span>                :            : 
 <span class="lineNum">     150 </span>                :            :   int n_column_pool_number_t;
 <span class="lineNum">     151 </span>                :            :   TwoWayDirections enum_direct_t;
 <span class="lineNum">     152 </span>                :            : 
-<span class="lineNum">     153 </span>                :<span class="lineCov">         38 :   FindBestMatch();</span>
-<span class="lineNum">     154 </span>                :            : 
-<span class="lineNum">     155 </span>                :            :   // If b_failure_flag_ is true, do nothing.
-<span class="lineNum">     156 </span>        [<span class="branchCov" title="Branch 0 was taken 38 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span>]:<span class="lineCov">         38 :   if (b_failure_flag_ != true ) </span>
-<span class="lineNum">     157 </span>                :            :   {
-<span class="lineNum">     158 </span>                :            :     // Reconstruct vec_selected_columns_ with BestMatchColumn
-<span class="lineNum">     159 </span>                :<span class="lineCov">         38 :     AddToSelectedColumns();</span>
-<span class="lineNum">     160 </span>                :            :   
-<span class="lineNum">     161 </span>                :            :     // Reconstruct vec_column_pool_ with removing column in BestMatchColumn
-<span class="lineNum">     162 </span>                :<span class="lineCov">         38 :     DeleteFromColumnPool();</span>
-<span class="lineNum">     163 </span>                :            :   }
-<span class="lineNum">     164 </span>                :<span class="lineCov">         38 : }</span>
-<span class="lineNum">     165 </span>                :            : 
+<span class="lineNum">     153 </span>[<span class="branchCov" title="Branch 0 was taken 378 times"> + </span><span class="branchCov" title="Branch 1 was taken 1 time"> + </span>][<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchCov" title="Branch 3 was taken 377 times"> + </span>]:<span class="lineCov">        379 :   if (b_failure_flag_ != false || best_match_column_.n_number_in_pool != -1)</span>
+<span class="lineNum">     154 </span>        [<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          2 :     throw runtime_error(&quot;Should not call RebuildColumnsByBestMatch() when b_failure_flag_ is not false or best_match_column_.n_number_in_pool is not -1 &quot;);</span>
+<span class="lineNum">     155 </span>                :            : 
+<span class="lineNum">     156 </span>                :<span class="lineCov">        377 :   FindBestMatch();</span>
+<span class="lineNum">     157 </span>                :            : 
+<span class="lineNum">     158 </span>                :            :   // If b_failure_flag_ is true, do nothing.
+<span class="lineNum">     159 </span>        [<span class="branchCov" title="Branch 0 was taken 353 times"> + </span><span class="branchCov" title="Branch 1 was taken 24 times"> + </span>]:<span class="lineCov">        377 :   if (b_failure_flag_ != true ) </span>
+<span class="lineNum">     160 </span>                :            :   {
+<span class="lineNum">     161 </span>                :            :     // Reconstruct vec_selected_columns_ with BestMatchColumn
+<span class="lineNum">     162 </span>                :<span class="lineCov">        353 :     AddToSelectedColumns();</span>
+<span class="lineNum">     163 </span>                :            :   
+<span class="lineNum">     164 </span>                :            :     // Reconstruct vec_column_pool_ with removing column in BestMatchColumn
+<span class="lineNum">     165 </span>                :<span class="lineCov">        353 :     DeleteFromColumnPool();</span>
+<span class="lineNum">     166 </span>                :            :   }
+<span class="lineNum">     167 </span>                :<span class="lineCov">        377 : }</span>
+<span class="lineNum">     168 </span>                :            : 
 </pre>
       </td>
     </tr>

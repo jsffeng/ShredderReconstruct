@@ -25,7 +25,6 @@ class ColumnMatchManager
     MatchRate column_match_rate_[LIMIT];
 
     ColumnMatchManager(std::vector<std::vector<std::string>> & vec_text_columns, std::vector<std::string> & vec_new_column);
-    ColumnMatchManager() {}
 
     // Populate column_match_rate_[]
     void CalculateMatchRate();

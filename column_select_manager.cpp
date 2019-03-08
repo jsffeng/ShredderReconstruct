@@ -32,8 +32,11 @@ void ColumnSelectManager::Init(const vector<vector<string>> & columns)
       throw runtime_error("Invalid input to function ColumnSelectManager::Init()");
 
     vec_column_pool_.assign(columns.begin(),columns.end());
+
+#ifndef UTFLAG
     TextStripOperation::Disorder(vec_column_pool_);
-   
+#endif
+  
     vec_selected_columns_.emplace_back(*vec_column_pool_.begin());
 
     vec_column_pool_.erase(vec_column_pool_.begin());
@@ -133,6 +136,8 @@ void ColumnSelectManager::FindBestMatch()
        throw runtime_error("Abnormal error!");
 
      best_match_column_.enum_best_match_direct = enum_direct_t;
+
+     b_failure_flag_ = false;
    }
 }
 
@@ -144,6 +149,9 @@ void ColumnSelectManager::RebuildColumnsByBestMatch()
 
   int n_column_pool_number_t;
   TwoWayDirections enum_direct_t;
+
+  if (b_failure_flag_ != false || best_match_column_.n_number_in_pool != -1)
+    throw runtime_error("Should not call RebuildColumnsByBestMatch() when b_failure_flag_ is not false or best_match_column_.n_number_in_pool is not -1 ");
 
   FindBestMatch();
 

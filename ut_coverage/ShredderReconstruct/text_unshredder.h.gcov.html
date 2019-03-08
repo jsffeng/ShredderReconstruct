@@ -37,11 +37,11 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-03-05 01:55:31</td>
+            <td class="headerValue">2019-03-08 21:55:38</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">3</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
@@ -49,9 +49,9 @@
             <td></td>
             <td></td>
             <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">50.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -77,52 +77,50 @@
 <span class="lineNum">       6 </span>                :            : #include &quot;column_select_manager.h&quot;
 <a name="7"><span class="lineNum">       7 </span>                :            : </a>
 <span class="lineNum">       8 </span>                :            : // To construct text strips to a text page
-<span class="lineNum">       9 </span>                :<span class="lineCov">         12 : class TextUnshredder</span>
+<span class="lineNum">       9 </span>[<span class="branchCov" title="Branch 2 was taken 22 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 22 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">        242 : class TextUnshredder</span>
 <span class="lineNum">      10 </span>                :            : {
 <span class="lineNum">      11 </span>                :            : #ifdef UTFLAG
 <span class="lineNum">      12 </span>                :            :   public:
 <span class="lineNum">      13 </span>                :            : #else
 <span class="lineNum">      14 </span>                :            :   private:
 <span class="lineNum">      15 </span>                :            : #endif
-<span class="lineNum">      16 </span>                :            :     const std::string str_in_filename_;
-<span class="lineNum">      17 </span>                :            :     const std::string str_out_filename_;
-<span class="lineNum">      18 </span>                :            : 
-<span class="lineNum">      19 </span>                :            :     // Store text data read from str_in_filename_
+<span class="lineNum">      16 </span>                :            :     ColumnSelectManager column_select_manager_;
+<span class="lineNum">      17 </span>                :            : 
+<span class="lineNum">      18 </span>                :            :   public:
+<span class="lineNum">      19 </span>                :            :     // Store text data read from GetInput()
 <span class="lineNum">      20 </span>                :            :     // Use blank character ' ' to record a blank, in this way, all rows have the same number of charactors.
 <span class="lineNum">      21 </span>                :            :     // This will be convinient and safe , especially when handling it like a 2-dimentional array.
 <span class="lineNum">      22 </span>                :            :     std::vector&lt;std::vector&lt;std::string&gt;&gt; vec_text_columns_;
 <span class="lineNum">      23 </span>                :            : 
 <span class="lineNum">      24 </span>                :            :     // Store final result
 <span class="lineNum">      25 </span>                :            :     std::vector&lt;std::string&gt; vec_merged_text_;
-<span class="lineNum">      26 </span>                :            :     ColumnSelectManager column_select_manager_;
-<span class="lineNum">      27 </span>                :            : 
-<span class="lineNum">      28 </span>                :            :   public:
-<span class="lineNum">      29 </span>                :            :     bool b_premature_flag_;
-<span class="lineNum">      30 </span>                :            : 
-<span class="lineNum">      31 </span>                :            :     // Size of unselected columns
-<span class="lineNum">      32 </span>                :            :     int n_premature_column_count_;
-<span class="lineNum">      33 </span>                :            : 
-<span class="lineNum">      34 </span>                :            :     // Set b_premature_flag_ = false, n_premature_column_count_ = 0
-<span class="lineNum">      35 </span>                :            :     TextUnshredder(const std::string str_in_file, const std::string str_out_file);
-<span class="lineNum">      36 </span>                :            : 
-<span class="lineNum">      37 </span>                :            :     // Populate vec_text_columns_ from str_in_filename_, with calling text_strip::transpose
-<span class="lineNum">      38 </span>                :            :     // Use blank charactor ' ' to record blanks,i.e. never use empty std::string &quot;&quot; to record blanks 
-<span class="lineNum">      39 </span>                :            :     // in the vec_text_columns_.
-<span class="lineNum">      40 </span>                :            :     void GetInput(); 
+<span class="lineNum">      26 </span>                :            : 
+<span class="lineNum">      27 </span>                :            :     bool b_premature_flag_;
+<span class="lineNum">      28 </span>                :            : 
+<span class="lineNum">      29 </span>                :            :     // Size of unselected columns
+<span class="lineNum">      30 </span>                :            :     int n_premature_column_count_;
+<span class="lineNum">      31 </span>                :            : 
+<span class="lineNum">      32 </span>                :            :     // Set b_premature_flag_ = false, n_premature_column_count_ = 0
+<span class="lineNum">      33 </span>                :            :     TextUnshredder();
+<span class="lineNum">      34 </span>                :            : 
+<span class="lineNum">      35 </span>                :            :     // Populate vec_text_columns_ from input file, with calling text_strip::transpose
+<span class="lineNum">      36 </span>                :            :     // Use blank charactor ' ' to record blanks,i.e. never use empty string &quot;&quot; to record blanks 
+<span class="lineNum">      37 </span>                :            :     // in the vec_text_columns_.
+<span class="lineNum">      38 </span>                :            :     void GetInput(const std::string str_in_file); 
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>                :            :     void DoTextUnshredder();
 <span class="lineNum">      41 </span>                :            : 
-<span class="lineNum">      42 </span>                :            :     void DoTextUnshredder();
-<span class="lineNum">      43 </span>                :            : 
-<span class="lineNum">      44 </span>                :            :     // Generate final output file with vec_merged_text_
-<span class="lineNum">      45 </span>                :            :     void CreateOutput(); 
-<span class="lineNum">      46 </span>                :            : };
-<span class="lineNum">      47 </span>                :            : 
-<span class="lineNum">      48 </span>                :            : #ifdef UTFLAG
-<span class="lineNum">      49 </span>                :            :   // To change main() to UTmain() so as to be tested by Unit Testing
-<span class="lineNum">      50 </span>                :            :   extern int UTmain(const std::string str_infile, const std::string str_outfile);
-<span class="lineNum">      51 </span>                :            : #endif
-<span class="lineNum">      52 </span>                :            : 
-<span class="lineNum">      53 </span>                :            : 
-<span class="lineNum">      54 </span>                :            : #endif
+<span class="lineNum">      42 </span>                :            :     // Generate final output file
+<span class="lineNum">      43 </span>                :            :     void CreateOutput(const std::string str_out_file); 
+<span class="lineNum">      44 </span>                :            : };
+<span class="lineNum">      45 </span>                :            : 
+<span class="lineNum">      46 </span>                :            : #ifdef UTFLAG
+<span class="lineNum">      47 </span>                :            :   // To change main() to UTmain() so as to be tested by Unit Testing
+<span class="lineNum">      48 </span>                :            :   extern int UTmain(const std::string str_infile, const std::string str_outfile);
+<span class="lineNum">      49 </span>                :            : #endif
+<span class="lineNum">      50 </span>                :            : 
+<span class="lineNum">      51 </span>                :            : 
+<span class="lineNum">      52 </span>                :            : #endif
 </pre>
       </td>
     </tr>

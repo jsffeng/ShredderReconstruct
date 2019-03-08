@@ -25,7 +25,7 @@ ALLOBJS := $(ALLSRCS:.cpp=.o)
 ALLOBJS += $(MULTI_THREAD_OBJ_NAME)_multi.o
 
 OBJS_SHRED := common_classes.o singleton_random.o text_shredder.o shred_main.o
-OBJS_UNSHRED := common_classes.o singleton_random_multi.o singleton_diction.o column_match_manager.o column_select_manager.o text_unshredder.o main_thread.o unshred_main.o
+OBJS_UNSHRED := common_classes.o singleton_random_multi.o singleton_diction.o column_match_manager.o column_select_manager.o text_unshredder.o thread_controller.o unshred_main.o
 
 
 # UT test code

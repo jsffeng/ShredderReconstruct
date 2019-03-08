@@ -65,7 +65,6 @@ void TextUnshredder::GetInput(const string str_in_file)
 
   // Transpose vec_text_temp to vec_text_columns__
   TextStripOperation::Transpose(vec_text_temp, vec_text_columns_);
-
 }
 
 // Class TextUnshredder

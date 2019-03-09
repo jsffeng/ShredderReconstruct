@@ -116,9 +116,14 @@ $(MULTI_THREAD_OBJ_NAME)_multi_test.o: $(MULTI_THREAD_OBJ_NAME).cpp
 %_utest.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) -o $@ -c $<
 
+# Need multi-thread support for this objective 
+$(TEST_DIR)/UT$(TARGET_UNSHRED)_utest.o:$(TEST_DIR)/UT$(TARGET_UNSHRED).cpp
+	$(CC) $(DUTFLAG) $(CFLAGS) $(MULTI_THREAD_FLAG) -o $@ -c $<
+
 run_ut: ut
 	$(TEST_TARGET_SHRED) --run_test=SingletonRandom_test --log_level=warning;echo
 	$(TEST_TARGET_SHRED) --log_level=warning;echo
+	$(TEST_TARGET_UNSHRED) --run_test=TESTSingleton_test --log_level=warning;echo
 	$(TEST_TARGET_UNSHRED) --log_level=warning;echo
 collect_cov:
 	lcov --rc lcov_branch_coverage=1 -d . -b . -c -o $(COV_FILE)

@@ -200,5 +200,5 @@ Main algorithm:
    - If all the remaining columns got processed, completes successuflly, otherwise,
    - Mark pre-matured if no remaining columns satisfy (f_notmatch_rate > kToleranceRate and f_match_rate > kAcceptableMatchRate). In this situation, the partial selected columns will be provided.
 
-4. Testing show the result is sensative to first selected column as well as the column sequence in the remaining column pool. With adjusting the first selected and column sequence, in ~80% , it may lead to pre-matured situation, and in ~20%, it can lead to successful result.  With this , decided to choose multi-thread to enhance the programme with different selected column and different column sequences (randomly)
+4. Testing shows the result is sensative to the first selected column and the column sequence in the remaining column pool. With choosing differenct first selected and column sequencetested under the same condition , in ~85% cases, it may lead to pre-matured situation, and in ~15% cases, it can lead to successful result. With this, decided to choose multi-thread to enhance the programme and choose the best one as the final result. 
 

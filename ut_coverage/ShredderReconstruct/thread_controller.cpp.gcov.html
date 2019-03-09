@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-03-08 21:55:38</td>
+            <td class="headerValue">2019-03-09 22:58:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">6</td>
@@ -83,7 +83,7 @@
 <span class="lineNum">      12 </span>                :            : int ThreadController::n_thread_abnormals_ = 0;
 <span class="lineNum">      13 </span>                :            : 
 <span class="lineNum">      14 </span>                :            : // Store final result
-<span class="lineNum">      15 </span>                :<span class="lineCov">          1 : vector&lt;string&gt; ThreadController::vec_final_merged_text_;</span>
+<span class="lineNum">      15 </span>                :<span class="lineCov">          2 : vector&lt;string&gt; ThreadController::vec_final_merged_text_;</span>
 <span class="lineNum">      16 </span>                :            : 
 <span class="lineNum">      17 </span>                :            : bool ThreadController::b_premature_flag_ = false;
 <span class="lineNum">      18 </span>                :            : 
@@ -168,7 +168,7 @@
 <span class="lineNum">      97 </span>                :            : {
 <a name="98"><span class="lineNum">      98 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :   lock_guard&lt;mutex&gt; lockGuard(status_mutex_);</span></a>
 <span class="lineNum">      99 </span>                :<span class="lineCov">          3 :   ++n_thread_abnormals_;</span>
-<span class="lineNum">     100 </span>[<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">          7 : }</span>
+<span class="lineNum">     100 </span>[<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         11 : }</span>
 </pre>
       </td>
     </tr>

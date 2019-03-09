@@ -15,6 +15,30 @@ using namespace std;
 #include "fixture.in"
 #include "fixture_unshredder.in"
 
+// Class TESTSingleton
+// Test class SingletonRandom::GetInsance() under multi-threads
+// Disable this test_suite by default as the invoke of SingletonRandom has conflicts with the rest
+// testings which may use SingletonRandom class.
+// It can be invoked by option --run_test=SingletonRandom_test seperately with the rest tests.
+BOOST_AUTO_TEST_SUITE (TESTSingleton_test, * boost::unit_test::disabled())
+
+BOOST_AUTO_TEST_CASE (TESTGetInstance_test)
+{
+  int n_number = 10; 
+  thread test_thread[n_number]; 
+
+  for (int i = 0; i < n_number; ++i) 
+    test_thread[i] = thread(TESTSingleton::TESTGetInstance);
+
+  for (int i = 0; i < n_number; ++i)
+    test_thread[i].join();
+
+  BOOST_CHECK(TESTSingleton::b_instance_equal == true);
+  BOOST_CHECK(TESTSingleton::b_insance_update == n_number);
+}
+
+BOOST_AUTO_TEST_SUITE_END ()
+
 // Class StringWordOperation
 BOOST_AUTO_TEST_SUITE (StringWordOperation_test);
 

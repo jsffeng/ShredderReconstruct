@@ -3,6 +3,10 @@
 
 #include <memory>
 
+#if (defined UTFLAG) && (defined MULTI_THREAD_FLAG)
+#include <mutex>
+#endif
+
 // A Singleton class to generate random number. Here is the reason for only 1 instance allowed for 
 // this class:
 // A static variable has been used to store the random number (if not use static variable, the same 
@@ -35,5 +39,18 @@ class SingletonRandom
     static SingletonRandom& GetInstance();
     unsigned int GenerateRandom();
 };
+
+#if (defined UTFLAG) && (defined MULTI_THREAD_FLAG)
+// Test class for multi-threads for SingletonRandom
+class TESTSingleton
+{
+  public:
+    static std::mutex instance_mutex;
+    static bool b_instance_equal;
+    static int b_insance_update;
+
+    static void TESTGetInstance();
+};
+#endif
 
 #endif

@@ -45,7 +45,7 @@ class TextUnshredder
 
 #ifdef UTFLAG
   // To change main() to UTmain() so as to be tested by Unit Testing
-  extern int UTmain(const std::string str_infile, const std::string str_outfile);
+  extern int UTmain(const std::string str_infile, const std::string str_outfile, bool b_thread_abnormal_flag);
 #endif
 
 

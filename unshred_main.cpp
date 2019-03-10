@@ -13,7 +13,7 @@ using namespace std;
 // Main function
 int main()
 #else
-  int UTmain(const string str_infile, const string str_outfile)
+int UTmain(const string str_infile, const string str_outfile, bool b_thread_abnormal_flag)
 #endif
 {
 
@@ -44,7 +44,11 @@ int main()
     for (int i = 0; i < max_thread_number; ++i)
       unshred_thread[i].join(); 
 
+#ifndef UTFLAG
     if (ThreadController::n_thread_abnormals_ > 0)
+#else
+    if (b_thread_abnormal_flag == true)
+#endif
     {
       string s_abormals_count = to_string(ThreadController::n_thread_abnormals_);
       string s_threads_count = to_string(max_thread_number);
@@ -72,13 +76,17 @@ int main()
 
     if (ThreadController::b_premature_flag_ == true) 
     {
+#ifndef UTFLAG
       cout <<"Partially restored! Number of "<< ThreadController::n_premature_column_count_ << " text strips cannot be restored successfully and just append to the right side!" << endl;
+#endif
 
       return 1;
     }
     else
     {
+#ifndef UTFLAG
       cout <<"Successfully restored!" << endl;
+#endif
 
       return 0;
     }

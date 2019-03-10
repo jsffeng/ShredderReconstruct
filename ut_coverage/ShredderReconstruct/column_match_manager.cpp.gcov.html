@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-03-10 21:37:37</td>
+            <td class="headerValue">2019-03-10 22:25:01</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">3</td>
@@ -103,37 +103,37 @@
 <span class="lineNum">      32 </span>                :            : using namespace std;
 <a name="33"><span class="lineNum">      33 </span>                :            : </a>
 <span class="lineNum">      34 </span>                :            : // Class ColumnMatchManager constructor
-<span class="lineNum">      35 </span>                :<span class="lineCov">      14414 : ColumnMatchManager::ColumnMatchManager(vector&lt;vector&lt;string&gt;&gt; &amp; vec_text_columns,vector&lt;string&gt; &amp; vec_new_column)</span>
+<span class="lineNum">      35 </span>                :<span class="lineCov">      14756 : ColumnMatchManager::ColumnMatchManager(vector&lt;vector&lt;string&gt;&gt; &amp; vec_text_columns,vector&lt;string&gt; &amp; vec_new_column)</span>
 <span class="lineNum">      36 </span>                :            : {
-<span class="lineNum">      37 </span>                :<span class="lineCov">       7205 :   bool b_valid_flag = true;</span>
+<span class="lineNum">      37 </span>                :<span class="lineCov">       7376 :   bool b_valid_flag = true;</span>
 <span class="lineNum">      38 </span>                :            :   int n_size_t;
 <span class="lineNum">      39 </span>                :            : 
-<span class="lineNum">      40 </span>[<span class="branchCov" title="Branch 1 was taken 7204 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>][<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchCov" title="Branch 5 was taken 7203 times"> + </span>]:<span class="lineCov">       7205 :   if (vec_text_columns.empty() || vec_new_column.empty())</span>
-<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 6 was taken 2 times"> + </span><span class="branchCov" title="Branch 7 was taken 7203 times"> + </span>]
+<span class="lineNum">      40 </span>[<span class="branchCov" title="Branch 1 was taken 7375 times"> + </span><span class="branchCov" title="Branch 2 was taken 1 time"> + </span>][<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchCov" title="Branch 5 was taken 7374 times"> + </span>]:<span class="lineCov">       7376 :   if (vec_text_columns.empty() || vec_new_column.empty())</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 6 was taken 2 times"> + </span><span class="branchCov" title="Branch 7 was taken 7374 times"> + </span>]
 <span class="lineNum">      41 </span>        [<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          2 :     throw runtime_error(&quot;Invalid input to constructor of class ColumnMatchManager&quot;);</span>
 <span class="lineNum">      42 </span>                :            : 
-<span class="lineNum">      43 </span>                :<span class="lineCov">       7203 :   n_size_t = vec_new_column.begin()-&gt;size();</span>
+<span class="lineNum">      43 </span>                :<span class="lineCov">       7374 :   n_size_t = vec_new_column.begin()-&gt;size();</span>
 <span class="lineNum">      44 </span>                :            : 
 <span class="lineNum">      45 </span>                :            :   // The lengths of all members in vec_new_column need to be the same. If not, will cause breakage
 <span class="lineNum">      46 </span>                :            :   // in the later processing.
-<span class="lineNum">      47 </span>                :<span class="lineCov">       7203 :   auto iter = vec_new_column.begin();</span>
-<span class="lineNum">      48 </span>        [<span class="branchCov" title="Branch 2 was taken 57458 times"> + </span><span class="branchCov" title="Branch 3 was taken 7202 times"> + </span>]:<span class="lineCov">      64660 :   while (iter != vec_new_column.end())</span>
+<span class="lineNum">      47 </span>                :<span class="lineCov">       7374 :   auto iter = vec_new_column.begin();</span>
+<span class="lineNum">      48 </span>        [<span class="branchCov" title="Branch 2 was taken 58826 times"> + </span><span class="branchCov" title="Branch 3 was taken 7373 times"> + </span>]:<span class="lineCov">      66199 :   while (iter != vec_new_column.end())</span>
 <span class="lineNum">      49 </span>                :            :   {
-<span class="lineNum">      50 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchCov" title="Branch 3 was taken 57457 times"> + </span>]:<span class="lineCov">      57458 :     if (iter-&gt;size() != n_size_t)</span>
+<span class="lineNum">      50 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchCov" title="Branch 3 was taken 58825 times"> + </span>]:<span class="lineCov">      58826 :     if (iter-&gt;size() != n_size_t)</span>
 <span class="lineNum">      51 </span>                :            :     {
 <span class="lineNum">      52 </span>                :<span class="lineCov">          1 :       b_valid_flag = false;</span>
 <span class="lineNum">      53 </span>                :<span class="lineCov">          1 :       break;</span>
 <span class="lineNum">      54 </span>                :            :     }
-<span class="lineNum">      55 </span>                :<span class="lineCov">      57457 :     ++iter;</span>
+<span class="lineNum">      55 </span>                :<span class="lineCov">      58825 :     ++iter;</span>
 <span class="lineNum">      56 </span>                :            :   }
 <span class="lineNum">      57 </span>                :            : 
 <span class="lineNum">      58 </span>                :            :   // The size of vec_new_column must be the same with the size of a member of vec_text_columns.
 <span class="lineNum">      59 </span>                :            :   // If not, will cause breakage in the later processing.
-<span class="lineNum">      60 </span>        [<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchCov" title="Branch 5 was taken 7202 times"> + </span>]:<span class="lineCov">       7203 :   if (vec_new_column.size() != vec_text_columns.begin()-&gt;size())</span>
+<span class="lineNum">      60 </span>        [<span class="branchCov" title="Branch 4 was taken 1 time"> + </span><span class="branchCov" title="Branch 5 was taken 7373 times"> + </span>]:<span class="lineCov">       7374 :   if (vec_new_column.size() != vec_text_columns.begin()-&gt;size())</span>
 <span class="lineNum">      61 </span>                :<span class="lineCov">          1 :      b_valid_flag = false;</span>
 <span class="lineNum">      62 </span>                :            : 
 <span class="lineNum">      63 </span>                :            :   // Stop here if any check above is not as expected.
-<span class="lineNum">      64 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 7201 times"> + </span>]:<span class="lineCov">       7203 :   if (false == b_valid_flag)</span>
+<span class="lineNum">      64 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 7372 times"> + </span>]:<span class="lineCov">       7374 :   if (false == b_valid_flag)</span>
 <span class="lineNum">      65 </span>        [<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          4 :     throw runtime_error(&quot;Invalid input to constructor of class ColumnMatchManager&quot;);</span>
 <span class="lineNum">      66 </span>                :            : 
 <span class="lineNum">      67 </span>                :            :   // It is okay for this class if any string in vec_text_columns is empty. However, in the context of
@@ -143,87 +143,87 @@
 <span class="lineNum">      71 </span>                :            :   // It is also okay for this class if not all strings in vec_text_columns have the same length. But in
 <span class="lineNum">      72 </span>                :            :   // this program, all strings in vec_text_columns,vec_new_column, etc. should have the same lengths
 <span class="lineNum">      73 </span>                :            :   // after read from the text page or text strips.
-<span class="lineNum">      74 </span>        [<span class="branchCov" title="Branch 3 was taken 7201 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">       7201 :   vec_text_columns_.assign(vec_text_columns.begin(), vec_text_columns.end());</span>
-<span class="lineNum">      75 </span>        [<span class="branchCov" title="Branch 3 was taken 7201 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">       7201 :   vec_new_column_.assign(vec_new_column.begin(),vec_new_column.end());</span>
-<span class="lineNum">      76 </span>                :<span class="lineCov">       7201 : }</span>
+<span class="lineNum">      74 </span>        [<span class="branchCov" title="Branch 3 was taken 7372 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">       7372 :   vec_text_columns_.assign(vec_text_columns.begin(), vec_text_columns.end());</span>
+<span class="lineNum">      75 </span>        [<span class="branchCov" title="Branch 3 was taken 7372 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">       7372 :   vec_new_column_.assign(vec_new_column.begin(),vec_new_column.end());</span>
+<span class="lineNum">      76 </span>                :<span class="lineCov">       7372 : }</span>
 <span class="lineNum">      77 </span>                :            : 
 <span class="lineNum">      78 </span>                :            : // Result stored to vec_key_column
 <span class="lineNum">      79 </span>                :            : // If any key word's size is less than 2, just record &quot;0&quot; into vec_key_column,
 <span class="lineNum">      80 </span>                :            : // because dictionary lookup will be ignored for it. 
 <a name="81"><span class="lineNum">      81 </span>                :            : // Example of vec_key_column content: {&quot;0&quot;, &quot;0&quot;, &quot;iluse&quot;}, {&quot;good&quot;, &quot;will&quot;, &quot;wil&quot;}</a>
 <span class="lineNum">      82 </span>                :            : 
-<span class="lineNum">      83 </span>                :<span class="lineCov">      14393 : void ColumnMatchManager::BuildLookupKey(vector&lt;string&gt; &amp;vec_key_column, TwoWayDirections enum_direct) </span>
+<span class="lineNum">      83 </span>                :<span class="lineCov">      14735 : void ColumnMatchManager::BuildLookupKey(vector&lt;string&gt; &amp;vec_key_column, TwoWayDirections enum_direct) </span>
 <span class="lineNum">      84 </span>                :            : {
-<span class="lineNum">      85 </span>                :<span class="lineCov">      28786 :   vector&lt;string&gt; vec_merged_column;</span>
-<span class="lineNum">      86 </span>                :<span class="lineCov">      28786 :   string str_merge_t;</span>
-<span class="lineNum">      87 </span>                :<span class="lineCov">      28786 :   string str_key_temp;</span>
+<span class="lineNum">      85 </span>                :<span class="lineCov">      29470 :   vector&lt;string&gt; vec_merged_column;</span>
+<span class="lineNum">      86 </span>                :<span class="lineCov">      29470 :   string str_merge_t;</span>
+<span class="lineNum">      87 </span>                :<span class="lineCov">      29470 :   string str_key_temp;</span>
 <span class="lineNum">      88 </span>                :            : 
-<span class="lineNum">      89 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 14391 times"> + </span>]:<span class="lineCov">      14393 :   if (!vec_key_column.empty())</span>
+<span class="lineNum">      89 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 14733 times"> + </span>]:<span class="lineCov">      14735 :   if (!vec_key_column.empty())</span>
 <span class="lineNum">      90 </span>                :<span class="lineCov">          2 :     vec_key_column.clear();</span>
 <span class="lineNum">      91 </span>                :            : 
-<span class="lineNum">      92 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 14393 times"> + </span>]:<span class="lineCov">      14393 :   if (vec_text_columns_.empty())</span>
+<span class="lineNum">      92 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 14609 times"> + </span>]:<span class="lineCov">      14735 :   if (vec_text_columns_.empty())</span>
 <span class="lineNum">      93 </span>        [<span class="branchNoExec" title="Branch 2 was not executed"> # </span><span class="branchNoExec" title="Branch 3 was not executed"> # </span>]:<span class="lineNoCov">          0 :     throw runtime_error(&quot;vec_text_columns_ is empty, no data to match!&quot;);</span>
 <span class="lineNum">      94 </span>                :            : 
 <span class="lineNum">      95 </span>                :            :   // Merged text stored in vec_merged_column
-<span class="lineNum">      96 </span>        [<span class="branchCov" title="Branch 1 was taken 14393 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      14393 :   TextStripOperation::MergeText(vec_text_columns_, vec_merged_column);</span>
+<span class="lineNum">      96 </span>        [<span class="branchCov" title="Branch 1 was taken 14735 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      14609 :   TextStripOperation::MergeText(vec_text_columns_, vec_merged_column);</span>
 <span class="lineNum">      97 </span>                :            : 
 <span class="lineNum">      98 </span>                :            :   // Delimiters for different words
-<span class="lineNum">      99 </span>        [<span class="branchCov" title="Branch 2 was taken 14393 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      28786 :   string s_to_replace = &quot;[],-.:;!/\?\&quot;\n\t\r)([]&quot;; </span>
-<span class="lineNum">     100 </span>        [<span class="branchCov" title="Branch 2 was taken 14393 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      28786 :   string str_blank = &quot; &quot;;</span>
-<span class="lineNum">     101 </span>                :<span class="lineCov">      14393 :   int n_column_width_t = vec_new_column_.begin()-&gt;size();</span>
+<span class="lineNum">      99 </span>        [<span class="branchCov" title="Branch 2 was taken 14735 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      29470 :   string s_to_replace = &quot;[],-.:;!/\?\&quot;\n\t\r)([]&quot;; </span>
+<span class="lineNum">     100 </span>        [<span class="branchCov" title="Branch 2 was taken 14735 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      29374 :   string str_blank = &quot; &quot;;</span>
+<span class="lineNum">     101 </span>                :<span class="lineCov">      14735 :   int n_column_width_t = vec_new_column_.begin()-&gt;size();</span>
 <span class="lineNum">     102 </span>                :            : 
-<span class="lineNum">     103 </span>        [<span class="branchCov" title="Branch 1 was taken 114870 times"> + </span><span class="branchCov" title="Branch 2 was taken 14393 times"> + </span>]:<span class="lineCov">     129270 :   for (int i = 0; i &lt; vec_new_column_.size(); ++i)</span>
+<span class="lineNum">     103 </span>        [<span class="branchCov" title="Branch 1 was taken 116625 times"> + </span><span class="branchCov" title="Branch 2 was taken 14639 times"> + </span>]:<span class="lineCov">     132349 :   for (int i = 0; i &lt; vec_new_column_.size(); ++i)</span>
 <span class="lineNum">     104 </span>                :            :   {
-<span class="lineNum">     105 </span>        [<span class="branchCov" title="Branch 0 was taken 57428 times"> + </span><span class="branchCov" title="Branch 1 was taken 57442 times"> + </span>]:<span class="lineCov">     114870 :     if (enum_direct == LEFT)</span>
+<span class="lineNum">     105 </span>        [<span class="branchCov" title="Branch 0 was taken 58795 times"> + </span><span class="branchCov" title="Branch 1 was taken 57830 times"> + </span>]:<span class="lineCov">     116625 :     if (enum_direct == LEFT)</span>
 <span class="lineNum">     106 </span>                :            :     {
-<span class="lineNum">     107 </span>[<span class="branchCov" title="Branch 3 was taken 57435 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 57435 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">      57428 :       str_merge_t = vec_new_column_[i] + vec_merged_column[i]; </span>
+<span class="lineNum">     107 </span>[<span class="branchCov" title="Branch 3 was taken 58803 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 58803 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">      58795 :       str_merge_t = vec_new_column_[i] + vec_merged_column[i]; </span>
 <span class="lineNum">     108 </span>                :            :     }
 <span class="lineNum">     109 </span>                :            :     else
 <span class="lineNum">     110 </span>                :            :     {
-<span class="lineNum">     111 </span>[<span class="branchCov" title="Branch 3 was taken 57444 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 57443 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">      57442 :       str_merge_t = vec_merged_column[i] + vec_new_column_[i];</span>
+<span class="lineNum">     111 </span>[<span class="branchCov" title="Branch 3 was taken 58811 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 58812 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">      57830 :       str_merge_t = vec_merged_column[i] + vec_new_column_[i];</span>
 <span class="lineNum">     112 </span>                :            :     }
 <span class="lineNum">     113 </span>                :            : 
 <span class="lineNum">     114 </span>                :            :     // Translate delimiters to &quot; &quot;
-<span class="lineNum">     115 </span>[<span class="branchCov" title="Branch 2 was taken 114879 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 114508 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">     114548 :     str_merge_t = boost::replace_all_regex_copy(str_merge_t, boost::regex(s_to_replace), str_blank);</span>
-<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 8 was taken 114116 times"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>]
+<span class="lineNum">     115 </span>[<span class="branchCov" title="Branch 2 was taken 115776 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 117614 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">     117178 :     str_merge_t = boost::replace_all_regex_copy(str_merge_t, boost::regex(s_to_replace), str_blank);</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 8 was taken 116658 times"> + </span><span class="branchNoCov" title="Branch 9 was not taken"> - </span>]
 <span class="lineNum">     116 </span>                :            : 
 <span class="lineNum">     117 </span>                :            :     // Extract the key word used for searching from a series of words delimited by ' '
-<span class="lineNum">     118 </span>        [<span class="branchCov" title="Branch 0 was taken 57435 times"> + </span><span class="branchCov" title="Branch 1 was taken 57444 times"> + </span>]:<span class="lineCov">     114879 :     if (enum_direct == LEFT)</span>
+<span class="lineNum">     118 </span>        [<span class="branchCov" title="Branch 0 was taken 58803 times"> + </span><span class="branchCov" title="Branch 1 was taken 58812 times"> + </span>]:<span class="lineCov">     117615 :     if (enum_direct == LEFT)</span>
 <span class="lineNum">     119 </span>                :            :     { 
 <span class="lineNum">     120 </span>                :            :        // str_key_temp could be any string, including empty string &quot;&quot;
-<span class="lineNum">     121 </span>        [<span class="branchCov" title="Branch 1 was taken 57434 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      57435 :        StringWordOperation::FindLookupWordLeft(str_merge_t, str_key_temp, n_column_width_t); </span>
+<span class="lineNum">     121 </span>        [<span class="branchCov" title="Branch 1 was taken 58803 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      58803 :        StringWordOperation::FindLookupWordLeft(str_merge_t, str_key_temp, n_column_width_t); </span>
 <span class="lineNum">     122 </span>                :            :     }
 <span class="lineNum">     123 </span>                :            :     else
 <span class="lineNum">     124 </span>                :            :     {
 <span class="lineNum">     125 </span>                :            :        // str_key_temp could be any string, including empty string &quot;&quot;
-<span class="lineNum">     126 </span>        [<span class="branchCov" title="Branch 1 was taken 56337 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      57444 :        StringWordOperation::FindLookupWordRight(str_merge_t, str_key_temp, n_column_width_t); </span>
+<span class="lineNum">     126 </span>        [<span class="branchCov" title="Branch 1 was taken 58812 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      58812 :        StringWordOperation::FindLookupWordRight(str_merge_t, str_key_temp, n_column_width_t); </span>
 <span class="lineNum">     127 </span>                :            :     }
 <span class="lineNum">     128 </span>                :            : 
 <span class="lineNum">     129 </span>                :            :     // Remove 's, 'd at the end of the word if there is
-<span class="lineNum">     130 </span>        [<span class="branchCov" title="Branch 1 was taken 55314 times"> + </span><span class="branchCov" title="Branch 2 was taken 59561 times"> + </span>]:<span class="lineCov">     113771 :     if (str_key_temp.size() &gt; 2)</span>
+<span class="lineNum">     130 </span>        [<span class="branchCov" title="Branch 1 was taken 56537 times"> + </span><span class="branchCov" title="Branch 2 was taken 61075 times"> + </span>]:<span class="lineCov">     117615 :     if (str_key_temp.size() &gt; 2)</span>
 <span class="lineNum">     131 </span>                :            :     {
-<span class="lineNum">     132 </span>                :<span class="lineCov">      55314 :       int n_position = str_key_temp.size() - 2;</span>
-<span class="lineNum">     133 </span>        [<span class="branchCov" title="Branch 1 was taken 55314 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">     110627 :       string str_tmp = str_key_temp.substr(n_position, 2);</span>
+<span class="lineNum">     132 </span>                :<span class="lineCov">      56537 :       int n_position = str_key_temp.size() - 2;</span>
+<span class="lineNum">     133 </span>        [<span class="branchCov" title="Branch 1 was taken 56537 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">     113074 :       string str_tmp = str_key_temp.substr(n_position, 2);</span>
 <span class="lineNum">     134 </span>                :            :       
-<span class="lineNum">     135 </span>[<span class="branchCov" title="Branch 1 was taken 55314 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 55312 times"> + </span><span class="branchCov" title="Branch 4 was taken 2 times"> + </span>]:<span class="lineCov">      55314 :       if (&quot;\'s&quot; == str_tmp || &quot;\'d&quot; == str_tmp)</span>
-<span class="lineNum">         </span>[<span class="branchCov" title="Branch 6 was taken 55311 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>][<span class="branchCov" title="Branch 8 was taken 1 time"> + </span><span class="branchCov" title="Branch 9 was taken 55310 times"> + </span>]
-<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 10 was taken 3 times"> + </span><span class="branchCov" title="Branch 11 was taken 55310 times"> + </span>]
+<span class="lineNum">     135 </span>[<span class="branchCov" title="Branch 1 was taken 56537 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 56535 times"> + </span><span class="branchCov" title="Branch 4 was taken 2 times"> + </span>]:<span class="lineCov">      56537 :       if (&quot;\'s&quot; == str_tmp || &quot;\'d&quot; == str_tmp)</span>
+<span class="lineNum">         </span>[<span class="branchCov" title="Branch 6 was taken 56535 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>][<span class="branchCov" title="Branch 8 was taken 1 time"> + </span><span class="branchCov" title="Branch 9 was taken 56534 times"> + </span>]
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 10 was taken 3 times"> + </span><span class="branchCov" title="Branch 11 was taken 56534 times"> + </span>]
 <span class="lineNum">     136 </span>                :            :       {
 <span class="lineNum">     137 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :         str_key_temp.erase(n_position,2);</span>
 <span class="lineNum">     138 </span>                :            :       } 
 <span class="lineNum">     139 </span>                :            :     }
 <span class="lineNum">     140 </span>                :            : 
 <span class="lineNum">     141 </span>                :            :     // If length of word is less than 2, ignore dictionary lookup
-<span class="lineNum">     142 </span>        [<span class="branchCov" title="Branch 1 was taken 58279 times"> + </span><span class="branchCov" title="Branch 2 was taken 56600 times"> + </span>]:<span class="lineCov">     114875 :     if (str_key_temp.size() &lt; 2)</span>
+<span class="lineNum">     142 </span>        [<span class="branchCov" title="Branch 1 was taken 59759 times"> + </span><span class="branchCov" title="Branch 2 was taken 57277 times"> + </span>]:<span class="lineCov">     117612 :     if (str_key_temp.size() &lt; 2)</span>
 <span class="lineNum">     143 </span>                :            :     {
-<span class="lineNum">     144 </span>        [<span class="branchCov" title="Branch 1 was taken 58109 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      58279 :       str_key_temp = &quot;0&quot;;</span>
+<span class="lineNum">     144 </span>        [<span class="branchCov" title="Branch 1 was taken 59759 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      59759 :       str_key_temp = &quot;0&quot;;</span>
 <span class="lineNum">     145 </span>                :            :     }
 <span class="lineNum">     146 </span>                :            :     else
 <span class="lineNum">     147 </span>                :            :     {
 <span class="lineNum">     148 </span>                :            :       // If any charactor is a number or non alphabetic such as '\'','\\', ignore dictionary lookup 
-<span class="lineNum">     149 </span>        [<span class="branchCov" title="Branch 1 was taken 340908 times"> + </span><span class="branchCov" title="Branch 2 was taken 59599 times"> + </span>]:<span class="lineCov">     400507 :       for (int i = 0; i &lt; str_key_temp.size(); ++i)</span>
+<span class="lineNum">     149 </span>        [<span class="branchCov" title="Branch 1 was taken 351621 times"> + </span><span class="branchCov" title="Branch 2 was taken 57852 times"> + </span>]:<span class="lineCov">     404586 :       for (int i = 0; i &lt; str_key_temp.size(); ++i)</span>
 <span class="lineNum">     150 </span>                :            :       {
-<span class="lineNum">     151 </span>[<span class="branchCov" title="Branch 1 was taken 343910 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 3 times"> + </span><span class="branchCov" title="Branch 4 was taken 343907 times"> + </span>]:<span class="lineCov">     340908 :         if (!isalpha(str_key_temp[i]))</span>
+<span class="lineNum">     151 </span>[<span class="branchCov" title="Branch 1 was taken 347312 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 3 times"> + </span><span class="branchCov" title="Branch 4 was taken 347309 times"> + </span>]:<span class="lineCov">     351621 :         if (!isalpha(str_key_temp[i]))</span>
 <span class="lineNum">     152 </span>                :            :         {
 <span class="lineNum">     153 </span>        [<span class="branchCov" title="Branch 1 was taken 3 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          3 :           str_key_temp = &quot;0&quot;;</span>
 <span class="lineNum">     154 </span>                :<span class="lineCov">          3 :           break;</span>
@@ -231,72 +231,72 @@
 <span class="lineNum">     156 </span>                :            :       }
 <span class="lineNum">     157 </span>                :            : 
 <span class="lineNum">     158 </span>                :            :       // Converted to lower case if any charactor is upper case letter
-<span class="lineNum">     159 </span>[<span class="branchCov" title="Branch 1 was taken 56599 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 56597 times"> + </span><span class="branchCov" title="Branch 4 was taken 2 times"> + </span>]:<span class="lineCov">      59602 :       if (&quot;0&quot; != str_key_temp)</span>
+<span class="lineNum">     159 </span>[<span class="branchCov" title="Branch 1 was taken 57856 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 57853 times"> + </span><span class="branchCov" title="Branch 4 was taken 3 times"> + </span>]:<span class="lineCov">      57855 :       if (&quot;0&quot; != str_key_temp)</span>
 <span class="lineNum">     160 </span>                :            :       {
-<span class="lineNum">     161 </span>        [<span class="branchCov" title="Branch 2 was taken 56597 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      56597 :         boost::algorithm::to_lower(str_key_temp);</span>
+<span class="lineNum">     161 </span>        [<span class="branchCov" title="Branch 2 was taken 57853 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      57853 :         boost::algorithm::to_lower(str_key_temp);</span>
 <span class="lineNum">     162 </span>                :            :       }
 <span class="lineNum">     163 </span>                :            :     }
 <span class="lineNum">     164 </span>                :            : 
-<span class="lineNum">     165 </span>        [<span class="branchCov" title="Branch 1 was taken 114861 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">     114362 :     vec_key_column.emplace_back(str_key_temp);</span>
-<span class="lineNum">     166 </span>                :<span class="lineCov">     114861 :     str_key_temp.clear();</span>
+<span class="lineNum">     165 </span>        [<span class="branchCov" title="Branch 1 was taken 116121 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">     117614 :     vec_key_column.emplace_back(str_key_temp);</span>
+<span class="lineNum">     166 </span>                :<span class="lineCov">     116121 :     str_key_temp.clear();</span>
 <span class="lineNum">     167 </span>                :            :   } 
-<a name="168"><span class="lineNum">     168 </span>                :<span class="lineCov">      14393 : }</span></a>
+<a name="168"><span class="lineNum">     168 </span>                :<span class="lineCov">      14735 : }</span></a>
 <span class="lineNum">     169 </span>                :            : 
-<span class="lineNum">     170 </span>                :<span class="lineCov">       7190 : void ColumnMatchManager::CalculateMatchRate()</span>
+<span class="lineNum">     170 </span>                :<span class="lineCov">       7361 : void ColumnMatchManager::CalculateMatchRate()</span>
 <span class="lineNum">     171 </span>                :            : {
-<span class="lineNum">     172 </span>                :<span class="lineCov">      14380 :   vector&lt;string&gt; vec_word_column;</span>
+<span class="lineNum">     172 </span>                :<span class="lineCov">      14722 :   vector&lt;string&gt; vec_word_column;</span>
 <span class="lineNum">     173 </span>                :            : 
 <span class="lineNum">     174 </span>                :            :   bool b_flag_lookup, b_flag_suffix;
 <span class="lineNum">     175 </span>                :            : 
-<span class="lineNum">     176 </span>        [<span class="branchCov" title="Branch 1 was taken 7189 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">       7190 :   SingletonDiction &amp; singleton_dict = SingletonDiction::GetInstance();</span>
+<span class="lineNum">     176 </span>        [<span class="branchCov" title="Branch 1 was taken 7360 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">       7361 :   SingletonDiction &amp; singleton_dict = SingletonDiction::GetInstance();</span>
 <span class="lineNum">     177 </span>                :            : 
-<span class="lineNum">     178 </span>        [<span class="branchCov" title="Branch 0 was taken 14379 times"> + </span><span class="branchCov" title="Branch 1 was taken 7190 times"> + </span>]:<span class="lineCov">      21569 :   for(TwoWayDirections i = LEFT; i &lt; LIMIT; i = (TwoWayDirections)(i+1))</span>
+<span class="lineNum">     178 </span>        [<span class="branchCov" title="Branch 0 was taken 14721 times"> + </span><span class="branchCov" title="Branch 1 was taken 7361 times"> + </span>]:<span class="lineCov">      22082 :   for(TwoWayDirections i = LEFT; i &lt; LIMIT; i = (TwoWayDirections)(i+1))</span>
 <span class="lineNum">     179 </span>                :            :   {
-<span class="lineNum">     180 </span>                :<span class="lineCov">      14379 :     int n_found = 0;</span>
-<span class="lineNum">     181 </span>                :<span class="lineCov">      14379 :     int n_notfound = 0;</span>
+<span class="lineNum">     180 </span>                :<span class="lineCov">      14721 :     int n_found = 0;</span>
+<span class="lineNum">     181 </span>                :<span class="lineCov">      14721 :     int n_notfound = 0;</span>
 <span class="lineNum">     182 </span>                :            : 
-<span class="lineNum">     183 </span>        [<span class="branchCov" title="Branch 1 was taken 14380 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      14379 :     BuildLookupKey(vec_word_column, i);</span>
+<span class="lineNum">     183 </span>        [<span class="branchCov" title="Branch 1 was taken 14722 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">      14721 :     BuildLookupKey(vec_word_column, i);</span>
 <span class="lineNum">     184 </span>                :            :    
-<span class="lineNum">     185 </span>        [<span class="branchCov" title="Branch 1 was taken 114826 times"> + </span><span class="branchCov" title="Branch 2 was taken 14379 times"> + </span>]:<span class="lineCov">     129197 :     for (int k = 0; k &lt; vec_word_column.size(); ++k) </span>
+<span class="lineNum">     185 </span>        [<span class="branchCov" title="Branch 1 was taken 117561 times"> + </span><span class="branchCov" title="Branch 2 was taken 14722 times"> + </span>]:<span class="lineCov">     132278 :     for (int k = 0; k &lt; vec_word_column.size(); ++k) </span>
 <span class="lineNum">     186 </span>                :            :     { 
-<span class="lineNum">     187 </span>        [<span class="branchCov" title="Branch 2 was taken 56570 times"> + </span><span class="branchCov" title="Branch 3 was taken 58253 times"> + </span>]:<span class="lineCov">     114826 :       if (vec_word_column[k].size() &gt;= 2) </span>
+<span class="lineNum">     187 </span>        [<span class="branchCov" title="Branch 2 was taken 57827 times"> + </span><span class="branchCov" title="Branch 3 was taken 59736 times"> + </span>]:<span class="lineCov">     117561 :       if (vec_word_column[k].size() &gt;= 2) </span>
 <span class="lineNum">     188 </span>                :            :       {
-<span class="lineNum">     189 </span>[<span class="branchCov" title="Branch 2 was taken 56571 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 56571 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">      56570 :         b_flag_lookup = singleton_dict.LookupDict(vec_word_column[k]);</span>
+<span class="lineNum">     189 </span>[<span class="branchCov" title="Branch 2 was taken 57521 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 57827 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">      57827 :         b_flag_lookup = singleton_dict.LookupDict(vec_word_column[k]);</span>
 <span class="lineNum">     190 </span>                :            : 
-<span class="lineNum">     191 </span>        [<span class="branchCov" title="Branch 0 was taken 15194 times"> + </span><span class="branchCov" title="Branch 1 was taken 41370 times"> + </span>]:<span class="lineCov">      56564 :         if (b_flag_lookup == true)</span>
+<span class="lineNum">     191 </span>        [<span class="branchCov" title="Branch 0 was taken 15966 times"> + </span><span class="branchCov" title="Branch 1 was taken 42251 times"> + </span>]:<span class="lineCov">      58217 :         if (b_flag_lookup == true)</span>
 <span class="lineNum">     192 </span>                :            :         {
-<span class="lineNum">     193 </span>                :<span class="lineCov">      15194 :           ++n_found;</span>
+<span class="lineNum">     193 </span>                :<span class="lineCov">      15966 :           ++n_found;</span>
 <span class="lineNum">     194 </span>                :            :         }
 <span class="lineNum">     195 </span>                :            :         else
 <span class="lineNum">     196 </span>                :            :         {
 <span class="lineNum">     197 </span>                :            :           // If not found in dictionary, removing suffix such as ed|ing|s|es if there is.
-<span class="lineNum">     198 </span>        [<span class="branchCov" title="Branch 2 was taken 41370 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      41370 :           b_flag_suffix = StringWordOperation::RemoveWordSuffix(vec_word_column[k]);</span>
-<span class="lineNum">     199 </span>        [<span class="branchCov" title="Branch 0 was taken 5092 times"> + </span><span class="branchCov" title="Branch 1 was taken 36278 times"> + </span>]:<span class="lineCov">      41370 :           if (b_flag_suffix == true)</span>
+<span class="lineNum">     198 </span>        [<span class="branchCov" title="Branch 2 was taken 41854 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">      42251 :           b_flag_suffix = StringWordOperation::RemoveWordSuffix(vec_word_column[k]);</span>
+<span class="lineNum">     199 </span>        [<span class="branchCov" title="Branch 0 was taken 5238 times"> + </span><span class="branchCov" title="Branch 1 was taken 36616 times"> + </span>]:<span class="lineCov">      41854 :           if (b_flag_suffix == true)</span>
 <span class="lineNum">     200 </span>                :            :           {
-<span class="lineNum">     201 </span>[<span class="branchCov" title="Branch 2 was taken 5092 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 5092 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">       5092 :             b_flag_lookup = singleton_dict.LookupDict(vec_word_column[k]);</span>
+<span class="lineNum">     201 </span>[<span class="branchCov" title="Branch 2 was taken 5238 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 5238 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">       5238 :             b_flag_lookup = singleton_dict.LookupDict(vec_word_column[k]);</span>
 <span class="lineNum">     202 </span>                :            :    
-<span class="lineNum">     203 </span>        [<span class="branchCov" title="Branch 0 was taken 1790 times"> + </span><span class="branchCov" title="Branch 1 was taken 3302 times"> + </span>]:<span class="lineCov">       5092 :             if (b_flag_lookup == true)</span>
-<span class="lineNum">     204 </span>                :<span class="lineCov">       1790 :               ++n_found;</span>
+<span class="lineNum">     203 </span>        [<span class="branchCov" title="Branch 0 was taken 1838 times"> + </span><span class="branchCov" title="Branch 1 was taken 3400 times"> + </span>]:<span class="lineCov">       5238 :             if (b_flag_lookup == true)</span>
+<span class="lineNum">     204 </span>                :<span class="lineCov">       1838 :               ++n_found;</span>
 <span class="lineNum">     205 </span>                :            :             else
-<span class="lineNum">     206 </span>                :<span class="lineCov">       5092 :               ++n_notfound;</span>
+<span class="lineNum">     206 </span>                :<span class="lineCov">       5238 :               ++n_notfound;</span>
 <span class="lineNum">     207 </span>                :            :           }
 <span class="lineNum">     208 </span>                :            :           else
 <span class="lineNum">     209 </span>                :            :           {
-<span class="lineNum">     210 </span>                :<span class="lineCov">      56564 :             ++n_notfound;</span>
+<span class="lineNum">     210 </span>                :<span class="lineCov">      57820 :             ++n_notfound;</span>
 <span class="lineNum">     211 </span>                :            :           }
 <span class="lineNum">     212 </span>                :            :         }
 <span class="lineNum">     213 </span>                :            :       }
 <span class="lineNum">     214 </span>                :            :     }
 <span class="lineNum">     215 </span>                :            : 
-<span class="lineNum">     216 </span>                :<span class="lineCov">      14379 :     float f_found = static_cast&lt;float&gt; (n_found);</span>
-<span class="lineNum">     217 </span>                :<span class="lineCov">      14379 :     float f_notfound = static_cast&lt;float&gt; (n_notfound);</span>
+<span class="lineNum">     216 </span>                :<span class="lineCov">      14722 :     float f_found = static_cast&lt;float&gt; (n_found);</span>
+<span class="lineNum">     217 </span>                :<span class="lineCov">      14722 :     float f_notfound = static_cast&lt;float&gt; (n_notfound);</span>
 <span class="lineNum">     218 </span>                :            : 
-<span class="lineNum">     219 </span>                :<span class="lineCov">      14379 :     column_match_rate_[i].f_match_rate = (f_found + 1)/ (f_notfound + 1);</span>
-<span class="lineNum">     220 </span>                :<span class="lineCov">      14379 :     column_match_rate_[i].f_notmatch_rate = (f_notfound)/ vec_word_column.size();</span>
+<span class="lineNum">     219 </span>                :<span class="lineCov">      14722 :     column_match_rate_[i].f_match_rate = (f_found + 1)/ (f_notfound + 1);</span>
+<span class="lineNum">     220 </span>                :<span class="lineCov">      14722 :     column_match_rate_[i].f_notmatch_rate = (f_notfound)/ vec_word_column.size();</span>
 <span class="lineNum">     221 </span>                :            : 
-<span class="lineNum">     222 </span>                :<span class="lineCov">      14379 :     vec_word_column.clear(); </span>
+<span class="lineNum">     222 </span>                :<span class="lineCov">      14722 :     vec_word_column.clear(); </span>
 <span class="lineNum">     223 </span>                :            :   }
-<span class="lineNum">     224 </span>                :<span class="lineCov">       7190 : }</span>
+<span class="lineNum">     224 </span>                :<span class="lineCov">       7361 : }</span>
 </pre>
       </td>
     </tr>

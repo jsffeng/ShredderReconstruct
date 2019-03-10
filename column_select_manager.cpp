@@ -1,4 +1,5 @@
 #include <stdexcept>
+
 #include "common_classes.h"
 #include "column_match_manager.h"
 #include "column_select_manager.h"
@@ -35,6 +36,9 @@ void ColumnSelectManager::Init(const vector<vector<string>> & columns)
 
 #ifndef UTFLAG
     TextStripOperation::Disorder(vec_column_pool_);
+#else
+    // In UT, the vec_selected_columns_ and column sequences in vec_column_pool_ are fixed,
+    // which caused each thread generate the same result.
 #endif
   
     vec_selected_columns_.emplace_back(*vec_column_pool_.begin());

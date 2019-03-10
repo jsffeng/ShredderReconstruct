@@ -770,10 +770,8 @@ BOOST_FIXTURE_TEST_CASE (CreateOutput_test, Fixture_file_vec)
 }
 
 
-BOOST_AUTO_TEST_CASE (DoTextUnshredder_test_tmp)
+BOOST_AUTO_TEST_CASE (DoTextUnshredder_test)
 {
-  TextUnshredder unshred1;
-  unshred1.GetInput("test/data/test_shredded_text.ascii");
   
   SingletonDiction & dict = SingletonDiction::GetInstance();
   if (dict.set_dictionary_.empty())
@@ -782,10 +780,39 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredder_test_tmp)
     dict.BuildWordPiece();
   }
 
-  unshred1.DoTextUnshredder();
+  TextUnshredder unshred1;
 
- // PrintVectorString (unshred1.vec_merged_text_, "vec_merged_text_");
- // cout <<"failure_flag" << unshred1.b_premature_flag_<< endl;
+  // This data file can be successfully retored 
+  unshred1.GetInput("test/data/test_shredded_text0.ascii");
+
+  unshred1.DoTextUnshredder();
+ 
+  vector<string> vec_merged_text = 
+  {
+    "Claude Shannon founded information    ",
+    "theory, which is the basis of         ", 
+    "probabilistic language models and     ",
+    "of the code breaking methods that     ",
+    "you would use to solve this problem,  ",
+    "with the paper titled \"A Mathematical ",
+    "Theory of Communication,\" published   ",
+    "in this year.                         "
+  };
+
+  BOOST_CHECK(unshred1.b_premature_flag_ == false);
+  BOOST_CHECK(unshred1.vec_merged_text_ == vec_merged_text);
+
+  TextUnshredder unshred2;
+
+  // This data file can be partially restored - reason why it cannot be fully restored during UT
+  // is that vec_selected_columns_ and column sequences in vec_column_pool_ are fixed, 
+  // which caused each thread generate the same result.
+  unshred2.GetInput("test/data/test_shredded_text.ascii");
+
+  unshred2.DoTextUnshredder();
+  BOOST_CHECK(unshred2.b_premature_flag_ == true);
+
+  // PrintVectorString (unshred2.vec_merged_text_, "vec_merged_text_");
 }
 
 BOOST_AUTO_TEST_SUITE_END ()
@@ -856,27 +883,37 @@ BOOST_AUTO_TEST_CASE (UpdateThreadStatus_test)
 
 BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
 {
+  // Test exceptions from thread
   TextUnshredder test_unshred;
   ThreadController::DoTextUnshredderInThread(test_unshred);
-
   BOOST_CHECK(ThreadController::n_thread_abnormals_ == 1);
   
-  test_unshred.vec_text_columns_ = {{"123","45678"},{" ","abcdefg"}};
+  // Test exceptions from thread
+  TextUnshredder test_unshred0;
+  test_unshred0.vec_text_columns_ = {{"123","45678"},{" ","abcdefg"}};
   BOOST_CHECK(ThreadController::n_thread_abnormals_ == 1);
 
-  test_unshred.GetInput("test/data/test_shredded_text.ascii");
+  // This data file can be partially restored - reason why it cannot be fully restored during UT
+  // is that vec_selected_columns_ and column sequences in vec_column_pool_ are fixed, 
+  // which caused each thread generate the same result.
+
+  TextUnshredder test_unshred1;
+  test_unshred1.GetInput("test/data/test_shredded_text.ascii");
 
   // Re-set the static variable so as not to impact the rest tests.
   ThreadStatusDataReset();
 
-  ThreadController::DoTextUnshredderInThread(test_unshred);
+  ThreadController::DoTextUnshredderInThread(test_unshred1);
 
   BOOST_CHECK(ThreadController::vec_final_merged_text_.size() == 8);
   BOOST_CHECK(ThreadController::vec_final_merged_text_.begin()->size() == 38);
 
   BOOST_CHECK(ThreadController::thread_status_ != NOTSTART);
   BOOST_CHECK(ThreadController::n_thread_abnormals_ == 0);
-  
+ 
+  TextUnshredder test_unshred2;
+  // This data file can be successfully retored 
+  test_unshred2.GetInput("test/data/test_shredded_text0.ascii");
   // Re-set the static variable so as not to impact the rest tests.
   ThreadStatusDataReset();
 
@@ -884,7 +921,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
   thread test_thread[n_number]; 
 
   for (int i = 0; i < n_number; ++i) 
-    test_thread[i] = thread(ThreadController::DoTextUnshredderInThread, test_unshred);
+    test_thread[i] = thread(ThreadController::DoTextUnshredderInThread, test_unshred2);
 
   for (int i = 0; i < n_number; ++i)
     test_thread[i].join();
@@ -901,14 +938,20 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
 
 BOOST_AUTO_TEST_SUITE_END ()
 
-// Mainly focus on  parameter interface test for main() function.
-// Funcationality test will be fully covered by system level test.
+// Test main logic for main() function
 BOOST_AUTO_TEST_SUITE (UTmain_test);
 
-BOOST_AUTO_TEST_CASE (UTmain_test_tmp)
+BOOST_AUTO_TEST_CASE (UTmain_test)
 {
-  BOOST_CHECK(UTmain("test/data/test_shredded_text.ascii", "test/data/test_output.ascii") != 2);
-  BOOST_CHECK(UTmain("test/data/test_input.ascii", "test/data/test_output1.ascii") == 2);
+  // Partially restored
+  BOOST_CHECK(UTmain("test/data/test_shredded_text.ascii", "test/data/test_output.ascii", false) == 1);
+  // Successfully restored
+  BOOST_CHECK(UTmain("test/data/test_shredded_text0.ascii", "test/data/test_output0.ascii", false) == 0);
+
+  // Threads throw exception
+  BOOST_CHECK(UTmain("test/data/test_shredded_text0.ascii", "test/data/test_output0.ascii", true) == 2);
+  // main() function throw excpetion as data input file not exist
+  BOOST_CHECK(UTmain("test/data/test_input.ascii", "test/data/test_output1.ascii", false) == 2);
 
   system("rm -rf test/data/test_output*.ascii");
 

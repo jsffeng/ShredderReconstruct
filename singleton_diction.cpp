@@ -52,7 +52,7 @@ bool SingletonDiction::LookupDict(string str_letters)
 {
 
   if (str_letters.empty())
-    throw runtime_error("Invalid input to function LookupDicti()!");
+    throw runtime_error("Invalid input to function LookupDict()!");
 
   // If letters found in dictionary, return true, otherwise, return false.
   if (set_dictionary_.find(str_letters) != (set_dictionary_.end()))

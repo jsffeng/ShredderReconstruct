@@ -20,7 +20,7 @@ using namespace std;
 // Disable this test_suite by default as the invoke of SingletonRandom has conflicts with the rest
 // testings which may use SingletonRandom class.
 // It can be invoked by option --run_test=SingletonRandom_test seperately with the rest tests.
-BOOST_AUTO_TEST_SUITE (TESTSingleton_test, * boost::unit_test::disabled())
+BOOST_FIXTURE_TEST_SUITE (TESTSingleton_test,TESTSingleton ,* boost::unit_test::disabled())
 
 BOOST_AUTO_TEST_CASE (TESTGetInstance_test)
 {
@@ -28,13 +28,13 @@ BOOST_AUTO_TEST_CASE (TESTGetInstance_test)
   thread test_thread[n_number]; 
 
   for (int i = 0; i < n_number; ++i) 
-    test_thread[i] = thread(TESTSingleton::TESTGetInstance);
+    test_thread[i] = thread(TESTGetInstance);
 
   for (int i = 0; i < n_number; ++i)
     test_thread[i].join();
 
-  BOOST_CHECK(TESTSingleton::b_instance_equal == true);
-  BOOST_CHECK(TESTSingleton::b_insance_update == n_number);
+  BOOST_CHECK(b_instance_equal == true);
+  BOOST_CHECK(b_insance_update == n_number);
 }
 
 BOOST_AUTO_TEST_SUITE_END ()

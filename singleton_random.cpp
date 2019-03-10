@@ -1,9 +1,9 @@
-#ifdef MULTI_THREAD_FLAG
-#include<mutex>
-#endif
-
 #include <random>
 #include "singleton_random.h"
+
+#ifdef MULTI_THREAD_FLAG
+#include <mutex>
+#endif
 
 using namespace std;
 
@@ -41,42 +41,6 @@ SingletonRandom& SingletonRandom::GetInstance()
 
 }
 
-#if (defined UTFLAG) && (defined MULTI_THREAD_FLAG) 
-// Test function for multi-threads for SingletonRandom
-mutex TESTSingleton::instance_mutex;
-bool TESTSingleton::b_instance_equal = false;
-int TESTSingleton::b_insance_update = 0;
-
-void TESTSingleton::TESTGetInstance()
-{
-  static SingletonRandom *single_random_ptr = nullptr;
-  
-  SingletonRandom::s_max_val_ = 100;
-  SingletonRandom& random_instance = SingletonRandom::GetInstance();
-  if (single_random_ptr == nullptr)
-  {
-    single_random_ptr = &random_instance;
-
-    lock_guard<mutex> lockGuard(instance_mutex);
-    b_instance_equal = true;
-    ++b_insance_update;
-  }
-  else
-  {
-    if ( single_random_ptr != &random_instance)
-    {  
-      lock_guard<mutex> lockGuard(instance_mutex);
-      b_instance_equal = false;
-      ++b_insance_update;
-    }
-    else
-    {
-      ++b_insance_update;
-    }
-  }
-}
-
-#endif
 // Generate random numbers
 unsigned int SingletonRandom::GenerateRandom()
 {

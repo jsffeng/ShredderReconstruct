@@ -31,17 +31,17 @@
             <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">25</td>
-            <td class="headerCovTableEntry">28</td>
-            <td class="headerCovTableEntryMed">89.3 %</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2019-03-09 22:58:06</td>
+            <td class="headerValue">2019-03-10 20:24:19</td>
             <td></td>
             <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntry">5</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
@@ -49,9 +49,9 @@
             <td></td>
             <td></td>
             <td class="headerItem">Branches:</td>
-            <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntry">36</td>
-            <td class="headerCovTableEntryLo">55.6 %</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">28</td>
+            <td class="headerCovTableEntryLo">57.1 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
         </table>
@@ -69,12 +69,12 @@
       <td>
 <pre class="sourceHeading">           Branch data     Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>                :            : #ifdef MULTI_THREAD_FLAG</a>
-<span class="lineNum">       2 </span>                :            : #include&lt;mutex&gt;
-<span class="lineNum">       3 </span>                :            : #endif
-<span class="lineNum">       4 </span>                :            : 
-<span class="lineNum">       5 </span>                :            : #include &lt;random&gt;
-<span class="lineNum">       6 </span>                :            : #include &quot;singleton_random.h&quot;
+<a name="1"><span class="lineNum">       1 </span>                :            : #include &lt;random&gt;</a>
+<span class="lineNum">       2 </span>                :            : #include &quot;singleton_random.h&quot;
+<span class="lineNum">       3 </span>                :            : 
+<span class="lineNum">       4 </span>                :            : #ifdef MULTI_THREAD_FLAG
+<span class="lineNum">       5 </span>                :            : #include &lt;mutex&gt;
+<span class="lineNum">       6 </span>                :            : #endif
 <span class="lineNum">       7 </span>                :            : 
 <span class="lineNum">       8 </span>                :            : using namespace std;
 <span class="lineNum">       9 </span>                :            : 
@@ -111,53 +111,17 @@
 <span class="lineNum">      40 </span>                :<span class="lineCov">         14 :   return *p_instance_;</span>
 <span class="lineNum">      41 </span>                :            : 
 <span class="lineNum">      42 </span>                :            : }
-<span class="lineNum">      43 </span>                :            : 
-<span class="lineNum">      44 </span>                :            : #if (defined UTFLAG) &amp;&amp; (defined MULTI_THREAD_FLAG) 
-<span class="lineNum">      45 </span>                :            : // Test function for multi-threads for SingletonRandom
-<span class="lineNum">      46 </span>                :            : mutex TESTSingleton::instance_mutex;
-<span class="lineNum">      47 </span>                :            : bool TESTSingleton::b_instance_equal = false;
-<a name="48"><span class="lineNum">      48 </span>                :            : int TESTSingleton::b_insance_update = 0;</a>
-<span class="lineNum">      49 </span>                :            : 
-<span class="lineNum">      50 </span>                :<span class="lineCov">         10 : void TESTSingleton::TESTGetInstance()</span>
-<span class="lineNum">      51 </span>                :            : {
-<span class="lineNum">      52 </span>                :            :   static SingletonRandom *single_random_ptr = nullptr;
-<span class="lineNum">      53 </span>                :            :   
-<span class="lineNum">      54 </span>                :<span class="lineCov">         10 :   SingletonRandom::s_max_val_ = 100;</span>
-<span class="lineNum">      55 </span>                :<span class="lineCov">         10 :   SingletonRandom&amp; random_instance = SingletonRandom::GetInstance();</span>
-<span class="lineNum">      56 </span>        [<span class="branchCov" title="Branch 0 was taken 1 time"> + </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>]:<span class="lineCov">         10 :   if (single_random_ptr == nullptr)</span>
-<span class="lineNum">      57 </span>                :            :   {
-<span class="lineNum">      58 </span>                :<span class="lineCov">          1 :     single_random_ptr = &amp;random_instance;</span>
-<span class="lineNum">      59 </span>                :            : 
-<span class="lineNum">      60 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          1 :     lock_guard&lt;mutex&gt; lockGuard(instance_mutex);</span>
-<span class="lineNum">      61 </span>                :<span class="lineCov">          1 :     b_instance_equal = true;</span>
-<span class="lineNum">      62 </span>                :<span class="lineCov">          1 :     ++b_insance_update;</span>
-<span class="lineNum">      63 </span>                :            :   }
-<span class="lineNum">      64 </span>                :            :   else
-<span class="lineNum">      65 </span>                :            :   {
-<span class="lineNum">      66 </span>        [<span class="branchNoCov" title="Branch 0 was not taken"> - </span><span class="branchCov" title="Branch 1 was taken 9 times"> + </span>]:<span class="lineCov">          9 :     if ( single_random_ptr != &amp;random_instance)</span>
-<span class="lineNum">      67 </span>                :            :     {  
-<span class="lineNum">      68 </span>        [<span class="branchNoExec" title="Branch 1 was not executed"> # </span><span class="branchNoExec" title="Branch 2 was not executed"> # </span>]:<span class="lineNoCov">          0 :       lock_guard&lt;mutex&gt; lockGuard(instance_mutex);</span>
-<span class="lineNum">      69 </span>                :<span class="lineNoCov">          0 :       b_instance_equal = false;</span>
-<span class="lineNum">      70 </span>                :<span class="lineNoCov">          0 :       ++b_insance_update;</span>
-<span class="lineNum">      71 </span>                :            :     }
-<span class="lineNum">      72 </span>                :            :     else
-<span class="lineNum">      73 </span>                :            :     {
-<span class="lineNum">      74 </span>                :<span class="lineCov">          9 :       ++b_insance_update;</span>
-<span class="lineNum">      75 </span>                :            :     }
-<span class="lineNum">      76 </span>                :            :   }
-<span class="lineNum">      77 </span>                :<span class="lineCov">         10 : }</span>
-<span class="lineNum">      78 </span>                :            : 
-<a name="79"><span class="lineNum">      79 </span>                :            : #endif</a>
-<span class="lineNum">      80 </span>                :            : // Generate random numbers
-<span class="lineNum">      81 </span>                :<span class="lineCov">         60 : unsigned int SingletonRandom::GenerateRandom()</span>
-<span class="lineNum">      82 </span>                :            : {
-<span class="lineNum">      83 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 58 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         60 :   static default_random_engine s_engine(time(0));</span>
+<a name="43"><span class="lineNum">      43 </span>                :            : </a>
+<span class="lineNum">      44 </span>                :            : // Generate random numbers
+<span class="lineNum">      45 </span>                :<span class="lineCov">         60 : unsigned int SingletonRandom::GenerateRandom()</span>
+<span class="lineNum">      46 </span>                :            : {
+<span class="lineNum">      47 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 58 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         60 :   static default_random_engine s_engine(time(0));</span>
 <span class="lineNum">         </span>[<span class="branchCov" title="Branch 7 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 8 was not taken"> - </span>][<span class="branchNoExec" title="Branch 10 was not executed"> # </span><span class="branchNoExec" title="Branch 11 was not executed"> # </span>]
-<span class="lineNum">      84 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 58 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         60 :   static uniform_int_distribution&lt;unsigned&gt; s_uniform(0, s_max_val_);</span>
+<span class="lineNum">      48 </span>[<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 58 times"> + </span>][<span class="branchCov" title="Branch 3 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         60 :   static uniform_int_distribution&lt;unsigned&gt; s_uniform(0, s_max_val_);</span>
 <span class="lineNum">         </span>[<span class="branchCov" title="Branch 6 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>][<span class="branchNoExec" title="Branch 9 was not executed"> # </span><span class="branchNoExec" title="Branch 10 was not executed"> # </span>]
-<a name="85"><span class="lineNum">      85 </span>                :            : </a>
-<span class="lineNum">      86 </span>                :<span class="lineCov">         60 :   return s_uniform(s_engine);</span>
-<span class="lineNum">      87 </span>[<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         16 : }</span>
+<a name="49"><span class="lineNum">      49 </span>                :            : </a>
+<span class="lineNum">      50 </span>                :<span class="lineCov">         60 :   return s_uniform(s_engine);</span>
+<span class="lineNum">      51 </span>[<span class="branchCov" title="Branch 1 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 3 was taken 4 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>]:<span class="lineCov">         16 : }</span>
 </pre>
       </td>
     </tr>

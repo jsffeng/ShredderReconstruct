@@ -11,7 +11,6 @@ TARGET_SHRED := shredder
 TARGET_UNSHRED := unshredder
 
 ALLTARGETS := $(TARGET_SHRED) $(TARGET_UNSHRED)
-#ALLTARGETS := $(TARGET_SHRED)
 
 TEST_TARGET_SHRED := $(TEST_DIR)/UT$(TARGET_SHRED)
 TEST_TARGET_UNSHRED := $(TEST_DIR)/UT$(TARGET_UNSHRED)
@@ -26,7 +25,6 @@ ALLOBJS += $(MULTI_THREAD_OBJ_NAME)_multi.o
 
 OBJS_SHRED := common_classes.o singleton_random.o text_shredder.o shred_main.o
 OBJS_UNSHRED := common_classes.o singleton_random_multi.o singleton_diction.o column_match_manager.o column_select_manager.o text_unshredder.o thread_controller.o unshred_main.o
-
 
 # UT test code
 UT_TEST_ALLSRCS := $(wildcard $(TEST_DIR)/*.cpp)
@@ -88,14 +86,12 @@ bld: $(ALLTARGETS)
 ut:  $(TEST_ALLTARGETS)
 
 $(TARGET_SHRED): $(OBJS_SHRED)
-#	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 $(TARGET_UNSHRED): $(OBJS_UNSHRED)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LIBFLAGS)
 
 $(TEST_TARGET_SHRED): $(TEST_OBJS_SHRED) $(UT_TEST_OBJS_SHRED) 
-#	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ $(LIBFLAGS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(GCOV_LDFLAGS) $^ -o $@ 
 
 $(TEST_TARGET_UNSHRED): $(TEST_OBJS_UNSHRED) $(UT_TEST_OBJS_UNSHRED) 
@@ -115,10 +111,6 @@ $(MULTI_THREAD_OBJ_NAME)_multi_test.o: $(MULTI_THREAD_OBJ_NAME).cpp
 
 %_utest.o:%.cpp
 	$(CC) $(DUTFLAG) $(CFLAGS) -o $@ -c $<
-
-# Need multi-thread support for this objective 
-$(TEST_DIR)/UT$(TARGET_UNSHRED)_utest.o:$(TEST_DIR)/UT$(TARGET_UNSHRED).cpp
-	$(CC) $(DUTFLAG) $(CFLAGS) $(MULTI_THREAD_FLAG) -o $@ -c $<
 
 run_ut: ut
 	$(TEST_TARGET_SHRED) --run_test=SingletonRandom_test --log_level=warning;echo

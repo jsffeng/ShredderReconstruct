@@ -49,9 +49,9 @@ UT/Acceptance test code statistics:
 *ubuntu->cloc test  
       17 text files.  
       17 unique files.  
-      14 files ignored.  
+      14 files ignored.*  
    
-http://cloc.sourceforge.net v 1.60  T=0.07 s (44.8 files/s, 21621.9 lines/s)  
+*http://cloc.sourceforge.net v 1.60  T=0.07 s (44.8 files/s, 21621.9 lines/s)  
 \-------------------------------------------------------------------------------  
 **Language:                     files:          blank:        comment:           code**  
 \-------------------------------------------------------------------------------  

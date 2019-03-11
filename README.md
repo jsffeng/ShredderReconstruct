@@ -1,7 +1,12 @@
 This package contains two tools - shredder and unshredder
------------------------------------------------------------------  
+----------------------------------------------------------  
 1. shredder can shred the text page into text strips with random order. 
 2. unshredder can re-constuct the original text page with text strips. 
+
+Run shredder: full_text.ascii ==> shredded_text.ascii
+Run unshredder: shredded_text.ascii ==> restored_text.ascii
+
+If successfully restored, restored_text.ascii should have the same content with full_text.ascii
 
 Development Environment: 
 ---------------------------------------------  
@@ -29,9 +34,9 @@ ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict
      147 files ignored.
 
 http://cloc.sourceforge.net v 1.60  T=0.10 s (197.3 files/s, 17440.1 lines/s)
--------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
--------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------
 C++                             10            229            128            902
 C/C++ Header                     9             87             62            232
 make                             1             35              3             90

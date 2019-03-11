@@ -28,12 +28,12 @@ Sub-directories:
 Programms source code statistics:
 ----------------------------------  
 
-ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict    
+*ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict    
       21 text files.  
       21 unique files.  
-     147 files ignored.  
+     147 files ignored.*  
     
-http://cloc.sourceforge.net v 1.60  T=0.10 s (197.3 files/s, 17440.1 lines/s)  
+*http://cloc.sourceforge.net v 1.60  T=0.10 s (197.3 files/s, 17440.1 lines/s)  
 \-------------------------------------------------------------------------------  
 **Language:                  files:          blank:        comment:           code**  
 \-------------------------------------------------------------------------------  
@@ -42,11 +42,11 @@ http://cloc.sourceforge.net v 1.60  T=0.10 s (197.3 files/s, 17440.1 lines/s)
 **make:**                          1:             35:              3:             90  
 \-------------------------------------------------------------------------------  
 **SUM:**                          20:            351:            193:           1224  
-\-------------------------------------------------------------------------------  
-
+\-------------------------------------------------------------------------------*  
+  
 UT/Acceptance test code statistics:  
 ----------------------------------  
-ubuntu->cloc test  
+*ubuntu->cloc test  
       17 text files.  
       17 unique files.  
       14 files ignored.  
@@ -59,9 +59,8 @@ http://cloc.sourceforge.net v 1.60  T=0.07 s (44.8 files/s, 21621.9 lines/s)
 **Bourne Shell:**                     1:             34:              2:            112  
 \-------------------------------------------------------------------------------  
 **SUM:**                             3:            375:            134:            938  
-\-------------------------------------------------------------------------------  
+\-------------------------------------------------------------------------------*  
   
-
 make commands:  
 --------------  
 Run make commmand in top directory.  

@@ -35,7 +35,7 @@ ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict
     
 http://cloc.sourceforge.net v 1.60  T=0.10 s (197.3 files/s, 17440.1 lines/s)  
 *-------------------------------------------------------------------------------  
-*Language                     files          blank        comment           code  
+*Language                      files          blank        comment           code  
 *-------------------------------------------------------------------------------  
 *C++                             10            229            128            902  
 *C/C++ Header                     9             87             62            232  

@@ -1,3 +1,7 @@
+The Windows flaw exists in core elements of the
+operating system that are supposed to stop data
+in one program interacting with anything outside
+that application.
 Google said it had seen evidence that criminal
 hackers had found a way to make attack code jump
 from Chrome into other applications to help them

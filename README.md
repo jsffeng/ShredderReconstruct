@@ -20,24 +20,42 @@ dict - contains wordlist used by program unshredder
 test - contains unit test code and acceptance test script.
 ut_coverage - contains unit test code coverage result.
 
-Source files statistics:
----------------------  
-ubuntu->cloc .
-      43 text files.
-      42 unique files.
-     294 files ignored.
+Programms source files statistics:
+----------------------------------  
 
-http://cloc.sourceforge.net v 1.60  T=0.17 s (134.1 files/s, 18695.1 lines/s)
+ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict
+      21 text files.
+      21 unique files.
+     147 files ignored.
+
+http://cloc.sourceforge.net v 1.60  T=0.10 s (197.3 files/s, 17440.1 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-C++                             12            570            260           1728
+C++                             10            229            128            902
 C/C++ Header                     9             87             62            232
-Bourne Shell                     1             30              3            107
 make                             1             35              3             90
 -------------------------------------------------------------------------------
-SUM:                            23            722            328           2157
+SUM:                            20            351            193           1224
 -------------------------------------------------------------------------------
+
+UT/Acceptance test code statistics:
+----------------------------------  
+ubuntu->cloc test
+      17 text files.
+      17 unique files.
+      14 files ignored.
+
+http://cloc.sourceforge.net v 1.60  T=0.07 s (44.8 files/s, 21621.9 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+C++                              2            341            132            826
+Bourne Shell                     1             34              2            112
+-------------------------------------------------------------------------------
+SUM:                             3            375            134            938
+-------------------------------------------------------------------------------
+
 
 make commands:  
 --------------  
@@ -126,3 +144,37 @@ TESTCASE30:PASS
 30 Tests: 30 Successes 0 Failures
 OK
 NOTE: Please find test details under direcotry ./test/SToutput.
+
+Example (i.e. run shredder with ./test/STinput/sampleB to get the following)
+|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|
+| c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|
+|uc| s|er|ys|tr|ms|on|al|co|w |o | o|ci|in|ti|mm|od|tw|f |te|ne|
+|Dr|ei|ic|ng|th|  |on| b| v|er|no| a|le|- |ag|eh|e | a|nd|  |th|
+|pe|g.| B|  |ve|  |by|in|ia| g|pa| a|oe|de|d |nt|lo|os|er|  |ce|
+|rs|go|he|n |e |  |cr|ra|of|t |li|ew| D|Th|t | t|fi| f|ed|  |gh|
+|oc|ug| a|h |ul|  |r |ho|ul| J|n |as|lt|co|cu|y,|d |oo| s|  |as|
+|ar| i|o |nt|is|  |t |ip|ly|ke|s |da|sl|th|ge| t| t| i|te|o |li|
+|mm|gh| t| t|e |  | a|ou|wo|s |ne|s |hr|th|er|rk|su|gi|en|he|er|
+|li|  |  |  |st|  |t |  |  |  |is|an|  |po|gh|  |-f|ys|al|  |. |
+|do| E| 0|ST|la|  | o|45|bo| a|d |cc|8:|Sp|wn|ut|sh|re|ur|  |at|
+| G|rc|GO|he|3:|  |).|ea|le|al|t,| A| S|(1|MT|d |45|oa| b|r,| c|
+|it|. |ap|Th|s |e |g |le|he| t|ov|to|su|wa|in| c|wa|ec| r|er|er|
+|he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|
+|e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |
+
+Restored (i.e. run unshredder for above):
+Nasa hopes to bring this near-eight year
+gap in capability to an end with the
+introduction of two new commercial systems
+- the Dragon and another vehicle being
+developed by aerospace giant Boeing.
+The first crewed flight of the Dragon
+could occur as soon as July, although
+this target date is likely to slip into
+the summer as engineers work through the
+post-flight analysis.
+Splashdown occurred at about 08:45 EST
+(13:45 GMT). A boat, called GO Searcher,
+was waiting to recover the capsule. There
+were cheers at mission control as the
+capsule landed in the Atlantic.

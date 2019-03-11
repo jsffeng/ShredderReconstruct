@@ -151,7 +151,7 @@ OK
 NOTE: Please find test details under direcotry ./test/SToutput.  
   
 Example (i.e. run shredder with ./test/STinput/sampleB to get the following):  
-\============================================================================  
+\=============================================    
 |op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
 | c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
 |uc| s|er|ys|tr|ms|on|al|co|w |o | o|ci|in|ti|mm|od|tw|f |te|ne|  
@@ -169,7 +169,7 @@ Example (i.e. run shredder with ./test/STinput/sampleB to get the following):
 |e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |  
   
 Restored (i.e. run unshredder for above):  
-\========================================  
+\==========================   
 Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  
 introduction of two new commercial systems  

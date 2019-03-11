@@ -103,7 +103,7 @@ Unit testing coverage:
 ---------------------   
 http://htmlpreview.github.io/?https://github.com/jsffeng/Shredder_Reconstruct/blob/master/ut_coverage/index.html  
 
-Acceptance test (System testing):    
+Acceptance test (System test):    
 ------------------------------------    
 
 Use 6 text samples (under directory test/STinput) to verify the programme.  

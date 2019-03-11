@@ -6,7 +6,7 @@ This package contains two tools - shredder and unshredder
 >>Run shredder: full_text.ascii ==> shredded_text.ascii  
 >>Run unshredder: shredded_text.ascii ==> restored_text.ascii  
     
->>>>If successfully restored, restored_text.ascii should have the same content with full_text.ascii  
+>>If successfully restored, restored_text.ascii should have the same content with full_text.ascii  
 
 Development Environment: 
 ---------------------------------------------  
@@ -145,7 +145,7 @@ TESTCASE28:PASS
 TESTCASE29:PASS  
 TESTCASE30:PASS  
   
---------------------------------  
+\--------------------------------  
 30 Tests: 30 Successes 0 Failures  
 OK  
 NOTE: Please find test details under direcotry ./test/SToutput.  
@@ -171,7 +171,7 @@ Restored (i.e. run unshredder for above):
 Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  
 introduction of two new commercial systems  
-- the Dragon and another vehicle being  
+\- the Dragon and another vehicle being  
 developed by aerospace giant Boeing.  
 The first crewed flight of the Dragon  
 could occur as soon as July, although  

@@ -11,21 +11,21 @@ This package contains two tools - shredder and unshredder
 Development Environment: 
 ---------------------------------------------  
 Linux version: ubuntu 16.04.01  
-Boost version: 1.68
 
 Dependent packages/tools:
 ----------------  
-1. g++ - supporting C++ 11 standard (with option -std=gnu++11).  
-2. lcov - support test coverage data collection and report generation.  
+- g++ - supporting C++ 11 standard (with option -std=gnu++11).  
+- Boost - version: 1.68
+- lcov - support test coverage data collection and report generation.  
 
 Sub-directories:
 ----------------  
-design - contains high level designs for both two programmes.  
-dict - contains wordlist used by program unshredder.  
-test - contains unit test code and acceptance test script.  
-ut_coverage - contains unit test code coverage result.  
+- design - contains high level designs for both two programmes.  
+- dict - contains wordlist used by program unshredder.  
+- test - contains unit test code and acceptance test script.  
+- ut_coverage - contains unit test code coverage result.  
   
-Programms source files statistics:
+Programms source code statistics:
 ----------------------------------  
 
 ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict    
@@ -64,15 +64,15 @@ http://cloc.sourceforge.net v 1.60  T=0.07 s (44.8 files/s, 21621.9 lines/s)
 
 make commands:  
 --------------  
-Run make commmand in current directory.  
+Run make commmand in top directory.  
   
 make bld: Build the final product  
 make ut: Build the UT test product  
-make run_ut: Execute UT tests  
-make GCOV=1 clean: Clean all generated files except source code and ut_coverage directory.
-make clean: Clean all generated files (excluding ut test coverage data if exist) except source code  
+make run_ut: Execute UT tests
+make acceptance_test: Execute acceptance test (system test)   
+make clean: Clean all generated files (excluding ut test coverage data if exist) except source code   
 make GCOV=1 ut_cover: Generate UT test coverage information  
-make acceptance_test: Execute acceptance test (system test)  
+make GCOV=1 clean: Clean all generated files except source code and ut_coverage directory  
   
 Unit testing:  
 ------------------------------   

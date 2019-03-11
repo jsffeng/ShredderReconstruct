@@ -121,5 +121,8 @@ collect_cov:
 	lcov --rc lcov_branch_coverage=1 -d . -b . -c -o $(COV_FILE)
 	lcov --rc lcov_branch_coverage=1 -e $(COV_FILE) "*/$(WORK_DIR)*" -o  $(COV_FILE)
 	genhtml --rc lcov_branch_coverage=1 -o $(GCOV_RESULT) $(COV_FILE)
+
+acceptance_test: bld
+	/bin/bash $(TEST_DIR)/acceptance_test.sh
 clean:
-	$(RM) $(ALLOBJS) $(TEST_ALLOBJS) $(UT_TEST_ALLOBJS) $(ALLTARGETS) $(TEST_ALLTARGETS) $(GCDA_FILES) $(GCNO_FILES) $(COV_FILE) 
+	$(RM) $(ALLOBJS) $(TEST_ALLOBJS) $(UT_TEST_ALLOBJS) $(ALLTARGETS) $(TEST_ALLTARGETS) $(GCDA_FILES) $(GCNO_FILES) $(COV_FILE) $(TEST_DIR)/SToutput

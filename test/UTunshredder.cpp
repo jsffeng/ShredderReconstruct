@@ -742,14 +742,14 @@ BOOST_FIXTURE_TEST_CASE (GetInput_test, Fixture_data_file)
 
   // Throw exceptions 
   TextUnshredder unshred2;
-  BOOST_CHECK_THROW(unshred2.GetInput("test/data/test_input.ascii"), exception);   
+  BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_input.ascii"), exception);   
 
-  BOOST_CHECK_NO_THROW(unshred2.GetInput("test/data/test_shredded_text.ascii"));   
+  BOOST_CHECK_NO_THROW(unshred2.GetInput("test/UTinput/test_shredded_text.ascii"));   
   // With blank charactor at the end of fist 2 rows.
-  BOOST_CHECK_NO_THROW(unshred2.GetInput("test/data/test_shredded_text1.ascii"));   
-  BOOST_CHECK_THROW(unshred2.GetInput("test/data/test_shredded_text2.ascii"), exception);   
-  BOOST_CHECK_THROW(unshred2.GetInput("test/data/test_shredded_text3.ascii"), exception);   
-  BOOST_CHECK_THROW(unshred2.GetInput("test/data/test_shredded_text4.ascii"), exception);   
+  BOOST_CHECK_NO_THROW(unshred2.GetInput("test/UTinput/test_shredded_text1.ascii"));   
+  BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_shredded_text2.ascii"), exception);   
+  BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_shredded_text3.ascii"), exception);   
+  BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_shredded_text4.ascii"), exception);   
 }
 
 
@@ -758,15 +758,15 @@ BOOST_FIXTURE_TEST_CASE (CreateOutput_test, Fixture_file_vec)
   TextUnshredder unshred1;
 
   // Won't throw exception if vec_merged_text_ is empty, just write nothing to disk
-  BOOST_CHECK_NO_THROW(unshred1.CreateOutput("test/data/test_output.ascii"));   
+  BOOST_CHECK_NO_THROW(unshred1.CreateOutput("test/UTinput/test_output.ascii"));   
 
   // With blanks at the end of lines
   unshred1.vec_merged_text_.assign(Fix_lines.begin(), Fix_lines.end());
 
-  unshred1.CreateOutput("test/data/test_output.ascii");
-  BOOST_CHECK(system("diff test_output.ascii test/data/test_output.ascii >/dev/null 2>&1") == 0);
+  unshred1.CreateOutput("test/UTinput/test_output.ascii");
+  BOOST_CHECK(system("diff test_output.ascii test/UTinput/test_output.ascii >/dev/null 2>&1") == 0);
 
-  system("rm -rf test/data/test_output.ascii");
+  system("rm -rf test/UTinput/test_output.ascii");
 }
 
 
@@ -783,7 +783,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredder_test)
   TextUnshredder unshred1;
 
   // This data file can be successfully retored 
-  unshred1.GetInput("test/data/test_shredded_text0.ascii");
+  unshred1.GetInput("test/UTinput/test_shredded_text0.ascii");
 
   unshred1.DoTextUnshredder();
  
@@ -807,7 +807,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredder_test)
   // This data file can be partially restored - reason why it cannot be fully restored during UT
   // is that vec_selected_columns_ and column sequences in vec_column_pool_ are fixed, 
   // which caused each thread generate the same result.
-  unshred2.GetInput("test/data/test_shredded_text.ascii");
+  unshred2.GetInput("test/UTinput/test_shredded_text.ascii");
 
   unshred2.DoTextUnshredder();
   BOOST_CHECK(unshred2.b_premature_flag_ == true);
@@ -898,7 +898,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
   // which caused each thread generate the same result.
 
   TextUnshredder test_unshred1;
-  test_unshred1.GetInput("test/data/test_shredded_text.ascii");
+  test_unshred1.GetInput("test/UTinput/test_shredded_text.ascii");
 
   // Re-set the static variable so as not to impact the rest tests.
   ThreadStatusDataReset();
@@ -913,7 +913,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
  
   TextUnshredder test_unshred2;
   // This data file can be successfully retored 
-  test_unshred2.GetInput("test/data/test_shredded_text0.ascii");
+  test_unshred2.GetInput("test/UTinput/test_shredded_text0.ascii");
   // Re-set the static variable so as not to impact the rest tests.
   ThreadStatusDataReset();
 
@@ -944,16 +944,16 @@ BOOST_AUTO_TEST_SUITE (UTmain_test);
 BOOST_AUTO_TEST_CASE (UTmain_test)
 {
   // Partially restored
-  BOOST_CHECK(UTmain("test/data/test_shredded_text.ascii", "test/data/test_output.ascii", false) == 1);
+  BOOST_CHECK(UTmain("test/UTinput/test_shredded_text.ascii", "test/UTinput/test_output.ascii", false) == 1);
   // Successfully restored
-  BOOST_CHECK(UTmain("test/data/test_shredded_text0.ascii", "test/data/test_output0.ascii", false) == 0);
+  BOOST_CHECK(UTmain("test/UTinput/test_shredded_text0.ascii", "test/UTinput/test_output0.ascii", false) == 0);
 
   // Threads throw exception
-  BOOST_CHECK(UTmain("test/data/test_shredded_text0.ascii", "test/data/test_output0.ascii", true) == 2);
+  BOOST_CHECK(UTmain("test/UTinput/test_shredded_text0.ascii", "test/UTinput/test_output0.ascii", true) == 2);
   // main() function throw excpetion as data input file not exist
-  BOOST_CHECK(UTmain("test/data/test_input.ascii", "test/data/test_output1.ascii", false) == 2);
+  BOOST_CHECK(UTmain("test/UTinput/test_input.ascii", "test/UTinput/test_output1.ascii", false) == 2);
 
-  system("rm -rf test/data/test_output*.ascii");
+  system("rm -rf test/UTinput/test_output*.ascii");
 
 }
 

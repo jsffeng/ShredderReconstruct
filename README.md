@@ -111,7 +111,7 @@ Use 6 text samples (under directory test/STinput) to verify the programme.
 Note: Most of above got from BBC news for diferent catagory Tech, Secience, Sports, Business, etc.  
 row numbers range from 8-17, characators in rows ranged from 37 - 48.   
   
-ubuntu->make acceptance_test  
+*ubuntu->make acceptance_test  
 /bin/bash ./test/acceptance_test.sh  
 TESTCASE01:PASS  
 TESTCASE02:PASS  
@@ -142,16 +142,16 @@ TESTCASE26:PASS
 TESTCASE27:PASS  
 TESTCASE28:PASS  
 TESTCASE29:PASS  
-TESTCASE30:PASS  
+TESTCASE30:PASS*  
   
 \--------------------------------  
-30 Tests: 30 Successes 0 Failures  
+*30 Tests: 30 Successes 0 Failures  
 OK  
-NOTE: Please find test details under direcotry ./test/SToutput.  
+NOTE: Please find test details under direcotry ./test/SToutput.*  
   
 Example (i.e. run shredder with ./test/STinput/sampleB to get the following):  
 \=============================================    
-|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
+*|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
 | c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
 |uc| s|er|ys|tr|ms|on|al|co|w |o | o|ci|in|ti|mm|od|tw|f |te|ne|  
 |Dr|ei|ic|ng|th|  |on| b| v|er|no| a|le|- |ag|eh|e | a|nd|  |th|  
@@ -165,11 +165,11 @@ Example (i.e. run shredder with ./test/STinput/sampleB to get the following):
 | G|rc|GO|he|3:|  |).|ea|le|al|t,| A| S|(1|MT|d |45|oa| b|r,| c|  
 |it|. |ap|Th|s |e |g |le|he| t|ov|to|su|wa|in| c|wa|ec| r|er|er|  
 |he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
-|e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |  
+|e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
   
 Restored (i.e. run unshredder for above):  
 \==========================   
-Nasa hopes to bring this near-eight year  
+*Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  
 introduction of two new commercial systems  
 \- the Dragon and another vehicle being  
@@ -183,5 +183,5 @@ Splashdown occurred at about 08:45 EST
 (13:45 GMT). A boat, called GO Searcher,  
 was waiting to recover the capsule. There  
 were cheers at mission control as the  
-capsule landed in the Atlantic.  
+capsule landed in the Atlantic.*  
   

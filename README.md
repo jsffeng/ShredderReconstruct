@@ -107,7 +107,7 @@ Acceptance test (System test):
 ------------------------------------    
 
 Use 6 text samples (under directory test/STinput) to verify the programme.  
-Note: Most of above got from BBC news for diferent catagory Tech, Secience, Sports, Business, etc.  
+**Note**: Most of above got from BBC news for diferent catagory Tech, Secience, Sports, Business, etc.  
 row numbers range from 8-17, characators in rows ranged from 37 - 48.   
   
 *ubuntu->make acceptance_test  

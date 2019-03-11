@@ -78,27 +78,26 @@ Unit testing:
 ------------------------------   
 Unit testing was done with Boost. Here is the result:
   
-ubuntu->make run_ut  
+*ubuntu->make run_ut  
 ./test/UTshredder --run_test=SingletonRandom_test --log_level=warning;echo  
 Running 2 test cases...  
-test/UTshredder.cpp(49): warning: in "SingletonRandom_test/GenerateRandom_test": condition val[i] != val[i-1] is not satisfied [4 == 4]
+test/UTshredder.cpp(49): warning: in "SingletonRandom_test/GenerateRandom_test": condition val[i] != val[i-1] is not satisfied [4 == 4]*      
+*** *No errors detected*  
   
-*** No errors detected  
+*./test/UTshredder --log_level=warning;echo  
+Running 11 test cases...*  
   
-./test/UTshredder --log_level=warning;echo  
-Running 11 test cases...  
+*** *No errors detected*  
   
-*** No errors detected  
+*./test/UTunshredder --run_test=TESTSingleton_test --log_level=warning;echo  
+Running 1 test case...*  
   
-./test/UTunshredder --run_test=TESTSingleton_test --log_level=warning;echo  
-Running 1 test case...  
+*** *No errors detected*  
   
-*** No errors detected  
+*./test/UTunshredder --log_level=warning;echo  
+Running 25 test cases...*  
   
-./test/UTunshredder --log_level=warning;echo  
-Running 25 test cases...  
-  
-*** No errors detected  
+*** *No errors detected*  
   
     
 Unit testing coverage:  

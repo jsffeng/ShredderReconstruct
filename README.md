@@ -1,7 +1,7 @@
 This package contains two tools - shredder and unshredder
 ----------------------------------------------------------  
-1. shredder can shred the text page into text strips with random order. 
-2. unshredder can re-constuct the original text page with text strips. 
+- shredder can shred the text page into text strips with random order. 
+- unshredder can re-constuct the original text page with text strips. 
   
 >>Run shredder: full_text.ascii ==> shredded_text.ascii  
 >>Run unshredder: shredded_text.ascii ==> restored_text.ascii  

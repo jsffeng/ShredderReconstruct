@@ -12,12 +12,12 @@ int main()
 {
   try 
   {
-#ifdef UTFLAG
-    TextShredder text_shredder(n_width, str_infile, str_outfile);
-#else
+#ifndef UTFLAG
     // Provide letter width in each shredded strip, input file contaning text for shredding, and
     // output file to store shredded result.
     TextShredder text_shredder(2, "full_text.ascii", "shredded_text.ascii");
+#else
+    TextShredder text_shredder(n_width, str_infile, str_outfile);
 #endif
     // Populate vec_str_source_data_ from input file
     text_shredder.GetInput();

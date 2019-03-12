@@ -37,7 +37,7 @@ void ColumnSelectManager::Init(const vector<vector<string>> & columns)
 #ifndef UTFLAG
     TextStripOperation::Disorder(vec_column_pool_);
 #else
-    // In UT, the vec_selected_columns_ and column sequences in vec_column_pool_ are fixed,
+    // In UT, the vec_selected_columns_ in vec_column_pool_ are fixed,
     // which caused each thread generate the same result.
 #endif
   

@@ -805,8 +805,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredder_test)
   TextUnshredder unshred2;
 
   // This data file can be partially restored - reason why it cannot be fully restored during UT
-  // is that vec_selected_columns_ and column sequences in vec_column_pool_ are fixed, 
-  // which caused each thread generate the same result.
+  // is that vec_selected_columns_ are fixed, which caused each thread generate the same result.
   unshred2.GetInput("test/UTinput/test_shredded_text.ascii");
 
   unshred2.DoTextUnshredder();
@@ -894,8 +893,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
   BOOST_CHECK(ThreadController::n_thread_abnormals_ == 1);
 
   // This data file can be partially restored - reason why it cannot be fully restored during UT
-  // is that vec_selected_columns_ and column sequences in vec_column_pool_ are fixed, 
-  // which caused each thread generate the same result.
+  // is that vec_selected_columns_ are fixed, which caused each thread generate the same result.
 
   TextUnshredder test_unshred1;
   test_unshred1.GetInput("test/UTinput/test_shredded_text.ascii");

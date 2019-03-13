@@ -67,7 +67,7 @@ Run make commmand in top directory.
   
 make bld: Build the final product  
 make ut: Build the UT test product  
-make run_ut: Execute UT tests
+make run_ut: Execute UT tests  
 make acceptance_test: Execute acceptance test (system test)   
 make clean: Clean all generated files (excluding ut test coverage data if exist) except source code   
 make GCOV=1 ut_cover: Generate UT test coverage information  

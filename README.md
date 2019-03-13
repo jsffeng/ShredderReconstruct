@@ -1,10 +1,10 @@
 This package contains two tools - shredder and unshredder
 ----------------------------------------------------------  
-- shredder can shred the text page into text strips with random order. 
+- shredder can shred the text page into text strips in random order. 
 - unshredder can re-constuct the original text page with text strips. 
   
->>Run shredder: full_text.ascii ==> shredded_text.ascii  
->>Run unshredder: shredded_text.ascii ==> restored_text.ascii  
+>>shredder: full_text.ascii (input file) ==> shredded_text.ascii (output file)
+>>unshredder: shredded_text.ascii (input file) ==> restored_text.ascii (output file)
     
 >>If successfully restored, restored_text.ascii should have the same content with full_text.ascii  
 
@@ -20,12 +20,12 @@ Dependent packages/tools:
 
 Sub-directories:
 ----------------  
-- design - contains high level designs for both two programmes.  
-- dict - contains wordlist used by program unshredder.  
-- test - contains unit test code and acceptance test script.  
-- ut_coverage - contains unit test code coverage result.  
+- design - containing high level designs.  
+- dict - containing wordlist used by product unshredder.  
+- test - containing unit test code and acceptance test script.  
+- ut_coverage - containing unit test code coverage result.  
   
-Programms source code statistics:
+Programme source code statistics:
 ----------------------------------  
 
 *ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict    
@@ -75,7 +75,7 @@ make GCOV=1 clean: Clean all generated files except source code and ut_coverage 
   
 Unit testing:  
 ------------------------------   
-Unit testing was done with Boost. Here is the result:
+Unit testing done with Boost Unit test framework. Here is the result:
   
 *ubuntu->make run_ut  
 ./test/UTshredder --run_test=SingletonRandom_test --log_level=warning;echo  
@@ -148,7 +148,7 @@ TESTCASE30:PASS*
 OK  
 NOTE: Please find test details under direcotry ./test/SToutput.*  
   
-Example (i.e. run shredder with ./test/STinput/sampleB to get the following):  
+Example (i.e. copy ./test/STinput/sampleB to full_text.ascii, run shredder to get the following):  
 \=============================================    
 *|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
 | c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
@@ -166,7 +166,7 @@ Example (i.e. run shredder with ./test/STinput/sampleB to get the following):
 |he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
 |e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
   
-Restored (i.e. run unshredder for above):  
+Restored (i.e. run unshredder for above result):  
 \==========================   
 *Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  

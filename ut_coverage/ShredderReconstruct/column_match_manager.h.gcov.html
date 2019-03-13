@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info - ShredderReconstruct/column_match_manager.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">ShredderReconstruct</a> - column_match_manager.h<span style="font-size: 80%;"> (source / <a href="column_match_manager.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-03-12 13:44:39</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : #ifndef __COLUMNMATCHMANAGER__</a>
+<span class="lineNum">       2 </span>                :            : #define __COLUMNMATCHMANAGER__
+<span class="lineNum">       3 </span>                :            : 
+<span class="lineNum">       4 </span>                :            : #include &lt;vector&gt;
+<span class="lineNum">       5 </span>                :            : #include &lt;string&gt;
+<a name="6"><span class="lineNum">       6 </span>                :            : #include &quot;data_type.h&quot;</a>
+<span class="lineNum">       7 </span>                :            : 
+<span class="lineNum">       8 </span>                :<span class="lineCov">      14746 : class ColumnMatchManager</span>
+<span class="lineNum">       9 </span>                :            : {
+<span class="lineNum">      10 </span>                :            : #ifdef UTFLAG
+<span class="lineNum">      11 </span>                :            :   public:
+<span class="lineNum">      12 </span>                :            : #else
+<span class="lineNum">      13 </span>                :            :   private:
+<span class="lineNum">      14 </span>                :            : #endif
+<span class="lineNum">      15 </span>                :            :     std::vector&lt;std::vector&lt;std::string&gt;&gt; vec_text_columns_;
+<span class="lineNum">      16 </span>                :            :     std::vector&lt;std::string&gt; vec_new_column_;
+<span class="lineNum">      17 </span>                :            : 
+<span class="lineNum">      18 </span>                :            :     // Called by CalculateMatchRate
+<span class="lineNum">      19 </span>                :            :     void BuildLookupKey(std::vector&lt;std::string&gt; &amp;vec_key_column, TwoWayDirections enum_direct);
+<span class="lineNum">      20 </span>                :            :     void FindMergedWordLeft(std::string &amp; str_line, std::string &amp; str_key);
+<span class="lineNum">      21 </span>                :            :     void FindMergedWordRight(std::string &amp; str_line, std::string &amp; str_key);
+<span class="lineNum">      22 </span>                :            :   public:
+<span class="lineNum">      23 </span>                :            : 
+<span class="lineNum">      24 </span>                :            :     // Record match rate By different directions: LEFT and RIGHT
+<span class="lineNum">      25 </span>                :            :     MatchRate column_match_rate_[LIMIT];
+<span class="lineNum">      26 </span>                :            : 
+<span class="lineNum">      27 </span>                :            :     ColumnMatchManager(std::vector&lt;std::vector&lt;std::string&gt;&gt; &amp; vec_text_columns, std::vector&lt;std::string&gt; &amp; vec_new_column);
+<span class="lineNum">      28 </span>                :            : 
+<span class="lineNum">      29 </span>                :            :     // Populate column_match_rate_[]
+<span class="lineNum">      30 </span>                :            :     void CalculateMatchRate();
+<span class="lineNum">      31 </span>                :            :     bool RemoveWordSuffix(std::string &amp;str_lookup_key);
+<span class="lineNum">      32 </span>                :            : };
+<span class="lineNum">      33 </span>                :            : 
+<span class="lineNum">      34 </span>                :            : #endif
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

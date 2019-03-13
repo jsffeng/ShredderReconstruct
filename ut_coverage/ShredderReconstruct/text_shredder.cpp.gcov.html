@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info - ShredderReconstruct/text_shredder.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">ShredderReconstruct</a> - text_shredder.cpp<span style="font-size: 80%;"> (source / <a href="text_shredder.cpp.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">42</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryHi">95.5 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-03-12 13:44:39</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">39</td>
+            <td class="headerCovTableEntry">58</td>
+            <td class="headerCovTableEntryLo">67.2 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : #include &quot;common_classes.h&quot;</a>
+<span class="lineNum">       2 </span>                :            : #include &quot;text_shredder.h&quot;
+<span class="lineNum">       3 </span>                :            : #include &quot;singleton_random.h&quot;
+<span class="lineNum">       4 </span>                :            : 
+<a name="5"><span class="lineNum">       5 </span>                :            : using namespace std;</a>
+<span class="lineNum">       6 </span>                :            : 
+<span class="lineNum">       7 </span>        [<span class="branchCov" title="Branch 2 was taken 17 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         34 : TextShredder::TextShredder(const int n_width, const string str_in_file, const string str_out_file) : n_strip_width_(n_width), str_in_filename_(str_in_file), str_out_filename_(str_out_file) </span>
+<span class="lineNum">       8 </span>                :            : {
+<span class="lineNum">       9 </span>                :<span class="lineCov">         17 : }</span>
+<a name="10"><span class="lineNum">      10 </span>                :            : </a>
+<span class="lineNum">      11 </span>                :            : // Populate vec_str_source_data_ from input file
+<span class="lineNum">      12 </span>                :<span class="lineCov">          9 : void TextShredder::GetInput()</span>
+<span class="lineNum">      13 </span>                :            : {
+<span class="lineNum">      14 </span>        [<span class="branchCov" title="Branch 2 was taken 6 times"> + </span><span class="branchCov" title="Branch 3 was taken 3 times"> + </span>]:<span class="lineCov">          9 :   TextFileOperation::ReadText(str_in_filename_, vec_str_source_data_);</span>
+<span class="lineNum">      15 </span>                :<span class="lineCov">          6 : }</span>
+<a name="16"><span class="lineNum">      16 </span>                :            : </a>
+<span class="lineNum">      17 </span>                :            : // Print vec_str_shredded_text_ to output file by delimiter &quot;|&quot;
+<span class="lineNum">      18 </span>                :<span class="lineCov">          7 : void TextShredder::CreateOutput()</span>
+<span class="lineNum">      19 </span>                :            : {
+<span class="lineNum">      20 </span>                :<span class="lineCov">         14 :   vector&lt;string&gt; vec_temp;</span>
+<span class="lineNum">      21 </span>                :<span class="lineCov">         14 :   string str_sub;</span>
+<span class="lineNum">      22 </span>                :            : 
+<span class="lineNum">      23 </span>        [<span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 5 times"> + </span>]:<span class="lineCov">          7 :   if (vec_str_shredded_text_.size() == 0)</span>
+<span class="lineNum">      24 </span>                :            :   {
+<span class="lineNum">      25 </span>        [<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          2 :     throw runtime_error(&quot;Nothing to print to output file!&quot;);</span>
+<span class="lineNum">      26 </span>                :            :   }
+<span class="lineNum">      27 </span>                :            : 
+<span class="lineNum">      28 </span>        [<span class="branchCov" title="Branch 1 was taken 15 times"> + </span><span class="branchCov" title="Branch 2 was taken 5 times"> + </span>]:<span class="lineCov">         20 :   for (int i = 0; i &lt; vec_str_shredded_text_.size(); ++i)</span>
+<span class="lineNum">      29 </span>                :            :   {
+<span class="lineNum">      30 </span>        [<span class="branchCov" title="Branch 2 was taken 144 times"> + </span><span class="branchCov" title="Branch 3 was taken 15 times"> + </span>]:<span class="lineCov">        159 :     for (int j = 0; j&lt; vec_str_shredded_text_[i].size(); ++j)</span>
+<span class="lineNum">      31 </span>                :            :     {
+<span class="lineNum">      32 </span>[<span class="branchCov" title="Branch 3 was taken 144 times"> + </span><span class="branchNoCov" title="Branch 4 was not taken"> - </span>][<span class="branchCov" title="Branch 6 was taken 144 times"> + </span><span class="branchNoCov" title="Branch 7 was not taken"> - </span>]:<span class="lineCov">        144 :        str_sub.append(&quot;|&quot; + vec_str_shredded_text_[i][j]); </span>
+<span class="lineNum">      33 </span>                :            :     } 
+<span class="lineNum">      34 </span>                :            :   
+<span class="lineNum">      35 </span>        [<span class="branchCov" title="Branch 1 was taken 15 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         15 :     str_sub.append(&quot;|&quot;); </span>
+<span class="lineNum">      36 </span>        [<span class="branchCov" title="Branch 1 was taken 15 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         15 :     vec_temp.emplace_back(str_sub);</span>
+<span class="lineNum">      37 </span>                :<span class="lineCov">         15 :     str_sub.clear();</span>
+<span class="lineNum">      38 </span>                :            :   }
+<span class="lineNum">      39 </span>                :            : 
+<span class="lineNum">      40 </span>[<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>][<span class="branchCov" title="Branch 4 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">          5 :   TextFileOperation::WriteText(str_out_filename_, vec_temp);</span>
+<span class="lineNum">         </span>        [<span class="branchCov" title="Branch 7 was taken 4 times"> + </span><span class="branchCov" title="Branch 8 was taken 1 time"> + </span>]
+<span class="lineNum">      41 </span>                :<span class="lineCov">          4 : }</span>
+<a name="42"><span class="lineNum">      42 </span>                :            : </a>
+<span class="lineNum">      43 </span>                :            : // Shred text lines stored vec_str_source_data_ and save shredded result into vec_str_shredded_text_
+<span class="lineNum">      44 </span>                :<span class="lineCov">          8 : void TextShredder::DoTextShredder()</span>
+<span class="lineNum">      45 </span>                :            : {
+<span class="lineNum">      46 </span>                :<span class="lineCov">         16 :   vector&lt;string&gt; vec_temp;</span>
+<span class="lineNum">      47 </span>                :<span class="lineCov">         16 :   string str_sub;</span>
+<span class="lineNum">      48 </span>                :            : 
+<span class="lineNum">      49 </span>        [<span class="branchCov" title="Branch 1 was taken 1 time"> + </span><span class="branchCov" title="Branch 2 was taken 7 times"> + </span>]:<span class="lineCov">          8 :   if (vec_str_source_data_.empty())</span>
+<span class="lineNum">      50 </span>                :            :   {
+<span class="lineNum">      51 </span>        [<span class="branchCov" title="Branch 2 was taken 1 time"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          1 :     throw runtime_error(&quot;vec_str_source_data_ is empty, no data to shred!&quot;);</span>
+<span class="lineNum">      52 </span>                :            :   }
+<span class="lineNum">      53 </span>                :            : 
+<span class="lineNum">      54 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span>]:<span class="lineCov">          7 :   if (n_strip_width_ &lt;= 0)</span>
+<span class="lineNum">      55 </span>                :            :   {
+<span class="lineNum">      56 </span>        [<span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">          2 :     throw runtime_error(&quot;n_strip_width_ value is invalid!&quot;);</span>
+<span class="lineNum">      57 </span>                :            :   }
+<span class="lineNum">      58 </span>                :            : 
+<span class="lineNum">      59 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 5 times"> + </span>]:<span class="lineCov">          5 :   if (!vec_str_shredded_text_.empty())</span>
+<span class="lineNum">      60 </span>                :<span class="lineNoCov">          0 :     vec_str_shredded_text_.clear();</span>
+<span class="lineNum">      61 </span>        [<span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 5 times"> + </span>]:<span class="lineCov">          5 :   if (!vec_str_trans_shredded_text_.empty())</span>
+<span class="lineNum">      62 </span>                :<span class="lineNoCov">          0 :     vec_str_trans_shredded_text_.clear();</span>
+<span class="lineNum">      63 </span>                :            : 
+<span class="lineNum">      64 </span>                :<span class="lineCov">          5 :   auto iter = vec_str_source_data_.begin();</span>
+<span class="lineNum">      65 </span>                :            : 
+<span class="lineNum">      66 </span>        [<span class="branchCov" title="Branch 2 was taken 15 times"> + </span><span class="branchCov" title="Branch 3 was taken 5 times"> + </span>]:<span class="lineCov">         20 :   while (iter != vec_str_source_data_.end())</span>
+<span class="lineNum">      67 </span>                :            :   {
+<span class="lineNum">      68 </span>                :<span class="lineCov">         15 :     int n_position = 0;</span>
+<span class="lineNum">      69 </span>        [<span class="branchCov" title="Branch 2 was taken 144 times"> + </span><span class="branchCov" title="Branch 3 was taken 15 times"> + </span>]:<span class="lineCov">        159 :     while (n_position &lt; iter-&gt;size())</span>
+<span class="lineNum">      70 </span>                :            :     {
+<span class="lineNum">      71 </span>[<span class="branchCov" title="Branch 2 was taken 144 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>][<span class="branchCov" title="Branch 5 was taken 144 times"> + </span><span class="branchNoCov" title="Branch 6 was not taken"> - </span>]:<span class="lineCov">        144 :       str_sub = iter-&gt;substr(n_position, n_strip_width_); </span>
+<span class="lineNum">      72 </span>                :            :       // Ensure the last column in the paragraph has the same width of strip
+<span class="lineNum">      73 </span>[<span class="branchCov" title="Branch 1 was taken 213 times"> + </span><span class="branchCov" title="Branch 2 was taken 144 times"> + </span>][<span class="branchCov" title="Branch 4 was taken 213 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]:<span class="lineCov">        357 :       while (str_sub.length() &lt; n_strip_width_) str_sub.append(&quot; &quot;);</span>
+<span class="lineNum">      74 </span>        [<span class="branchCov" title="Branch 1 was taken 144 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">        144 :       vec_temp.emplace_back(str_sub);</span>
+<span class="lineNum">      75 </span>                :<span class="lineCov">        144 :       n_position = n_position + n_strip_width_;</span>
+<span class="lineNum">      76 </span>                :            :     }
+<span class="lineNum">      77 </span>        [<span class="branchCov" title="Branch 1 was taken 15 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">         15 :     vec_str_shredded_text_.emplace_back(vec_temp);</span>
+<span class="lineNum">      78 </span>                :<span class="lineCov">         15 :     vec_temp.clear();</span>
+<span class="lineNum">      79 </span>                :            : 
+<span class="lineNum">      80 </span>                :<span class="lineCov">         15 :     ++iter;</span>
+<span class="lineNum">      81 </span>                :            :   }
+<span class="lineNum">      82 </span>                :            :    
+<span class="lineNum">      83 </span>                :            :   // Transpose vec_str_shredded_text_ to vec_str_trans_shredded_text_
+<span class="lineNum">      84 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   TextStripOperation::Transpose(vec_str_shredded_text_, vec_str_trans_shredded_text_);</span>
+<span class="lineNum">      85 </span>                :            : 
+<span class="lineNum">      86 </span>                :            : #ifndef UTFLAG
+<span class="lineNum">      87 </span>                :            :   TextStripOperation::Disorder(vec_str_trans_shredded_text_);
+<span class="lineNum">      88 </span>                :            : #endif 
+<span class="lineNum">      89 </span>                :            : 
+<span class="lineNum">      90 </span>                :            :   // Empty vec_str_shredded_text_ here
+<span class="lineNum">      91 </span>                :<span class="lineCov">          5 :   vec_str_shredded_text_.clear();</span>
+<span class="lineNum">      92 </span>                :            : 
+<span class="lineNum">      93 </span>                :            :   // Transpose vec_str_trans_shredded_text_ to vec_str_shredded_text_
+<span class="lineNum">      94 </span>        [<span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span>]:<span class="lineCov">          5 :   TextStripOperation::Transpose(vec_str_trans_shredded_text_, vec_str_shredded_text_);</span>
+<span class="lineNum">      95 </span>                :            : 
+<span class="lineNum">      96 </span>                :<span class="lineCov">          5 : }</span>
+<span class="lineNum">      97 </span>                :            : 
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.12</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

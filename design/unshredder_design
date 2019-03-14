@@ -2,8 +2,8 @@
 TextFileOperation
 ---------------------------------------
 + static ReadText(const string str_filename, vector<std::string> &vec_str_text_lines) : void
-# Newly-added, used to read dictionary into set
-+ static ReadText(const string str_filename, set<string> &uset_str_text_lines) : void
+# Newly-added, used to read dictionary into set 
++ static ReadText(const string str_filename, set<string> &set_str_text_lines) : void
 + static WriteText(const string str_filename, const vector<std::string> vec_str_text_lines) : void
 ---------------------------------------
 
@@ -26,7 +26,7 @@ StringWordOperation
 
 SingletonDiction
 ---------------------------------------
-- set<string> uset_dictionary_
+- set<string> set_dictionary_
 ---------------------------------------
 + static GetInstance() : SingletonDiction &
 + Init() : void
@@ -58,7 +58,7 @@ ColumnMatchManager
 ---------------------------------------
 - vector<vector<string>> vec_text_columns_
 - vector<string> vec_new_column_
-# LEFT and RIGHT
+# Store match rate from LEFT side and RIGHT side
 + MatchRate column_match_rate_[LIMIT];
 ---------------------------------------
 + ColumnMatchManager (vector<vector<string>> vec_text_columns,vector<string> vec_new_column)
@@ -116,6 +116,7 @@ TextUnshredder
 ---------------------------------------
 ########### Regular Classes End ###############
 
+########### ThreadController Class Start ###############
 typedef enum 
 {
     NOTSTART = 0,
@@ -123,7 +124,7 @@ typedef enum
     SUCCESS = 2
 } ThreadStatus;
 
-########### ThreadController Class Start ###############
+
 ThreadController
 ---------------------------------------
 # mutex for all threads
@@ -150,55 +151,80 @@ ThreadController
 Class relationship (excluding ThreadController):
 ==================
 
-TextStripOperation 
-    ^	
-    : 
-    :
-    :
-    : (dependency)
-    :
-TextUnshredder ------------> TextFileOperation (dependency)
-    |	
-    | (association)	
-    |	
-    |
-    |	
-    V
-ColumnSelectManager-----------> ColumnMatchManager (dependency) --------> StringWordOperation (dependency)
-                           	    : 
-				    :
-				    : (dependency)
-				    :
-				    V
-				SingletonDiction
+                             TextStripOperation 
+                                     ^
+                                     :
+                                     :
+                                     :(dependency)
+                                     :
+                 (dependency)        :       (dependency) 
+ThreadController ------------>TextUnshredder ------------> TextFileOperation
+                                     |
+                                     | 
+                                     |(association)
+                                     |
+                                     |
+                                     V            (dependency)
+                              ColumnSelectManage ------------> TextStripOperation (depending on SingletonRandom)
+                                     :
+                                     :
+                                     :(dependency)
+                                     :
+                                     :
+                                     V           (dependency)
+                              ColumnMatchManager ------------> StringWordOperation
+                                     : 
+                                     :
+                                     : (dependency)
+                                     :
+                                     V
+                              SingletonDiction
 
 
-Main algorithm:
-==============
-1. Randomly select a column (i.e. selected column or columns), in the remaining columns, calcuate the matching rate with the following data from LEFT and then RIGHT.
+
+Main algorithm to reconstruct the disordered text columns (aka text strips):
+========================================
+In the following context, the columns which have been successfully re-constructed called as SELECTED COLUMNS, the remaining columns called COLUMN POOL.  
+1. Randomly select a column, and create initial SELECTED COLUMNS with this only one column. And all the rest columns will be put into COLUMN POOL.  
+
+2. For each column in COLUMN POOL, calcuate the following matching rate to the SELECTED COLUMNS from LEFT and RIGHT direction, respectively.
   - f_match_rate = (Found + 1)/(NotFound + 1),
   - f_notmatch_rate = NotFound/AllRow,
-    Found is the number of the strings (or saying partial words) can be found in dictionry after appended to the selected column.  The higher of this value, the higher the maching rate.
-    NotFound is the number of the the strings (or saying partial words) cannot be found in dictionry after appended to the selected column. The lower of this value, the higher the matching rate.
+
+Note:
+    Found is the number of the strings (or saying partial words) can be found in dictionry after appended to SELECTED COLUMNS.  The higher of this value, the higher the maching rate.
+    NotFound is the number of the the strings (or saying partial words) cannot be found in dictionry after appended to SELECTED COLUMNS. The lower of this value, the higher the matching rate.
     AllRow is the number of rows.
 
-    f_match_rate is the overall matching rate.
+    f_match_rate is the overall matching rate. The higher of this value, the higher the overall matching rate.
+    f_notmatch_rate is used to meansure the level of not matching. The higher of this value, the less likely to match.
 
-    When caculating Found or NotFound, non-alphabetic string or the string with length less than 2 will be ingored for dictionary lookup.  
-    Suppose a column contain 10 rows (i.e. AllRow = 10), the value range of f_match_rate will be 0.09 ~ 11 (i.e. 1/11 ~ 11).
+    When caculating Found or NotFound, non-alphabetic strings or the strings with length less than 2 charactors will be ignored for dictionary lookup.  
+    Take a set of columns containing 10 rows as example, (i.e. AllRow = 10),the value range of f_match_rate will be 0.09 ~ 11 (i.e. 1/11 ~ 11).
+
+    f_notmatch_rate ranges from 0 ~ 100% (i.e. 0 ~ 1)
 
     If f_match_rate is above pre-defined value kAcceptableMatchRate, will be treated as valid. Otherise, just ingore the further processing. 
     
-    f_notmatch_rate ranges from 0 ~ 100% (i.e. 0 ~ 1)
     f_notmatch_rate is above pre-defined value kToleranceRate=25%, will be treated as valid. Otherise, just ingore the further processing.
 
-2. Compared matching rate, and find the best matching and add into selected columns by the following stragery.
-  - If f_notmatch_rate > kToleranceRate, just discard.
-  - In all rest columns with f_match_rate > kAcceptableMatchRate,  pick the one with largest f_match_rate value.
+3. Go through all columns in COLUMN POOL to compare their matching rate, and find the best matching and then add into SELECTED COLUMNS. Then remove it from COLUMN POOL.
+The stragery to find best matching is:
+  - columns with f_notmatch_rate > kToleranceRate, won't be considered as candiates.
+  - columns with f_match_rate <= kAcceptableMatchRate, won't be considered as candiates.
+  - All the rest columns will be considered as the candiates, and pick the one with largest f_match_rate as the best matching.
+  - If no such column exists (after discarding those with f_notmatch_rate > kToleranceRate and f_match_rate <= kAcceptableMatchRate), the programme will be marked as pre-matured and terminate with the partial result being provided.
 
-3. Repeat above step.
-   - If all the remaining columns got processed, completes successuflly, otherwise,
-   - Mark pre-matured if no remaining columns satisfy (f_notmatch_rate > kToleranceRate and f_match_rate > kAcceptableMatchRate). In this situation, the partial selected columns will be provided.
+4. Repeat step 2 - step 3.
+   - If no columns left in COLUMN POOL, completes successuflly. 
 
-4. Testing shows the result is sensative to the first selected column. With choosing differenct first selected under the same condition , in ~85% cases, it may lead to pre-matured situation, and in ~15% cases, it can lead to successful result. With this, decided to choose multi-thread to enhance the programme and choose the best one as the final result. 
+5. Simulating test shows whether the programme can complete successfully is sensative to the initial SELECTED COLUMNS (i.e the first selected column to be chosen). 
+Under the same condition, with choosing differenct the initial SELECTED COLUMNS, ~80% cases may lead to pre-matured situation, while ~20% cases may lead to successful result.
+This is understandable by considering some columns (especially containing many blank lines) are easy to be matched by multiple columns, which may lead to the pre-majure of the algorithm in later processing.
+With this fact, decided to choose multi-thread (10 threads used by default) to enhance the programme and choose the best one as the final result.
+
+**Note**:  
+The algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes, it is really hard or impossible to successfully complete the 100% restoration, depending on the real text strip content. 
+But another fact is that more rows (which text strips have), the higher successful completion rate. The rationale is that more rows usually mean more characteristics for a column when compare with others.
+In the acceptance test, we expect that the text with above 15 rows can 100% restored by this programe. 
 

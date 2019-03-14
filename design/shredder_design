@@ -45,11 +45,13 @@ TextShredder
 Class relationship:
 ==================
 
-TextStripOperation ----------> SingletonRandom (dependency)
+                   (dependency)
+TextStripOperation -------------> SingletonRandom
     ^	
     : 
     :
     : (dependency)
     :
-TextShredder ..........> TextFileOperation (dependency)
+    :        (dependency)
+TextShredder -------------> TextFileOperation 
 

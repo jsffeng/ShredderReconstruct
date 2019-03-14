@@ -148,7 +148,7 @@ ThreadController
 ---------------------------------------
 ########### ThreadController Class End #################
 
-Class relationship (excluding ThreadController):
+Class relationship:
 ==================
 
                              TextStripOperation 
@@ -183,7 +183,7 @@ ThreadController ------------>TextUnshredder ------------> TextFileOperation
 
 
 Main algorithm to reconstruct the disordered text columns (aka text strips):
-========================================
+==================================================================
 In the following context, the columns which have been successfully re-constructed called as SELECTED COLUMNS, the remaining columns called COLUMN POOL.  
 1. Randomly select a column, and create initial SELECTED COLUMNS with this only one column. And all the rest columns will be put into COLUMN POOL.  
 
@@ -191,7 +191,7 @@ In the following context, the columns which have been successfully re-constructe
   - f_match_rate = (Found + 1)/(NotFound + 1),
   - f_notmatch_rate = NotFound/AllRow,
 
-Note:
+    Note:
     Found is the number of the strings (or saying partial words) can be found in dictionry after appended to SELECTED COLUMNS.  The higher of this value, the higher the maching rate.
     NotFound is the number of the the strings (or saying partial words) cannot be found in dictionry after appended to SELECTED COLUMNS. The lower of this value, the higher the matching rate.
     AllRow is the number of rows.
@@ -216,7 +216,7 @@ The stragery to find best matching is:
   - If no such column exists (after discarding those with f_notmatch_rate > kToleranceRate and f_match_rate <= kAcceptableMatchRate), the programme will be marked as pre-matured and terminate with the partial result being provided.
 
 4. Repeat step 2 - step 3.
-   - If no columns left in COLUMN POOL, completes successuflly. 
+  - If no columns left in COLUMN POOL, completes successuflly. 
 
 5. Simulating test shows whether the programme can complete successfully is sensative to the initial SELECTED COLUMNS (i.e the first selected column to be chosen). 
 Under the same condition, with choosing differenct the initial SELECTED COLUMNS, ~80% cases may lead to pre-matured situation, while ~20% cases may lead to successful result.
@@ -224,7 +224,8 @@ This is understandable by considering some columns (especially containing many b
 With this fact, decided to choose multi-thread (10 threads used by default) to enhance the programme and choose the best one as the final result.
 
 **Note**:  
-The algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes, it is really hard or impossible to successfully complete the 100% restoration, depending on the real text strip content. 
-But another fact is that more rows (which text strips have), the higher successful completion rate. The rationale is that more rows usually mean more characteristics for a column when compare with others.
-In the acceptance test, we expect that the text with above 15 rows can 100% restored by this programe. 
+Avove algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes, it is really hard or impossible to successfully complete the 100% restoration, depending on the real text strip content. 
+But another fact is that more rows text strips have, the higher successful completion rate the programme may achieve.
+The rationale is that more rows usually mean more characteristics for a column when compare with others.
+Based on a variety of testings, we could expect that the regular text (i.e. from books, newspaper, magazines, etc.) with above 15 rows can 100% restored by this programe. 
 

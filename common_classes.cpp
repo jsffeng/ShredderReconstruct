@@ -142,7 +142,7 @@ void TextStripOperation::Transpose(vector<vector<string>>& vec_str_input, vector
 
 }
 
-// Merge multiple columns into one
+// Merge multiple columns into one column
 void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vector<string>& vec_str_text)
 {
   string str_temp;
@@ -167,14 +167,18 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
   }
 }
 
-// This function will use charactor ' ' as word delimiter, example:
-// a1a2a3|a4a5  |a7a8a9
-//     a3|a4a5a6|a7  a9
-//       |a4a5a6|a7a8a9
-//       |  a5a6|a7a8
-// a1  a3|a4  a6|a7a8a9
-// a1  a3|  a5a6|a7a8
-void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key, int n_column_width)
+// From left hand, identify the word used to lookup in the dictionary from a string containing  many words.
+// Before calling this function, some delimiter such as "," or "." need to be transformed to blank
+// charactor ' '.
+// Below is the list of examples to show how this function works to extract a word (or word piece)
+// used for lookup:
+// a1a2a3|a4a5  |a7a8a9 --> a1a2a3a4a5
+//     a3|a4a5a6|a7  a9 --> a3a4a5a6a7
+//       |a4a5a6|a7a8a9 --> "" (empty string)
+//       |  a5a6|a7a8   --> "" (empty string)
+// a1  a3|a4  a6|a7a8a9 --> a3a4
+// a1  a3|  a5a6|a7a8   --> "" (empty string)
+void WordStringOperation::FindLookupWordLeft(string & str_line, string & str_key, int n_column_width)
 {
   string str_key_t;
 
@@ -211,14 +215,18 @@ void StringWordOperation::FindLookupWordLeft(string & str_line, string & str_key
   str_key = str_key_t;
 }
 
-// This function will use charactor ' ' as word delimiter, example:
-// a1a2a3|  a5a6|a7a8a9
-//   a2a3|a4a5a6|a7  
-//   a2a3|a4a5a6|
-// a1  a3|a4a5  |
-// a1a2a3|a4  a6|a7  a9
-//   a2a3|a4a5  |a7  a9
-void StringWordOperation::FindLookupWordRight(string & str_line, string & str_key, int n_column_width)
+// From right hand, identify the word used to lookup in the dictionary from a string containing many words.
+// Before calling this function, some delimiter such as "," or "." need to be transformed to blank
+// charactor ' '.
+// Below is the list of examples to show how this function works to extract a word (or word piece)
+// used for lookup:
+// a1a2a3|  a5a6|a7a8a9 --> a5a6a7a8a9
+//   a2a3|a4a5a6|a7     --> a2a3a4a5a6a7
+//   a2a3|a4a5a6|       --> "" (empty string)
+// a1  a3|a4a5  |       --> "" (empty string)
+// a1a2a3|a4  a6|a7  a9 --> a6a7
+//   a2a3|a4a5  |a7  a9 --> "" (empty string)
+void WordStringOperation::FindLookupWordRight(string & str_line, string & str_key, int n_column_width)
 {
   string str_key_t;
 
@@ -256,9 +264,9 @@ void StringWordOperation::FindLookupWordRight(string & str_line, string & str_ke
   str_key = str_key_t;
 }
 
-// Removing suffix such as ed|ing|s|es, won't remove suffix if the number of remaining letters are 
+// Removing word suffix such as ed|ing|s|es, won't remove suffix if the number of remaining letters are 
 // less than 2. This function is usually for dictionary lookup.
-bool StringWordOperation::RemoveWordSuffix(string &str_lookup_key)
+bool WordStringOperation::RemoveWordSuffix(string &str_lookup_key)
 {
   vector<string> vec_suffix = {"ing", "ed", "es", "s"};
 

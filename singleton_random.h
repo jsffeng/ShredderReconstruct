@@ -32,6 +32,7 @@ class SingletonRandom
 
     static unsigned int s_max_val_;
 
+    // Lazy Singleton
     static SingletonRandom& GetInstance();
     unsigned int GenerateRandom();
 };

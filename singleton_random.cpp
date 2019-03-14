@@ -13,6 +13,7 @@ int SingletonRandom::s_instance_numbers_ = 0;
 unsigned int SingletonRandom::s_max_val_ = 0;
 std::unique_ptr<SingletonRandom> SingletonRandom::p_instance_ = nullptr;
 
+// Lazy Singleton
 SingletonRandom& SingletonRandom::GetInstance()
 {
   // Following will be used if multi-threads

@@ -4,17 +4,21 @@
 
 using namespace std;
 
+// Hungry Singleton
 SingletonDiction & SingletonDiction::GetInstance()  
 {  
   static SingletonDiction s_instance; 
   return s_instance; 
 }
 
+// Read dictionary from disk to memory
 void SingletonDiction::Init()
 {
   TextFileOperation::ReadText("dict/wordlist.txt", set_dictionary_);
 }
 
+// Build word piece with minimal charactor size 2, this will be used as the base for lookup.
+// Example, word "nice" will be expanded by this function to word piece like ni,nic,nice, ic, ice, ce.
 void SingletonDiction::BuildWordPiece()
 {
   if (set_dictionary_.empty())
@@ -48,6 +52,7 @@ void SingletonDiction::BuildWordPiece()
   }
 }
 
+// Lookup the str_letters to see if exists in dictionary
 bool SingletonDiction::LookupDict(string str_letters)
 {
 

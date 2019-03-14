@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////  
 //
-//  Naming convention used in source code and header files in this programme.
+//  Naming conventions used in source files and header files in this programme.
 //
 //  Let's assume the following text content to be unshredded by this programme.
 //  
@@ -9,7 +9,8 @@
 //  c1|c2|c3
 //  d1|d2|d3
 // 
-//  In above, a1, a2, b1, etc. is a string with same width, "|" is delimiter used by programme.
+//  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
+//  used by programme.
 //
 //  In this programme, above data will be stored into following 2 dimentional vector:
 //  {
@@ -18,7 +19,7 @@
 //    {a3,b3,c3,d3}
 //  }
 //  
-//  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc in above. 
+//  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
 //  A "column" often used to refer a text strip in data or variables in this programme.
 //  
 //////////////////////////////////////////////////////////////////////////////////////////  
@@ -75,11 +76,14 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns
   vec_new_column_.assign(vec_new_column.begin(),vec_new_column.end());
 }
 
-// Result stored to vec_key_column
+// Firstly force adding vec_new_column_ to vec_text_columns_ in the left hand or right hand, 
+// then identify the lookup key word based on that, matching rate will be calculated later based on
+// whether the lookup key word exist in dictionary or not.
+// Lookup key word stored to vec_key_column.
 // If any key word's size is less than 2, just record "0" into vec_key_column,
-// because dictionary lookup will be ignored for it. 
+// because it doesn't make sense to lookup dictionary for a single letter
 // Example of vec_key_column content: {"0", "0", "iluse"}, {"good", "will", "wil"}
-
+// This fucntion called by CalculateMatchRate
 void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDirections enum_direct) 
 {
   vector<string> vec_merged_column;
@@ -118,12 +122,12 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
     if (enum_direct == LEFT)
     { 
        // str_key_temp could be any string, including empty string ""
-       StringWordOperation::FindLookupWordLeft(str_merge_t, str_key_temp, n_column_width_t); 
+       WordStringOperation::FindLookupWordLeft(str_merge_t, str_key_temp, n_column_width_t); 
     }
     else
     {
        // str_key_temp could be any string, including empty string ""
-       StringWordOperation::FindLookupWordRight(str_merge_t, str_key_temp, n_column_width_t); 
+       WordStringOperation::FindLookupWordRight(str_merge_t, str_key_temp, n_column_width_t); 
     }
 
     // Remove 's, 'd at the end of the word if there is
@@ -167,6 +171,7 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
   } 
 }
 
+// Populate column_match_rate_[] to record vec_new_column_'s matching rate to vec_text_columns_
 void ColumnMatchManager::CalculateMatchRate()
 {
   vector<string> vec_word_column;
@@ -195,7 +200,7 @@ void ColumnMatchManager::CalculateMatchRate()
         else
         {
           // If not found in dictionary, removing suffix such as ed|ing|s|es if there is.
-          b_flag_suffix = StringWordOperation::RemoveWordSuffix(vec_word_column[k]);
+          b_flag_suffix = WordStringOperation::RemoveWordSuffix(vec_word_column[k]);
           if (b_flag_suffix == true)
           {
             b_flag_lookup = singleton_dict.LookupDict(vec_word_column[k]);

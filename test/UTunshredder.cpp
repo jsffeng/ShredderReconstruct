@@ -39,8 +39,8 @@ BOOST_AUTO_TEST_CASE (TESTGetInstance_test)
 
 BOOST_AUTO_TEST_SUITE_END ()
 
-// Class StringWordOperation
-BOOST_AUTO_TEST_SUITE (StringWordOperation_test);
+// Class WordStringOperation
+BOOST_AUTO_TEST_SUITE (WordStringOperation_test);
 
 BOOST_AUTO_TEST_CASE (RemoveWordSuffix)
 {
@@ -48,19 +48,19 @@ BOOST_AUTO_TEST_CASE (RemoveWordSuffix)
   vector<string> sample_suffix_removed = {"good"," good", "goods ","us", "be", "he'", "add", "us", "ding", "bed", "ed"};
   
   for (int i = 0; i < sample.size(); ++i)
-     StringWordOperation::RemoveWordSuffix(sample[i]); 
+     WordStringOperation::RemoveWordSuffix(sample[i]); 
 
   BOOST_CHECK(sample == sample_suffix_removed);
 
   vector<string> sample1 = {"goods", "good", "bed", "goods ", " goods"};
-  BOOST_CHECK(true == StringWordOperation::RemoveWordSuffix(sample1[0]));
-  BOOST_CHECK(false == StringWordOperation::RemoveWordSuffix(sample1[1]));
-  BOOST_CHECK(false == StringWordOperation::RemoveWordSuffix(sample1[2]));
-  BOOST_CHECK(false == StringWordOperation::RemoveWordSuffix(sample1[3]));
-  BOOST_CHECK(true == StringWordOperation::RemoveWordSuffix(sample1[4]));
+  BOOST_CHECK(true == WordStringOperation::RemoveWordSuffix(sample1[0]));
+  BOOST_CHECK(false == WordStringOperation::RemoveWordSuffix(sample1[1]));
+  BOOST_CHECK(false == WordStringOperation::RemoveWordSuffix(sample1[2]));
+  BOOST_CHECK(false == WordStringOperation::RemoveWordSuffix(sample1[3]));
+  BOOST_CHECK(true == WordStringOperation::RemoveWordSuffix(sample1[4]));
   
   string sample2;
-  BOOST_CHECK_THROW(StringWordOperation::RemoveWordSuffix(sample2), exception);   
+  BOOST_CHECK_THROW(WordStringOperation::RemoveWordSuffix(sample2), exception);   
 
 }
 
@@ -103,39 +103,39 @@ BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
 
   int width = 6;
   for (int i = 0; i < vec_str_line.size(); ++i)
-    StringWordOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
+    WordStringOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
   BOOST_CHECK(vec_str_key_t == vec_str_key_wid6);
 
   width = 2;
   for (int i = 0; i < vec_str_line.size(); ++i)
-    StringWordOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
+    WordStringOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
   BOOST_CHECK(vec_str_key_t == vec_str_key_wid_2);
 
   width = 8;
   for (int i = 0; i < vec_str_line.size(); ++i)
-    StringWordOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
+    WordStringOperation::FindLookupWordLeft(vec_str_line[i], vec_str_key_t[i], width);
   BOOST_CHECK(vec_str_key_t == vec_str_key_wid8);
   
   string str_key_t;
-  StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
+  WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
 
   // str_key_t is not empty
-  StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
+  WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
   str_key_t.clear();
 
   // Throw exceptions for invalid input
 
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, 0), exception); 
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, -1), exception); 
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, 0), exception); 
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, -1), exception); 
 
-  BOOST_CHECK_NO_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() - 1)); 
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size()), exception); 
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() + 1), exception); 
+  BOOST_CHECK_NO_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() - 1)); 
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size()), exception); 
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() + 1), exception); 
   
   string str_line;
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordLeft(str_line, str_key_t, 8), exception);   
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(str_line, str_key_t, 8), exception);   
 }
 
 BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
@@ -177,33 +177,33 @@ BOOST_AUTO_TEST_CASE (FindLookupWordRight_test)
 
   int width = 6;
   for (int i = 0; i < vec_str_line.size(); ++i)
-    StringWordOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
+    WordStringOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
   BOOST_CHECK(vec_str_key_t == vec_str_key_wid6);
 
   width = 2;
   for (int i = 0; i < vec_str_line.size(); ++i)
-    StringWordOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
+    WordStringOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
   BOOST_CHECK(vec_str_key_t == vec_str_key_wid_2);
 
   width = 8;
   for (int i = 0; i < vec_str_line.size(); ++i)
-    StringWordOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
+    WordStringOperation::FindLookupWordRight(vec_str_line[i], vec_str_key_t[i], width);
   BOOST_CHECK(vec_str_key_t == vec_str_key_wid8);
   
   string str_key_t;
-  StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
+  WordStringOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
 
   // str_key_t is not empty
-  StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
+  WordStringOperation::FindLookupWordRight(vec_str_line[0], str_key_t, width);
   BOOST_CHECK(str_key_t == vec_str_key_wid8[0]);
   str_key_t.clear();
 
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, 0), exception); 
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordRight(vec_str_line[0], str_key_t, -1), exception); 
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordRight(vec_str_line[0], str_key_t, 0), exception); 
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordRight(vec_str_line[0], str_key_t, -1), exception); 
   
   string str_line;
-  BOOST_CHECK_THROW(StringWordOperation::FindLookupWordRight(str_line, str_key_t, 8), exception);   
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordRight(str_line, str_key_t, 8), exception);   
 }
 
 BOOST_AUTO_TEST_SUITE_END ()

@@ -1,6 +1,6 @@
 #include<fstream>
 
-// Fixtures Start
+// Common Fixtures Start
 struct Fixture_input
 {
   
@@ -230,4 +230,4 @@ struct Fixture_data_file :  Fixture_source_data
     catch(...) {}
   }
 };
-// Fixtures End
+// Common Fixtures End

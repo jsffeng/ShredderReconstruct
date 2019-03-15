@@ -77,6 +77,7 @@ declare -i caseid=1
 declare -i MAX=5
 declare -i i=0
 
+# Backup *.ascii files in $CURRENT_DIR because new *.ascii files will be created & used by the tests 
 backup_ascii_files
 
 for SAMPLE_FILE in $(ls ${SAMPLE_DIR}/sample* 2>/dev/null) 
@@ -98,7 +99,8 @@ do
     
     cp ${SAMPLE_FILE} ${TESTCASE_DIR}/${TEST_ORGINAL}
     cp ${SAMPLE_FILE} ${CURRENT_DIR}/${SHREDDER_INPUT_NAME} 
-    
+
+    # Run shredder to generate $SHREDDER_OUTPUT_NAME from $SHREDDER_INPUT_NAME
     ${SHREDDER_CMD} >/dev/null 2>&1
     
     if [ -s ${SHREDDER_OUTPUT_NAME} ]
@@ -106,6 +108,7 @@ do
       cp ${SHREDDER_OUTPUT_NAME} ${TESTCASE_DIR}/${TEST_SHREDDED}
     fi
     
+    # Run unshredder to generate $UNSHREDDER_OUTPUT_NAME from $UNSHREDDER_INPUT_NAME
     ${UNSHREDDER_CMD} >/dev/null 2>&1
     
     if [ -s ${UNSHREDDER_OUTPUT_NAME} ]
@@ -115,6 +118,7 @@ do
 
     TESTCASE=${TESTCASE_DIR##*/} 
 
+    # Verify whether the result is expected
     diff  ${TESTCASE_DIR}/${TEST_ORGINAL} ${TESTCASE_DIR}/${TEST_RESTORED} >/dev/null 2>& 1
    
     if [[ $? == 0 ]]
@@ -132,6 +136,7 @@ do
   done
 done
 
+# Remove generated *.ascii by the tests and restore original *.ascii from the backup 
 restore_ascii_files
 
 if [[ ${success_t} == ${sum} && ${failure_t} == 0 ]]

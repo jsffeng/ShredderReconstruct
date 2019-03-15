@@ -1,3 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////////////////  
+//
+//  Naming conventions used in source files and header files. 
+//
+//  Let's assume the following text content to be unshredded by this programme.
+//  
+//  a1|a2|a3
+//  b1|b2|b3
+//  c1|c2|c3
+//  d1|d2|d3
+// 
+//  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
+//  used by programme.
+//
+//  In the programme, above data will be stored into following 2 dimentional vector:
+//  {
+//    {a1,b1,c1,d1},
+//    {a2,b2,c2,d2},
+//    {a3,b3,c3,d3}
+//  }
+//  
+//  A text strip refers to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
+//  A "column" is often used to refer a text strip in data members or variables in the programme.
+//  
+//////////////////////////////////////////////////////////////////////////////////////////  
+
+
 // Unit Testing by using BOOST
 #define BOOST_TEST_MODULE main_unshredder_test
 #include <boost/test/included/unit_test.hpp>
@@ -61,7 +88,6 @@ BOOST_AUTO_TEST_CASE (RemoveWordSuffix)
   
   string sample2;
   BOOST_CHECK_THROW(WordStringOperation::RemoveWordSuffix(sample2), exception);   
-
 }
 
 BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
@@ -126,10 +152,8 @@ BOOST_AUTO_TEST_CASE (FindLookupWordLeft_test)
   str_key_t.clear();
 
   // Throw exceptions for invalid input
-
-  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, 0), exception); 
+  BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, 0), exception);
   BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, -1), exception); 
-
   BOOST_CHECK_NO_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() - 1)); 
   BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size()), exception); 
   BOOST_CHECK_THROW(WordStringOperation::FindLookupWordLeft(vec_str_line[0], str_key_t, vec_str_line[0].size() + 1), exception); 
@@ -217,6 +241,7 @@ BOOST_AUTO_TEST_CASE (GetInstance_test)
   SingletonDiction & dict1 = SingletonDiction::GetInstance();
 
   BOOST_CHECK (&dict0 == &dict1);
+
   SingletonDiction & dict2 = SingletonDiction::GetInstance();
   BOOST_CHECK (&dict0 == &dict2);
 }
@@ -431,66 +456,55 @@ BOOST_AUTO_TEST_CASE (CalculateMatchRate_test)
     dict.BuildWordPiece();
   }
 
-/*
-  ColumnMatchManager column_match_mgr1(Fix_columns_wid_2, Fix_columnX_wid_2);
-  column_match_mgr1.CalculateMatchRate();
-
-  cout <<"Left match" << column_match_mgr1.column_match_rate_[0].f_match_rate<< endl;
-  cout << "Left not match" <<column_match_mgr1.column_match_rate_[0].f_notmatch_rate<< endl;
-  cout <<"right match"<< column_match_mgr1.column_match_rate_[1].f_match_rate<< endl;
-  cout << "right not match" << column_match_mgr1.column_match_rate_[1].f_notmatch_rate<< endl;
-*/
-
-// For columns with strip width = 2
-ColumnMatchManager column_match_mgrX(Fix_columns_wid_2, Fix_columnX_wid_2);
-column_match_mgrX.CalculateMatchRate();
-
-BOOST_CHECK (column_match_mgrX.column_match_rate_[0].f_match_rate == 0.5);
-BOOST_CHECK_LT (column_match_mgrX.column_match_rate_[0].f_notmatch_rate, 0.3333334);
-BOOST_CHECK (column_match_mgrX.column_match_rate_[1].f_match_rate == 4);
-BOOST_CHECK_LT (column_match_mgrX.column_match_rate_[1].f_notmatch_rate, 0.0000001);
-
-ColumnMatchManager column_match_mgrY(Fix_columns_wid_2, Fix_columnY_wid_2);
-column_match_mgrY.CalculateMatchRate();
-
-BOOST_CHECK_LT (abs(column_match_mgrY.column_match_rate_[0].f_match_rate - 3), 0.0000001);
-BOOST_CHECK_LT (column_match_mgrY.column_match_rate_[0].f_notmatch_rate, 0.0000001);
-BOOST_CHECK (column_match_mgrY.column_match_rate_[1].f_match_rate == 1.5);
-BOOST_CHECK_LT (column_match_mgrY.column_match_rate_[1].f_notmatch_rate, 0.3333334);
-
-ColumnMatchManager column_match_mgrZ(Fix_columns_wid_2, Fix_columnZ_wid_2);
-column_match_mgrZ.CalculateMatchRate();
-
-BOOST_CHECK (column_match_mgrZ.column_match_rate_[0].f_match_rate == 0.5);
-BOOST_CHECK_LT (column_match_mgrZ.column_match_rate_[0].f_notmatch_rate, 0.3333334);
-BOOST_CHECK_LT (abs(column_match_mgrZ.column_match_rate_[1].f_match_rate - 1), 0.0000001);
-BOOST_CHECK_LT (column_match_mgrZ.column_match_rate_[1].f_notmatch_rate, 0.3333334);
-
-// For columns with strip width = 3
-ColumnMatchManager column_match_mgrX1(Fix_columns_wid_3, Fix_columnX_wid_3);
-column_match_mgrX1.CalculateMatchRate();
-
-BOOST_CHECK (column_match_mgrX1.column_match_rate_[0].f_match_rate == 1);
-BOOST_CHECK_LT (column_match_mgrX1.column_match_rate_[0].f_notmatch_rate, 0.3333334);
-BOOST_CHECK (column_match_mgrX1.column_match_rate_[1].f_match_rate == 3);
-BOOST_CHECK_LT (column_match_mgrX1.column_match_rate_[1].f_notmatch_rate, 0.0000001);
-
-ColumnMatchManager column_match_mgrY1(Fix_columns_wid_3, Fix_columnY_wid_3);
-column_match_mgrY1.CalculateMatchRate();
-
-BOOST_CHECK_LT (abs(column_match_mgrY1.column_match_rate_[0].f_match_rate - 4), 0.0000001);
-BOOST_CHECK_LT (column_match_mgrY1.column_match_rate_[0].f_notmatch_rate, 0.0000001);
-BOOST_CHECK (column_match_mgrY1.column_match_rate_[1].f_match_rate == 4 );
-BOOST_CHECK_LT (column_match_mgrY1.column_match_rate_[1].f_notmatch_rate, 0.0000001);
-
-ColumnMatchManager column_match_mgrZ1(Fix_columns_wid_3, Fix_columnZ_wid_3);
-column_match_mgrZ1.CalculateMatchRate();
-
-BOOST_CHECK (column_match_mgrZ1.column_match_rate_[0].f_match_rate == 1);
-BOOST_CHECK_LT (column_match_mgrZ1.column_match_rate_[0].f_notmatch_rate, 0.0000001);
-BOOST_CHECK_LT (abs(column_match_mgrZ1.column_match_rate_[1].f_match_rate - 0.5), 0.0000001);
-BOOST_CHECK_LT (column_match_mgrZ1.column_match_rate_[1].f_notmatch_rate, 0.3333334);
-
+  // For columns with strip width = 2
+  ColumnMatchManager column_match_mgrX(Fix_columns_wid_2, Fix_columnX_wid_2);
+  column_match_mgrX.CalculateMatchRate();
+  
+  BOOST_CHECK (column_match_mgrX.column_match_rate_[0].f_match_rate == 0.5);
+  BOOST_CHECK_LT (column_match_mgrX.column_match_rate_[0].f_notmatch_rate, 0.3333334);
+  BOOST_CHECK (column_match_mgrX.column_match_rate_[1].f_match_rate == 4);
+  BOOST_CHECK_LT (column_match_mgrX.column_match_rate_[1].f_notmatch_rate, 0.0000001);
+  
+  ColumnMatchManager column_match_mgrY(Fix_columns_wid_2, Fix_columnY_wid_2);
+  column_match_mgrY.CalculateMatchRate();
+  
+  BOOST_CHECK_LT (abs(column_match_mgrY.column_match_rate_[0].f_match_rate - 3), 0.0000001);
+  BOOST_CHECK_LT (column_match_mgrY.column_match_rate_[0].f_notmatch_rate, 0.0000001);
+  BOOST_CHECK (column_match_mgrY.column_match_rate_[1].f_match_rate == 1.5);
+  BOOST_CHECK_LT (column_match_mgrY.column_match_rate_[1].f_notmatch_rate, 0.3333334);
+  
+  ColumnMatchManager column_match_mgrZ(Fix_columns_wid_2, Fix_columnZ_wid_2);
+  column_match_mgrZ.CalculateMatchRate();
+  
+  BOOST_CHECK (column_match_mgrZ.column_match_rate_[0].f_match_rate == 0.5);
+  BOOST_CHECK_LT (column_match_mgrZ.column_match_rate_[0].f_notmatch_rate, 0.3333334);
+  BOOST_CHECK_LT (abs(column_match_mgrZ.column_match_rate_[1].f_match_rate - 1), 0.0000001);
+  BOOST_CHECK_LT (column_match_mgrZ.column_match_rate_[1].f_notmatch_rate, 0.3333334);
+  
+  // For columns with strip width = 3
+  ColumnMatchManager column_match_mgrX1(Fix_columns_wid_3, Fix_columnX_wid_3);
+  column_match_mgrX1.CalculateMatchRate();
+  
+  BOOST_CHECK (column_match_mgrX1.column_match_rate_[0].f_match_rate == 1);
+  BOOST_CHECK_LT (column_match_mgrX1.column_match_rate_[0].f_notmatch_rate, 0.3333334);
+  BOOST_CHECK (column_match_mgrX1.column_match_rate_[1].f_match_rate == 3);
+  BOOST_CHECK_LT (column_match_mgrX1.column_match_rate_[1].f_notmatch_rate, 0.0000001);
+  
+  ColumnMatchManager column_match_mgrY1(Fix_columns_wid_3, Fix_columnY_wid_3);
+  column_match_mgrY1.CalculateMatchRate();
+  
+  BOOST_CHECK_LT (abs(column_match_mgrY1.column_match_rate_[0].f_match_rate - 4), 0.0000001);
+  BOOST_CHECK_LT (column_match_mgrY1.column_match_rate_[0].f_notmatch_rate, 0.0000001);
+  BOOST_CHECK (column_match_mgrY1.column_match_rate_[1].f_match_rate == 4 );
+  BOOST_CHECK_LT (column_match_mgrY1.column_match_rate_[1].f_notmatch_rate, 0.0000001);
+  
+  ColumnMatchManager column_match_mgrZ1(Fix_columns_wid_3, Fix_columnZ_wid_3);
+  column_match_mgrZ1.CalculateMatchRate();
+  
+  BOOST_CHECK (column_match_mgrZ1.column_match_rate_[0].f_match_rate == 1);
+  BOOST_CHECK_LT (column_match_mgrZ1.column_match_rate_[0].f_notmatch_rate, 0.0000001);
+  BOOST_CHECK_LT (abs(column_match_mgrZ1.column_match_rate_[1].f_match_rate - 0.5), 0.0000001);
+  BOOST_CHECK_LT (column_match_mgrZ1.column_match_rate_[1].f_notmatch_rate, 0.3333334);
 }
 
 BOOST_AUTO_TEST_SUITE_END ()
@@ -519,7 +533,6 @@ BOOST_AUTO_TEST_CASE (Init_test)
   BOOST_CHECK(column_sel_mgr1.vec_selected_columns_ == vec_selected_wid_3);
   BOOST_CHECK(column_sel_mgr1.vec_column_pool_ == vec_pool_wid_3);
 
-
   ColumnSelectManager column_sel_mgr2;
   column_sel_mgr2.Init(Fix_columns_wid_2);
 
@@ -547,24 +560,14 @@ BOOST_AUTO_TEST_CASE (Init_test)
 
 BOOST_AUTO_TEST_CASE (FindBestMatch_test)
 {
-
   ColumnSelectManager column_sel_mgr1;
   column_sel_mgr1.Init(Fix_columns_wid_2);
-
-  // PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
-  // PrintVectorString (column_sel_mgr1.vec_column_pool_, "vec_column_pool_");
 
   column_sel_mgr1.FindBestMatch();
 
   BOOST_CHECK(column_sel_mgr1.best_match_column_.n_number_in_pool == 0);
   BOOST_CHECK(column_sel_mgr1.best_match_column_.enum_best_match_direct == RIGHT);
   BOOST_CHECK(column_sel_mgr1.b_failure_flag_ == false);
- 
-/* 
-  cout << "n_number_in_pool" << column_sel_mgr1.best_match_column_.n_number_in_pool << endl;
-  cout << "enum_best_match_direct" << column_sel_mgr1.best_match_column_.enum_best_match_direct << endl;
-  cout << "b_failure_flag_" << column_sel_mgr1.b_failure_flag_ << endl;
-*/ 
 
   vector<vector<string>> vec_columns_wid_3;
   vec_columns_wid_3.assign(Fix_columns_wid_3.begin()+1, Fix_columns_wid_3.end());
@@ -593,12 +596,10 @@ BOOST_AUTO_TEST_CASE (FindBestMatch_test)
   // Throw exceptions 
   ColumnSelectManager column_sel_mgr3;
   BOOST_CHECK_THROW(column_sel_mgr3.FindBestMatch(), exception);   
-
 }
 
 BOOST_AUTO_TEST_CASE (AddToSelectedColumns_test)
 {
-  
   ColumnSelectManager column_sel_mgr1;
   column_sel_mgr1.Init(Fix_columns_wid_3);
 
@@ -667,7 +668,6 @@ BOOST_AUTO_TEST_CASE (DeleteFromColumnPool_test)
 
 BOOST_AUTO_TEST_CASE (RebuildColumnsByBestMatch)
 {
-
   ColumnSelectManager column_sel_mgr1;
   column_sel_mgr1.Init(Fix_columns_wid_2);
 
@@ -704,14 +704,7 @@ BOOST_AUTO_TEST_CASE (RebuildColumnsByBestMatch)
   ColumnSelectManager column_sel_mgr2;
   BOOST_CHECK_THROW(column_sel_mgr2.RebuildColumnsByBestMatch(), exception);
 
-/*
-  PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
-  PrintVectorString (column_sel_mgr1.vec_column_pool_, "vec_column_pool_");
-
-  cout << "n_number_in_pool" << column_sel_mgr1.best_match_column_.n_number_in_pool << endl;
-  cout << "enum_best_match_direct" << column_sel_mgr1.best_match_column_.enum_best_match_direct << endl;
-  cout << "b_failure_flag_" << column_sel_mgr1.b_failure_flag_ << endl;
-*/
+  // PrintVectorString (column_sel_mgr1.vec_selected_columns_, "vec_selected_columns_");
 }
 
 BOOST_AUTO_TEST_SUITE_END ()
@@ -721,12 +714,10 @@ BOOST_FIXTURE_TEST_SUITE (TextUnshredder_test, Fixture_columns);
 
 BOOST_AUTO_TEST_CASE (constructor_test)
 {
-
   TextUnshredder unshred1;
 
   BOOST_CHECK(false == unshred1.b_premature_flag_);
   BOOST_CHECK(0 == unshred1.n_premature_column_count_);
-
 }
 
 BOOST_FIXTURE_TEST_CASE (GetInput_test, Fixture_data_file)
@@ -745,8 +736,11 @@ BOOST_FIXTURE_TEST_CASE (GetInput_test, Fixture_data_file)
   BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_input.ascii"), exception);   
 
   BOOST_CHECK_NO_THROW(unshred2.GetInput("test/UTinput/test_shredded_text.ascii"));   
+
   // With blank charactor at the end of fist 2 rows.
   BOOST_CHECK_NO_THROW(unshred2.GetInput("test/UTinput/test_shredded_text1.ascii"));   
+
+  // Unexpected format
   BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_shredded_text2.ascii"), exception);   
   BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_shredded_text3.ascii"), exception);   
   BOOST_CHECK_THROW(unshred2.GetInput("test/UTinput/test_shredded_text4.ascii"), exception);   
@@ -772,7 +766,6 @@ BOOST_FIXTURE_TEST_CASE (CreateOutput_test, Fixture_file_vec)
 
 BOOST_AUTO_TEST_CASE (DoTextUnshredder_test)
 {
-  
   SingletonDiction & dict = SingletonDiction::GetInstance();
   if (dict.set_dictionary_.empty())
   {
@@ -821,7 +814,6 @@ BOOST_FIXTURE_TEST_SUITE (ThreadController_test, Fixture_thread_reset);
 
 BOOST_AUTO_TEST_CASE (RecordThreadAbnormals_test)
 {
-
   BOOST_CHECK(ThreadController::n_thread_abnormals_ == 0);
 
   ThreadController::RecordThreadAbnormals();
@@ -877,7 +869,6 @@ BOOST_AUTO_TEST_CASE (UpdateThreadStatus_test)
   BOOST_CHECK(ThreadController::thread_status_ == SUCCESS);
 
   BOOST_CHECK_THROW(ThreadController::UpdateThreadStatus(NOTSTART), exception); 
-
 }
 
 BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
@@ -910,8 +901,10 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
   BOOST_CHECK(ThreadController::n_thread_abnormals_ == 0);
  
   TextUnshredder test_unshred2;
+
   // This data file can be successfully retored 
   test_unshred2.GetInput("test/UTinput/test_shredded_text0.ascii");
+
   // Re-set the static variable so as not to impact the rest tests.
   ThreadStatusDataReset();
 
@@ -943,16 +936,17 @@ BOOST_AUTO_TEST_CASE (UTmain_test)
 {
   // Partially restored
   BOOST_CHECK(UTmain("test/UTinput/test_shredded_text.ascii", "test/UTinput/test_output.ascii", false) == 1);
+
   // Successfully restored
   BOOST_CHECK(UTmain("test/UTinput/test_shredded_text0.ascii", "test/UTinput/test_output0.ascii", false) == 0);
 
   // Threads throw exception
   BOOST_CHECK(UTmain("test/UTinput/test_shredded_text0.ascii", "test/UTinput/test_output0.ascii", true) == 2);
+
   // main() function throw excpetion as data input file not exist
   BOOST_CHECK(UTmain("test/UTinput/test_input.ascii", "test/UTinput/test_output1.ascii", false) == 2);
 
   system("rm -rf test/UTinput/test_output*.ascii");
-
 }
 
 BOOST_AUTO_TEST_SUITE_END ()

@@ -1,1 +1,4 @@
-wordlist1.txt https://github.com/paritytech/wordlist/blob/master/res/wordlist.txt
+This directory contains worklist (i.e. dictionary) for lookup by the programme.
+worldlist.txt is the default one to be used.
+
+wordlist1.txt was downloaded from https://github.com/paritytech/wordlist/blob/master/res/wordlist.txt

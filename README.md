@@ -3,8 +3,8 @@ This package contains two tools - shredder and unshredder
 - shredder can shred the text page into text strips in random order. 
 - unshredder can re-constuct the original text page with text strips. 
   
->>shredder: full_text.ascii (input file) ==> shredded_text.ascii (output file)
->>unshredder: shredded_text.ascii (input file) ==> restored_text.ascii (output file)
+>>shredder: full_text.ascii (input file) ==> shredded_text.ascii (output file)  
+>>unshredder: shredded_text.ascii (input file) ==> restored_text.ascii (output file)  
     
 >>If successfully restored, restored_text.ascii should have the same content with full_text.ascii  
 
@@ -99,16 +99,16 @@ Running 25 test cases...*
 *** *No errors detected*  
   
     
-Unit testing coverage:  
----------------------   
+Unit testing coverage rate:  
+--------------------------   
 http://htmlpreview.github.io/?https://github.com/jsffeng/Shredder_Reconstruct/blob/master/ut_coverage/index.html  
 
 Acceptance test (System test):    
-------------------------------------    
+-----------------------------    
 
 Use 6 text samples (under directory test/STinput) to verify the programme.  
-**Note**: Most of above got from BBC news for different catagory such as Tech, Secience, Sports, Business, etc.  
-The row numbers ranged from 8 to 17, and characators in rows ranged from 37 to 48 in these text samples.   
+**Note**: Most of above samples got from BBC news for different catagory such as Tech, Secience, Sports, Business, etc.  
+Their text row numbers ranged from 8 to 17, and characators in rows ranged from 37 to 48.   
   
 *ubuntu->make acceptance_test  
 /bin/bash ./test/acceptance_test.sh  
@@ -148,7 +148,7 @@ TESTCASE30:PASS*
 OK  
 NOTE: Please find test details under direcotry ./test/SToutput.*  
   
-Example (i.e. copy ./test/STinput/sampleB to full_text.ascii, run shredder to get the following):  
+**Example** (i.e. copying ./test/STinput/sampleB to full_text.ascii, run shredder to get the following):  
 \=============================================    
 *|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
 | c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
@@ -166,7 +166,7 @@ Example (i.e. copy ./test/STinput/sampleB to full_text.ascii, run shredder to ge
 |he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
 |e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
   
-Restored (i.e. run unshredder for above result):  
+Restored result (i.e. run unshredder for above):  
 \==========================   
 *Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  

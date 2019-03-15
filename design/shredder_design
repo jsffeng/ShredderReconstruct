@@ -1,4 +1,6 @@
 ########### Common Classes Start ############
+
+# Lazy Singleton to provide a random column number among a sequence of columns
 SingletonRandom
 ---------------------------------------
 - static unique_ptr<SingletonRandom> p_instance_
@@ -48,10 +50,10 @@ Class relationship:
                    (dependency)
 TextStripOperation -------------> SingletonRandom
     ^	
-    : 
     :
     : (dependency)
     :
+    : 
     :        (dependency)
 TextShredder -------------> TextFileOperation 
 

@@ -1,6 +1,6 @@
 ###################################################################################
 #
-#  Naming conventions used in source files and header files in this programme.
+#  Naming conventions used in source files and header files. 
 #
 #  Let's assume the following text content to be unshredded by this programme.
 #  
@@ -12,15 +12,15 @@
 #  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 #  used by programme.
 #
-#  In this programme, above data will be stored into following 2 dimentional vector:
+#  In the programme, above data will be stored into following 2 dimentional vector:
 #  {
 #    {a1,b1,c1,d1},
 #    {a2,b2,c2,d2},
 #    {a3,b3,c3,d3}
 #  }
 #  
-#  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
-#  A "column" often used to refer a text strip in data or variables in this programme.
+#  A text strip refers to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
+#  A "column" is often used to refer a text strip in data members or variables in the programme. 
 #  
 ###################################################################################
 
@@ -44,6 +44,7 @@ TextStripOperation
 + static MergeText(vector<vector<string>> & vec_str_input, vector<string>& vec_str_text): void
 ---------------------------------------
 
+# Containing common functions to handle words or a string with words
 WordStringOperation
 ---------------------------------------
 + static RemoveWordSuffix(string &str_lookup_key): bool
@@ -51,6 +52,7 @@ WordStringOperation
 + static FindLookupWordRight(string & str_line, string & str_key, int n_column_width): void
 ---------------------------------------
 
+# Hungry Singleton to provide dictionary for lookup by multiple threads
 SingletonDiction
 ---------------------------------------
 - set<string> set_dictionary_
@@ -181,8 +183,8 @@ Class relationship:
                              TextStripOperation 
                                      ^
                                      :
-                                     :
                                      :(dependency)
+                                     :
                                      :
                  (dependency)        :       (dependency) 
 ThreadController ------------>TextUnshredder ------------> TextFileOperation
@@ -211,48 +213,49 @@ ThreadController ------------>TextUnshredder ------------> TextFileOperation
 
 Main algorithm to reconstruct the disordered text columns (aka text strips):
 ==================================================================
-In the following context, the columns which have been successfully re-constructed called as SELECTED COLUMNS, the remaining columns called COLUMN POOL.  
-1. Randomly select a column, and create initial SELECTED COLUMNS with this only one column. And all the rest columns will be put into COLUMN POOL.  
+In the following context, those columns which have been successfully re-constructed will be called as SELECTED COLUMNS, while the remaining columns will be called as COLUMN POOL.  
+1. Randomly select a column, and create initial SELECTED COLUMNS with this only one column. All the rest columns will be put into COLUMN POOL.  
 
 2. For each column in COLUMN POOL, calcuate the following matching rate to the SELECTED COLUMNS from LEFT and RIGHT direction, respectively.
   - f_match_rate = (Found + 1)/(NotFound + 1),
   - f_notmatch_rate = NotFound/AllRow,
 
-    Note:
-    Found is the number of the strings (or saying partial words) can be found in dictionry after appended to SELECTED COLUMNS.  The higher of this value, the higher the maching rate.
-    NotFound is the number of the the strings (or saying partial words) cannot be found in dictionry after appended to SELECTED COLUMNS. The lower of this value, the higher the matching rate.
-    AllRow is the number of rows.
+  In above formulas:
+    Found stands for the number of the strings (i.e. partial words or word-piece) which can be found in dictionry after appended to SELECTED COLUMNS.  The higher of this value, the higher the maching rate.
+    NotFound stands for the number of the the strings (i.e. partial words or word-piece) which cannot be found in dictionry after appended to SELECTED COLUMNS. The lower of this value, the higher the matching rate.
+    AllRow stands for the total number of rows.
 
-    f_match_rate is the overall matching rate. The higher of this value, the higher the overall matching rate.
-    f_notmatch_rate is used to meansure the level of not matching. The higher of this value, the less likely to match.
+    f_match_rate stands for the overall matching rate. The higher of this value, the higher the overall matching rate.
+    f_notmatch_rate is used to meansure the level of not matching. The higher of this value, the lower matching level.
 
     When caculating Found or NotFound, non-alphabetic strings or the strings with length less than 2 charactors will be ignored for dictionary lookup.  
-    Take a set of columns containing 10 rows as example, (i.e. AllRow = 10),the value range of f_match_rate will be 0.09 ~ 11 (i.e. 1/11 ~ 11).
+    Taking a set of columns containing 10 rows as example (i.e. AllRow = 10), the value range of f_match_rate will be 0.09 ~ 11 (i.e. 1/11 ~ 11).
 
     f_notmatch_rate ranges from 0 ~ 100% (i.e. 0 ~ 1)
 
-    If f_match_rate is above pre-defined value kAcceptableMatchRate, will be treated as valid. Otherise, just ingore the further processing. 
+    If f_match_rate is greater than pre-defined value of kAcceptableMatchRate, it will be treated as valid. Otherise, just ingore it in the further processing. 
     
-    f_notmatch_rate is above pre-defined value kToleranceRate=25%, will be treated as valid. Otherise, just ingore the further processing.
+    If f_notmatch_rate is greater than pre-defined value of kToleranceRate, it will be treated as valid. Otherise, just ingore it in the further processing.
 
-3. Go through all columns in COLUMN POOL to compare their matching rate, and find the best matching and then add into SELECTED COLUMNS. Then remove it from COLUMN POOL.
-The stragery to find best matching is:
-  - columns with f_notmatch_rate > kToleranceRate, won't be considered as candiates.
-  - columns with f_match_rate <= kAcceptableMatchRate, won't be considered as candiates.
+3. Go through all columns in COLUMN POOL to compare their matching rates and find the best matching. Add the best matched one into SELECTED COLUMNS, and then remove it from COLUMN POOL.
+The stragery to identify the best matching is:
+  - columns with f_notmatch_rate greater than kToleranceRate won't be considered as candiates.
+  - columns with f_match_rate less than or equal to kAcceptableMatchRate won't be considered as candiates.
   - All the rest columns will be considered as the candiates, and pick the one with largest f_match_rate as the best matching.
-  - If no such column exists (after discarding those with f_notmatch_rate > kToleranceRate and f_match_rate <= kAcceptableMatchRate), the programme will be marked as pre-matured and terminate with the partial result being provided.
+  - If no such column exists (which means no column is left after discarding those with f_notmatch_rate > kToleranceRate and f_match_rate <= kAcceptableMatchRate),
+the processing will be marked as pre-matured and will terminate with the partial result being provided.
 
-4. Repeat step 2 - step 3.
-  - If no columns left in COLUMN POOL, completes successuflly. 
+4. Repeat step 2 - step 3 in above.
+  - When there is no column left in COLUMN POOL, the processing completes successuflly. 
 
-5. Simulating test shows whether the programme can complete successfully is sensative to the initial SELECTED COLUMNS (i.e the first selected column to be chosen). 
-Under the same condition, with choosing differenct the initial SELECTED COLUMNS, ~80% cases may lead to pre-matured situation, while ~20% cases may lead to successful result.
-This is understandable by considering some columns (especially containing many blank lines) are easy to be matched by multiple columns, which may lead to the pre-majure of the algorithm in later processing.
-With this fact, decided to choose multi-thread (10 threads used by default) to enhance the programme and choose the best one as the final result.
+5. Simulating test shows whether the processing would run into pre-mature state is sensative to the initial SELECTED COLUMNS (i.e the first selected column). 
+Under the same condition to test text strips in 8 rows, with choosing differenct initial SELECTED COLUMNS, ~80% cases may lead to pre-matured situation, while ~20% cases may lead to successful result.
+This could be explained by considering that some columns (especially containing many blank lines) are easy to be matched by multiple columns, which should have more chance to lead to the pre-majure in later processing than some other columns.
+With this fact, it has been decided to choose multi-threads (10 threads by default) to enhance the programme and choose the best one as the final result to mitigate the impact by potential pre-mature.
 
 **Note**:  
-Avove algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes, it is really hard or impossible to successfully complete the 100% restoration, depending on the real text strip content. 
-But another fact is that more rows text strips have, the higher successful completion rate the programme may achieve.
-The rationale is that more rows usually mean more characteristics for a column when compare with others.
-Based on a variety of testings, we could expect that the regular text (i.e. from books, newspaper, magazines, etc.) with above 15 rows can 100% restored by this programe. 
+Avove algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes it is really hard or impossible to successfully complete the 100% restoration, depending on the real text strip content. 
+But another fact is that more rows text strips we have, the higher successful completion rate the programme may achieve.
+The rationale behind might lie in that more rows usually mean more characteristics for a column to use when compared with others.
+Based on a variety of testings, we could expect that the regular text content (i.e. from books, newspaper, magazines, etc.) with above 15 rows can 100% restored by this programme. 
 

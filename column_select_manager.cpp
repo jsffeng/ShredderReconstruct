@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////  
 //
-//  Naming conventions used in source files and header files in this programme.
+//  Naming conventions used in source files and header files. 
 //
 //  Let's assume the following text content to be unshredded by this programme.
 //  
@@ -12,15 +12,15 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In this programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimentional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},
 //    {a3,b3,c3,d3}
 //  }
 //  
-//  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
-//  A "column" often used to refer a text strip in data or variables in this programme.
+//  A text strip refers to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
+//  A "column" is often used to refer a text strip in data members or variables in the programme.
 //  
 //////////////////////////////////////////////////////////////////////////////////////////  
 
@@ -48,8 +48,7 @@ ColumnSelectManager::ColumnSelectManager()
   best_match_column_.enum_best_match_direct = LEFT;
 }
 
-// Class ColumnSelectManager
-// Init vec_selected_columns_ and vec_column_pool_ with columns. 
+// Initialize vec_selected_columns_ and vec_column_pool_ with columns
 void ColumnSelectManager::Init(const vector<vector<string>> & columns)
 {
     if (!vec_selected_columns_.empty())
@@ -78,7 +77,7 @@ void ColumnSelectManager::Init(const vector<vector<string>> & columns)
 
 }
 
-// Class ColumnSelectManager
+// Add the best matching column to vec_selected_columns_
 void ColumnSelectManager::AddToSelectedColumns()
 {     
   if (best_match_column_.n_number_in_pool < 0 || best_match_column_.n_number_in_pool >= static_cast<int>(vec_column_pool_.size())) 
@@ -94,7 +93,8 @@ void ColumnSelectManager::AddToSelectedColumns()
   }
 }
 
-// Class ColumnSelectManager
+// Remove the best matching column from vec_column_pool_,
+// then re-set best_match_column_ with default value
 void ColumnSelectManager::DeleteFromColumnPool()
 {
   if (best_match_column_.n_number_in_pool == -1) 
@@ -109,7 +109,9 @@ void ColumnSelectManager::DeleteFromColumnPool()
   best_match_column_.n_number_in_pool = -1;
 }
 
-// Class ColumnSelectManager
+// Called only by RebuildColumnsByBestMatch
+// Find best match in vec_column_pool_, if found, populate best_match_column_ , if fail, set
+// b_failure_flag_ true
 void ColumnSelectManager::FindBestMatch()
 {
    if (vec_selected_columns_.empty() || vec_column_pool_.empty())
@@ -176,7 +178,7 @@ void ColumnSelectManager::FindBestMatch()
    }
 }
 
-// Class ColumnSelectManager
+// Find the best matching and then upate vec_selected_columns_ and vec_column_pool_  
 void ColumnSelectManager::RebuildColumnsByBestMatch()
 {
   if (vec_selected_columns_.empty() || vec_column_pool_.empty())

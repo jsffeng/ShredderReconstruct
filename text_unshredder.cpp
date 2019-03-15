@@ -1,3 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////////////////  
+//
+//  Naming conventions used in source files and header files. 
+//
+//  Let's assume the following text content to be unshredded by this programme.
+//  
+//  a1|a2|a3
+//  b1|b2|b3
+//  c1|c2|c3
+//  d1|d2|d3
+// 
+//  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
+//  used by programme.
+//
+//  In the programme, above data will be stored into following 2 dimentional vector:
+//  {
+//    {a1,b1,c1,d1},
+//    {a2,b2,c2,d2},
+//    {a3,b3,c3,d3}
+//  }
+//  
+//  A text strip refers to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
+//  A "column" is often used to refer a text strip in data members or variables in the programme.
+//  
+//////////////////////////////////////////////////////////////////////////////////////////  
+
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/trim.hpp>
@@ -14,10 +40,12 @@ TextUnshredder::TextUnshredder()
 
 }
 
-// Class TextUnshredder
+// Populate vec_text_columns_ from input file, with calling text_strip::transpose
+// Use blank charactor ' ' to record a blank, and empty string "" should never be used to
+// record blanks in the vec_text_columns_.
+
 // The text strip delimiter uses "|", so the text should not contain "|". In case that it contains,
 // need to replace "|" with other special charactors, such as "*", etc before running this programme.
-
 void TextUnshredder::GetInput(const string str_in_file)
 {
   vector<string> vec_str_lines;
@@ -67,7 +95,7 @@ void TextUnshredder::GetInput(const string str_in_file)
   TextStripOperation::Transpose(vec_text_temp, vec_text_columns_);
 }
 
-// Class TextUnshredder
+// Generate final output file, in multi-threads mode, this function usually won't be used.
 void TextUnshredder::CreateOutput(const string str_out_file)
 {
   for ( int i = 0; i < vec_merged_text_.size(); ++i)
@@ -78,7 +106,9 @@ void TextUnshredder::CreateOutput(const string str_out_file)
   TextFileOperation::WriteText(str_out_file, vec_merged_text_);
 }
 
-// Class TextUnshredder
+// Main operations to process unshredding
+// Input data  - vec_text_columns_
+// Output data - vec_merged_text_
 void TextUnshredder::DoTextUnshredder()
 {
   column_select_manager_.Init(vec_text_columns_);

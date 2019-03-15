@@ -20,26 +20,31 @@ class ThreadController
 
     // Default thread_status_ = NOTSTART
     static ThreadStatus thread_status_;
-    
+   
+    // Called by DoTextUnshredderInThread 
     static void UpdateThreadStatus(ThreadStatus status);
+
+    // Called by DoTextUnshredderInThread 
     static void RecordThreadResult(std::vector<std::string> vec_final_merged_text, int n_premature_column_count, bool b_premature_flag);
+
+    // Called by DoTextUnshredderInThread 
     static void RecordThreadAbnormals();
 
   public:
-    // Increase the number any exception throw from a thread
+    // Default is 0, the number will be increased if any exception throw from a thread
     static int n_thread_abnormals_;
 
-    // Store final result, default contain blank strings
+    // Store final result
     static std::vector<std::string> vec_final_merged_text_;
 
-    // default b_premature_flag_ = false
+    // Default b_premature_flag_ = false
     static bool b_premature_flag_;
 
-    // Size of unselected columns, default n_premature_column_count_ = 0
+    // Size of unselected columns when premature happens, default n_premature_column_count_ = 0
     static int n_premature_column_count_;
 
+    // Entry function for threads
     static int DoTextUnshredderInThread(TextUnshredder text_unshred); 
-  
 };
 
 #endif

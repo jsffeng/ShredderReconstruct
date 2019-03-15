@@ -104,23 +104,30 @@ ColumnSelectManager
    TwoWayDirections enum_best_match_direct;
   } BestMatchColumn;
 + BestMatchColumn best_match_column_;
+# Containing one or more columns which have been ordered
 + vector<vector<string>> vec_selected_columns_;
+# Containing all rest columns to be ordered
 + vector<vector<string>> vec_column_pool_;
-# b_failure_flag_ default is false, true means no matching can be found in vec_column_pool_.
+# b_failure_flag_ default is false, true means no matching column can be found in vec_column_pool_.
 + bool b_failure_flag_;
 ---------------------------------------
-# Setup best_match_column_.n_number_in_pool=-1,best_match_column_.enum_best_match_direct=LEFT
-# Setup b_failure_flag_ = false
+# Set best_match_column_.n_number_in_pool = -1
+# Set best_match_column_.enum_best_match_direct = LEFT
+# Set b_failure_flag_ = false
 + ColumnSelectManager();
+# Init vec_selected_columns_ and vec_column_pool_ with columns
 + Init(const vector<vector<string>> & vec_text_columns) : void
-# Find the best matching column and move it from vec_column_pool_ to vec_selected_columns_
+# Find the best matching and then upate vec_selected_columns_ and vec_column_pool_
 + RebuildColumnsByBestMatch() : void
-+ AddToSelectedColumns() : void
 # Called only by RebuildColumnsByBestMatch 
 # Find best match in vec_column_pool_, if found, populate best_match_column_ , if fail, set
 # b_failure_flag_ true
 - FindBestMatch() : void
-- DeleteFromColumnPool() : void
+# Add the best matching column to vec_selected_columns_
++ AddToSelectedColumns() : void
+# Remove the best matching column from vec_column_pool_,
+# then re-set best_match_column_ with default value
++ DeleteFromColumnPool() : void
 ---------------------------------------
 
 # To construct text strips to a text page
@@ -131,7 +138,7 @@ TextUnshredder
 # Store final result
 + vector<string> vec_merged_text_
 + bool b_premature_flag_
-# Size of unselected columns
+# Size of unselected columns when premature happens
 + int n_premature_column_count_
 - ColumnSelectManager column_select_manager_
 ---------------------------------------
@@ -139,8 +146,9 @@ TextUnshredder
 + TextUnshredder()
 # Populate vec_text_columns_ from input file, with calling text_strip::transpose
 + GetInput(const string str_in_file) : void
+# Main operations to process unshredding
 + DoTextUnshredder() : void
-# Generate final output file
+# Generate final output file, in multi-threads mode, this function usually won't be used.
 + CreateOutput(const string str_out_file) : void
 ---------------------------------------
 ########### Regular Classes End ###############
@@ -159,20 +167,24 @@ ThreadController
 # mutex for all threads
 - static mutex status_mutex_;
 - static mutex data_mutex_;
-# Store final result, default contain blank strings
+# Store final result
 + static vector<string> vec_final_merged_text_
 # default b_premature_flag_ = false
 + static bool b_premature_flag_
-# Size of unselected columns, default n_premature_column_count_ = 0
+# Size of unselected columns when premature happens, default n_premature_column_count_ = 0
 + static int n_premature_column_count_
-# default thread_status_ = NOTSTART
+# Default thread_status_ = NOTSTART
 - static ThreadStatus thread_status_
-# Increase the number any exception throw from a thread
+# Default is 0, the number will be increased if any exception throw from a thread
 + static int n_thread_abnormals_
 ---------------------------------------
+# Entry function for threads
 + static DoTextUnshredderInThread(TextUnshredder text_unshred) : int
+# Called by DoTextUnshredderInThread
 - static UpdateThreadStatus(ThreadStatus status) : void
+# Called by DoTextUnshredderInThread
 - static RecordThreadResult(vector<string> vec_final_merged_text, int n_premature_column_count,bool b_premature_flag) : void
+# Called by DoTextUnshredderInThread
 - static RecordThreadAbnormals() : void
 ---------------------------------------
 ########### ThreadController Class End #################

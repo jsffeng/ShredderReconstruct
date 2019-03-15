@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////  
 //
-//  Naming conventions used in source files and header files in this programme.
+//  Naming conventions used in source files and header files. 
 //
 //  Let's assume the following text content to be unshredded by this programme.
 //  
@@ -12,15 +12,15 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In this programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimentional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},
 //    {a3,b3,c3,d3}
 //  }
 //  
-//  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
-//  A "column" often used to refer a text strip in data or variables in this programme.
+//  A text strip refers to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
+//  A "column" is often used to refer a text strip in data members or variables in the programme.
 //  
 //////////////////////////////////////////////////////////////////////////////////////////  
 
@@ -76,12 +76,11 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns
   vec_new_column_.assign(vec_new_column.begin(),vec_new_column.end());
 }
 
-// Firstly force adding vec_new_column_ to vec_text_columns_ in the left hand or right hand, 
-// then identify the lookup key word based on that, matching rate will be calculated later based on
-// whether the lookup key word exist in dictionary or not.
-// Lookup key word stored to vec_key_column.
-// If any key word's size is less than 2, just record "0" into vec_key_column,
-// because it doesn't make sense to lookup dictionary for a single letter
+// Force adding vec_new_column_ to vec_text_columns_ in the left hand or right hand, respectively.
+// Identify the lookup key word based on above, which will be stored in vec_key_column.
+// lookup key word will be used for dictionary lookup, which will determine matching rate.
+
+// If any key word's size is less than 2, just record "0" into vec_key_column.
 // Example of vec_key_column content: {"0", "0", "iluse"}, {"good", "will", "wil"}
 // This fucntion called by CalculateMatchRate
 void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDirections enum_direct) 

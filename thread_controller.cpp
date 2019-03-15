@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////  
 //
-//  Naming conventions used in source files and header files in this programme.
+//  Naming conventions used in source files and header files. 
 //
 //  Let's assume the following text content to be unshredded by this programme.
 //  
@@ -12,15 +12,15 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In this programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimentional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},
 //    {a3,b3,c3,d3}
 //  }
 //  
-//  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
-//  A "column" often used to refer a text strip in data or variables in this programme.
+//  A text strip refers to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
+//  A "column" is often used to refer a text strip in data members or variables in the programme.
 //  
 //////////////////////////////////////////////////////////////////////////////////////////  
 
@@ -34,7 +34,7 @@ using namespace std;
 mutex ThreadController::status_mutex_;
 mutex ThreadController::data_mutex_;
 
-// Increase the number any exception throw from a thread
+// The number will be increased if any exception throw from a thread
 int ThreadController::n_thread_abnormals_ = 0;
 
 // Store final result
@@ -42,11 +42,12 @@ vector<string> ThreadController::vec_final_merged_text_;
 
 bool ThreadController::b_premature_flag_ = false;
 
-// Size of unselected columns
+// Size of unselected columns when premature happens
 int ThreadController::n_premature_column_count_ = 0;
 
 ThreadStatus ThreadController::thread_status_ = NOTSTART; 
 
+// Entry function for threads
 int ThreadController::DoTextUnshredderInThread(TextUnshredder text_unshred)
 {
   try
@@ -88,6 +89,7 @@ int ThreadController::DoTextUnshredderInThread(TextUnshredder text_unshred)
   return 0;
 }
 
+// Called by DoTextUnshredderInThread
 void ThreadController::UpdateThreadStatus(ThreadStatus status)
 {
 
@@ -105,6 +107,7 @@ void ThreadController::UpdateThreadStatus(ThreadStatus status)
 
 }
 
+// Called by DoTextUnshredderInThread
 void ThreadController::RecordThreadResult(vector<string> vec_final_merged_text, int n_premature_column_count, bool b_premature_flag)
 {
   if (n_premature_column_count < 0)
@@ -119,6 +122,7 @@ void ThreadController::RecordThreadResult(vector<string> vec_final_merged_text, 
   
 }
 
+// Called by DoTextUnshredderInThread
 void ThreadController::RecordThreadAbnormals()
 {
   lock_guard<mutex> lockGuard(status_mutex_);

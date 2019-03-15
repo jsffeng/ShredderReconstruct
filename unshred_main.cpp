@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////  
 //
-//  Naming conventions used in source files and header files in this programme.
+//  Naming conventions used in source files and header files. 
 //
 //  Let's assume the following text content to be unshredded by this programme.
 //  
@@ -12,15 +12,15 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In this programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimentional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},
 //    {a3,b3,c3,d3}
 //  }
 //  
-//  A text strip refer to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
-//  A "column" often used to refer a text strip in data or variables in this programme.
+//  A text strip refers to {a1,b1,c1,d1}, or {a2,b2,c2,d2}, etc. 
+//  A "column" is often used to refer a text strip in data members or variables in the programme.
 //  
 //////////////////////////////////////////////////////////////////////////////////////////  
 

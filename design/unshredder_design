@@ -234,42 +234,43 @@ In the following context, those columns which have been successfully re-construc
 
   In above formulas:
     Found stands for the number of the strings (i.e. partial words or word-piece) which can be found in dictionry after appended to SELECTED COLUMNS.  The higher of this value, the higher the maching rate.
-    NotFound stands for the number of the the strings (i.e. partial words or word-piece) which cannot be found in dictionry after appended to SELECTED COLUMNS. The lower of this value, the higher the matching rate.
+    NotFound stands for the number of the the strings (i.e. partial words or word-piece) which cannot be found in dictionry after appended to SELECTED COLUMNS. The higher of this value, the lower the matching rate.
     AllRow stands for the total number of rows.
 
     f_match_rate stands for the overall matching rate. The higher of this value, the higher the overall matching rate.
     f_notmatch_rate is used to meansure the level of not matching. The higher of this value, the lower matching level.
 
-    When caculating Found or NotFound, non-alphabetic strings or the strings with length less than 2 charactors will be ignored for dictionary lookup.  
+    When caculating Found or NotFound, non-alphabetic strings or the strings with their lengths less than 2 charactors will be ignored for dictionary lookup.  
     Taking a set of columns containing 10 rows as example (i.e. AllRow = 10), the value range of f_match_rate will be 0.09 ~ 11 (i.e. 1/11 ~ 11).
 
-    f_notmatch_rate ranges from 0 ~ 100% (i.e. 0 ~ 1)
+    f_notmatch_rate should always ranges from 0 ~ 100% (i.e. 0 ~ 1)
 
-    If f_match_rate is greater than pre-defined value of kAcceptableMatchRate, it will be treated as valid. Otherise, just ingore it in the further processing. 
+    If f_match_rate is greater than pre-defined value of kAcceptableMatchRate in the programme, it will be treated as valid. Otherise, just ingore it in the further processing. 
     
-    If f_notmatch_rate is greater than pre-defined value of kToleranceRate, it will be treated as valid. Otherise, just ingore it in the further processing.
+    If f_notmatch_rate is greater than pre-defined value of kToleranceRate in the programme, it will be treated as valid. Otherise, just ingore it in the further processing.
 
-3. Go through all columns in COLUMN POOL to compare their matching rates and find the best matching. Add the best matched one into SELECTED COLUMNS, and then remove it from COLUMN POOL.
+3. Go through all columns in COLUMN POOL to calcuate their matching rates and identify the best matching based on that. 
+Add the best matched one into SELECTED COLUMNS, and then remove it from COLUMN POOL.
 The stragery to identify the best matching is:
-  - columns with f_notmatch_rate greater than kToleranceRate won't be considered as candiates.
-  - columns with f_match_rate less than or equal to kAcceptableMatchRate won't be considered as candiates.
-  - All the rest columns will be considered as the candiates, and pick the one with largest f_match_rate as the best matching.
-  - If no such column exists (which means no column is left after discarding those with f_notmatch_rate > kToleranceRate and f_match_rate <= kAcceptableMatchRate),
-the processing will be marked as pre-matured and will terminate with the partial result being provided.
+  - those columns won't be considered as candiates if their f_notmatch_rate greater than kToleranceRate. 
+  - those columns won't be considered as candiates if their f_match_rate less than or equal to kAcceptableMatchRate. 
+  - All the rest columns will be considered as the candiates, and pick the one with largest f_match_rate as the best matching one.
+  - If no such column exists (which means no column is left after discarding those with their f_notmatch_rate > kToleranceRate and f_match_rate <= kAcceptableMatchRate),
+the processing will be marked as pre-matured and will complete with the partial result being provided.
 
 4. Repeat step 2 - step 3 in above.
   - When there is no column left in COLUMN POOL, the processing completes successuflly. 
 
 5. Simulating test shows whether the processing would run into pre-mature state is sensative to the initial SELECTED COLUMNS (i.e the first selected column). 
-Under the same condition to test text strips in 8 rows, with choosing differenct initial SELECTED COLUMNS, ~80% cases may lead to pre-matured situation, while ~20% cases may lead to successful result.
+Under the same condition to test text strips having 8 rows, with choosing differenct initial SELECTED COLUMNS, ~80% cases may lead to pre-matured situation, while ~20% cases may lead to successful result.
 This could be explained by considering that some columns (especially containing many blank lines) are easy to be matched by multiple columns, which should have more chance to lead to the pre-majure in later processing than some other columns.
 With this fact, it has been decided to choose multi-threads (10 threads by default) to enhance the programme and choose the best one as the final result to mitigate the impact by potential pre-mature.
 
 **Note**:  
-Avove algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes it is really hard or impossible to successfully complete the 100% restoration, depending on the real text strip content. 
+Avove algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes it is really hard or almost impossible to make a successful 100% restoration, really depending on the text strip content. 
 But another fact is that more rows text strips we have, the higher successful completion rate the programme may achieve.
 The rationale behind above might lie in the fact that more rows usually mean more characteristics for a column to use when compared with others.
 Based on a variety of testings, we could expect that the regular text content (i.e. from books, newspaper, magazines, etc.) with above 15 rows can perfectly restored by this programme. 
 
-Another test which has also been done is, repeating acceptance test (30 cases) for 10 times (i.e. 300 tests in total), 
-the number of pre-majured cases should always be less than 1% (i.e. occasionally, we may see 1 or 2 pre-matured cases when executing 300 cases due to the randomness inside the the algorithm).
+Another test which has also been done for the programme is, repeating acceptance test (i.e. including 30 cases) for 10 times (i.e. 300 tests in total), 
+the number of pre-majured cases should always be less than 1% (i.e. occasionally, we may see 1 or 2 pre-matured cases when executing 300 cases, which is acceptable by considering the random nature of the algorithm).

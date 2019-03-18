@@ -2,7 +2,7 @@
 #define __SINGLETON_DICTION__
 
 #include <string>
-#include <set>
+#include <unordered_set>
 
 class SingletonDiction
 {
@@ -11,7 +11,7 @@ class SingletonDiction
 #else
   private:
 #endif
-    std::set<std::string> set_dictionary_;
+    std::unordered_set<std::string> uset_dictionary_;
 
     SingletonDiction() = default;
     SingletonDiction(const SingletonDiction&) = delete;

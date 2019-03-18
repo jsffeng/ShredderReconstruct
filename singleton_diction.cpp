@@ -14,7 +14,7 @@ SingletonDiction & SingletonDiction::GetInstance()
 // Read dictionary from disk to memory
 void SingletonDiction::Init()
 {
-  TextFileOperation::ReadText("dict/wordlist.txt", set_dictionary_);
+  TextFileOperation::ReadText("dict/wordlist.txt", uset_dictionary_);
 }
 
 // Build word piece with minimal charactor size 2, this will be used as the base for lookup.
@@ -22,23 +22,23 @@ void SingletonDiction::Init()
 void SingletonDiction::BuildWordPiece()
 {
 
-  set<string> set_dictionary_temp;
+  unordered_set<string> uset_dictionary_temp;
 
-  if (set_dictionary_.empty())
-    throw runtime_error("set_dictionary_ is empty, function BuildWordPiece() quit!");
+  if (uset_dictionary_.empty())
+    throw runtime_error("uset_dictionary_ is empty, function BuildWordPiece() quit!");
 
-  auto iter_temp = set_dictionary_.begin();
-  while (iter_temp != set_dictionary_.end())
+  auto iter_temp = uset_dictionary_.begin();
+  while (iter_temp != uset_dictionary_.end())
   {
-    set_dictionary_temp.insert(*iter_temp);
+    uset_dictionary_temp.insert(*iter_temp);
     ++iter_temp;
   }
 
   int n_size;
   string str_sub;
 
-  auto iter = set_dictionary_temp.begin();
-  while (iter != set_dictionary_temp.end())
+  auto iter = uset_dictionary_temp.begin();
+  while (iter != uset_dictionary_temp.end())
   {
     n_size = (*iter).size();
 
@@ -54,7 +54,7 @@ void SingletonDiction::BuildWordPiece()
          for (int n_len = 2; n_len <= n_size - n_pos; ++n_len)
          {
            str_sub = iter->substr(n_pos, n_len);
-           set_dictionary_.insert(str_sub);
+           uset_dictionary_.insert(str_sub);
          }
       }
     }
@@ -71,7 +71,7 @@ bool SingletonDiction::LookupDict(string str_letters)
     throw runtime_error("Invalid input to function LookupDict()!");
 
   // If letters found in dictionary, return true, otherwise, return false.
-  if (set_dictionary_.find(str_letters) != (set_dictionary_.end()))
+  if (uset_dictionary_.find(str_letters) != (uset_dictionary_.end()))
   {
     return true;
   }

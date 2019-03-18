@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include <set>
+#include <unordered_set>
 
 class TextFileOperation
 {
@@ -13,7 +13,7 @@ class TextFileOperation
     static void ReadText(const std::string str_filename, std::vector<std::string> &vec_str_text_lines);
 
     // Common function for reading text lines from an input file, usually used to store dictionary
-    static void ReadText(const std::string str_filename, std::set<std::string> &set_str_text_lines);
+    static void ReadText(const std::string str_filename, std::unordered_set<std::string> &uset_str_text_lines);
 
     // Common function for writing text strips to an output file
     static void WriteText(const std::string str_filename, const std::vector<std::string> vec_str_text_lines);

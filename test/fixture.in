@@ -66,7 +66,7 @@ struct file_gen
     file.close();
   }
 
-  static void  create_file(const string file_nm, const set<string> text_lines)
+  static void  create_file(const string file_nm, const unordered_set<string> text_lines)
   {
     ofstream file;
   
@@ -134,7 +134,7 @@ struct Fixture_file_vec
 
 struct Fixture_file_set
 {
-  set<string> Fix_lines;
+  unordered_set<string> Fix_lines;
 
   Fixture_file_set() 
   {
@@ -148,7 +148,7 @@ struct Fixture_file_set
 
     file_gen::create_file("test_input.ascii",Fix_lines);
    
-    set<string> empty_lines;
+    unordered_set<string> empty_lines;
     file_gen::create_file("test_input00.ascii",empty_lines);
 
 //    file_gen::create_file("test_output.ascii",Fix_lines);

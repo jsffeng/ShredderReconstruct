@@ -30,7 +30,7 @@ TextFileOperation
 ---------------------------------------
 + static ReadText(const string str_filename, vector<std::string> &vec_str_text_lines) : void
 # Newly-added, used to read dictionary into set 
-+ static ReadText(const string str_filename, set<string> &set_str_text_lines) : void
++ static ReadText(const string str_filename, unordered_set<string> &uset_str_text_lines) : void
 + static WriteText(const string str_filename, const vector<std::string> vec_str_text_lines) : void
 ---------------------------------------
 
@@ -55,7 +55,7 @@ WordStringOperation
 # Hungry Singleton to provide dictionary for lookup by multiple threads
 SingletonDiction
 ---------------------------------------
-- set<string> set_dictionary_
+- unordered_set<string> uset_dictionary_
 ---------------------------------------
 + static GetInstance() : SingletonDiction &
 + Init() : void
@@ -268,6 +268,8 @@ With this fact, it has been decided to choose multi-threads (10 threads by defau
 **Note**:  
 Avove algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes it is really hard or impossible to successfully complete the 100% restoration, depending on the real text strip content. 
 But another fact is that more rows text strips we have, the higher successful completion rate the programme may achieve.
-The rationale behind might lie in that more rows usually mean more characteristics for a column to use when compared with others.
-Based on a variety of testings, we could expect that the regular text content (i.e. from books, newspaper, magazines, etc.) with above 15 rows can 100% restored by this programme. 
+The rationale behind above might lie in the fact that more rows usually mean more characteristics for a column to use when compared with others.
+Based on a variety of testings, we could expect that the regular text content (i.e. from books, newspaper, magazines, etc.) with above 15 rows can perfectly restored by this programme. 
 
+Another test which has also been done is, repeating acceptance test (30 cases) for 10 times (i.e. 300 tests in total), 
+the number of pre-majured cases should always be less than 1% (i.e. occasionally, we may see 1 or 2 pre-matured cases when executing 300 cases due to the randomness inside the the algorithm).

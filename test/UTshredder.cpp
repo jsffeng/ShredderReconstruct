@@ -90,7 +90,7 @@ BOOST_FIXTURE_TEST_CASE (ReadText_vector_test, Fixture_file_vec)
 
 BOOST_FIXTURE_TEST_CASE (ReadText_set_test, Fixture_file_set)
 {
-  set<string> lines_t;
+  unordered_set<string> lines_t;
 
   TextFileOperation::ReadText("test_input.ascii", lines_t);
   BOOST_CHECK(lines_t == Fix_lines);   

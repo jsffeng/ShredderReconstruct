@@ -103,6 +103,23 @@ Unit testing coverage rate:
 --------------------------   
 http://htmlpreview.github.io/?https://github.com/jsffeng/Shredder_Reconstruct/blob/master/ut_coverage/index.html  
 
+Performance:    
+-----------------------------    
+unshredder usually take ~1 second to complete. See belows:  
+   
+*ubuntu->time shredder  
+  
+real    0m0.006s  
+user    0m0.006s  
+sys     0m0.000s  
+ubuntu->time unshredder  
+Successfully restored!  
+  
+real    0m0.851s  
+user    0m1.159s  
+sys     0m0.032s*  
+  
+  
 Acceptance test (System test):    
 -----------------------------    
 

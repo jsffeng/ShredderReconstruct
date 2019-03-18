@@ -69,9 +69,9 @@ make bld: Build the final product
 make ut: Build the UT test product  
 make run_ut: Execute UT tests  
 make acceptance_test: Execute acceptance test (system test)   
-make clean: Clean all build-generated files in top directory and test directory    
+make clean: Clean up all build-generated files in top directory and test directory    
 make GCOV=1 ut_cover: Generate UT test coverage information (in html)  
-make GCOV=1 clean: Clean all build-generated files by "make GCOV=1 ut_cover" in top directory and test directory  
+make GCOV=1 clean: Clean up all build-generated files by "make GCOV=1 ut_cover" in top directory and test directory  
   
 Unit testing:  
 ------------------------------   
@@ -148,7 +148,7 @@ TESTCASE30:PASS*
 OK  
 NOTE: Please find test details under direcotry ./test/SToutput.*  
   
-**Example** (i.e. copying ./test/STinput/sampleB to full_text.ascii in top directory, run shredder to get the following):  
+**Example** (i.e. copying ./test/STinput/sampleB to full_text.ascii in top directory, running shredder to get the following):  
 \=============================================    
 *|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
 | c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
@@ -166,7 +166,7 @@ NOTE: Please find test details under direcotry ./test/SToutput.*
 |he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
 |e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
   
-Restored result (i.e. run unshredder for above):  
+Restored result (i.e. running unshredder for above):  
 \==========================   
 *Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  

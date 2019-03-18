@@ -16,16 +16,16 @@ Dependent packages/tools:
 ----------------  
 - g++ - supporting C++ 11 standard (with option -std=gnu++11).  
 - Boost - version: 1.68
-- lcov - support test coverage data collection and report generation.  
+- lcov - supporting test coverage data collection and report generation.  
 
 Sub-directories:
 ----------------  
 - design - containing high level designs.  
-- dict - containing wordlist used by product unshredder.  
+- dict - containing the wordlist file used by tool unshredder.  
 - test - containing unit test code and acceptance test script.  
-- ut_coverage - containing unit test code coverage result.  
+- ut_coverage - containing the result for unit test code coverage.  
   
-Programme source code statistics:
+Source code statistics:
 ----------------------------------  
 
 *ubuntu->cloc . --exclude-dir=.git,test,ut_coverage,design,dict    
@@ -44,7 +44,7 @@ Programme source code statistics:
 **SUM:**                          20:            367:            368:           1221  
 \-------------------------------------------------------------------------------*  
   
-UT/Acceptance test code statistics:  
+Unit/Acceptance test code statistics:  
 ----------------------------------  
 *ubuntu->cloc test  
       17 text files.  
@@ -61,7 +61,7 @@ UT/Acceptance test code statistics:
 **SUM:**                             3:            364:            142:            938  
 \-------------------------------------------------------------------------------*  
   
-make commands:  
+make commands being supported:  
 --------------  
 Run make commmand in top directory.  
   
@@ -69,9 +69,9 @@ make bld: Build the final product
 make ut: Build the UT test product  
 make run_ut: Execute UT tests  
 make acceptance_test: Execute acceptance test (system test)   
-make clean: Clean all generated files (excluding ut test coverage data if exist) except source code   
-make GCOV=1 ut_cover: Generate UT test coverage information  
-make GCOV=1 clean: Clean all generated files except source code and ut_coverage directory  
+make clean: Clean all build-generated files in top directory and test directory    
+make GCOV=1 ut_cover: Generate UT test coverage information (in html)  
+make GCOV=1 clean: Clean all build-generated files by "make GCOV=1 ut_cover" in top directory and test directory  
   
 Unit testing:  
 ------------------------------   
@@ -148,7 +148,7 @@ TESTCASE30:PASS*
 OK  
 NOTE: Please find test details under direcotry ./test/SToutput.*  
   
-**Example** (i.e. copying ./test/STinput/sampleB to full_text.ascii, run shredder to get the following):  
+**Example** (i.e. copying ./test/STinput/sampleB to full_text.ascii in top directory, run shredder to get the following):  
 \=============================================    
 *|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
 | c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  

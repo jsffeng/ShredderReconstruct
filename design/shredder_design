@@ -1,5 +1,4 @@
 ########### Common Classes Start ############
-
 # Lazy Singleton to provide a random column number among a sequence of columns
 SingletonRandom
 ---------------------------------------

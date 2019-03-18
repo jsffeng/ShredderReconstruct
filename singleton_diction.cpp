@@ -21,17 +21,27 @@ void SingletonDiction::Init()
 // Example, word "nice" will be expanded by this function to word piece like ni,nic,nice, ic, ice, ce.
 void SingletonDiction::BuildWordPiece()
 {
+
+  set<string> set_dictionary_temp;
+
   if (set_dictionary_.empty())
     throw runtime_error("set_dictionary_ is empty, function BuildWordPiece() quit!");
+
+  auto iter_temp = set_dictionary_.begin();
+  while (iter_temp != set_dictionary_.end())
+  {
+    set_dictionary_temp.insert(*iter_temp);
+    ++iter_temp;
+  }
 
   int n_size;
   string str_sub;
 
-  auto iter = set_dictionary_.begin();
-  while (iter != set_dictionary_.end())
+  auto iter = set_dictionary_temp.begin();
+  while (iter != set_dictionary_temp.end())
   {
     n_size = (*iter).size();
-    
+
     if ( n_size <= 2) 
     {
       ++iter;
@@ -50,6 +60,7 @@ void SingletonDiction::BuildWordPiece()
     }
     ++iter;
   }
+
 }
 
 // Lookup the str_letters to see if exists in dictionary

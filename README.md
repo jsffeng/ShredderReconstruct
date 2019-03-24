@@ -105,7 +105,7 @@ http://htmlpreview.github.io/?https://github.com/jsffeng/Shredder_Reconstruct/bl
 
 Performance:    
 -----------------------------    
-unshredder usually take ~1 second to complete. See belows:  
+unshredder usually takes ~1 second to complete. See belows:  
    
 *ubuntu->time shredder*  
   

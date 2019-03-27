@@ -63,7 +63,7 @@ Unit/Acceptance test code statistics:
   
 make commands being supported:  
 --------------  
-Run make commmand in top directory.  
+Run make commmands in top directory.  
   
 make bld: Build the final product  
 make ut: Build the UT test product  

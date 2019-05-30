@@ -268,7 +268,7 @@ With this fact, it has been decided to choose multi-threads (10 threads by defau
 
 **Note**:  
 Avove algorithm is kind of simulating people's mind to re-construct text strips, however, sometimes it is really hard or almost impossible to make a successful 100% restoration, really depending on the text strip content. 
-But another fact is that more rows text strips we have, the higher successful completion rate the programme may achieve.
+But another fact is that more rows text strips have, the higher successful completion rate the programme may achieve.
 The rationale behind above might lie in the fact that more rows usually mean more characteristics for a column to use when compared with others.
 Based on a variety of testings, we could expect that the regular text content (i.e. from books, newspaper, magazines, etc.) with above 15 rows can perfectly restored by this programme. 
 

@@ -3,12 +3,12 @@ This package contains two tools - shredder and unshredder
 - shredder can shred the text page into text strips in random order. 
 - unshredder can re-constuct the original text page with text strips. 
   
->>shredder: full_text.ascii (input file) ==> shredded_text.ascii (output file)  
->>unshredder: shredded_text.ascii (input file) ==> restored_text.ascii (output file)  
+>>shredder: full_text.ascii (input file name convention) ==> shredded_text.ascii (output file name convention)  
+>>unshredder: shredded_text.ascii (input file name convention) ==> restored_text.ascii (output file name convention)  
     
 >>If successfully restored, restored_text.ascii should have the same content with full_text.ascii  
 
-**Example** (note: copying ./test/STinput/sampleB to full_text.ascii in top directory, running shredder to get the following):  
+**Example** (note: copy ./test/STinput/sampleB to ./full_text.ascii, run ./shredder to get the following):  
 \=============================================    
 *|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
 | c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
@@ -26,7 +26,7 @@ This package contains two tools - shredder and unshredder
 |he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
 |e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
   
-Restored result (i.e. running unshredder to restore the original text):  
+Restored result (i.e. run unshredder to restore the original text):  
 \==========================   
 *Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  

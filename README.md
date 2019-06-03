@@ -26,7 +26,7 @@ This package contains two tools - shredder and unshredder
 |he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
 |e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
   
-Restored result (i.e. run unshredder to restore the original text):  
+Restored result (i.e. run unshredder to restore above to the original text):  
 \==========================   
 *Nasa hopes to bring this near-eight year  
 gap in capability to an end with the  

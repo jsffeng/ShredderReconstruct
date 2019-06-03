@@ -8,6 +8,42 @@ This package contains two tools - shredder and unshredder
     
 >>If successfully restored, restored_text.ascii should have the same content with full_text.ascii  
 
+**Example** (note: copying ./test/STinput/sampleB to full_text.ascii in top directory, running shredder to get the following):  
+\=============================================    
+*|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
+| c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
+|uc| s|er|ys|tr|ms|on|al|co|w |o | o|ci|in|ti|mm|od|tw|f |te|ne|  
+|Dr|ei|ic|ng|th|  |on| b| v|er|no| a|le|- |ag|eh|e | a|nd|  |th|  
+|pe|g.| B|  |ve|  |by|in|ia| g|pa| a|oe|de|d |nt|lo|os|er|  |ce|  
+|rs|go|he|n |e |  |cr|ra|of|t |li|ew| D|Th|t | t|fi| f|ed|  |gh|  
+|oc|ug| a|h |ul|  |r |ho|ul| J|n |as|lt|co|cu|y,|d |oo| s|  |as|  
+|ar| i|o |nt|is|  |t |ip|ly|ke|s |da|sl|th|ge| t| t| i|te|o |li|  
+|mm|gh| t| t|e |  | a|ou|wo|s |ne|s |hr|th|er|rk|su|gi|en|he|er|  
+|li|  |  |  |st|  |t |  |  |  |is|an|  |po|gh|  |-f|ys|al|  |. |  
+|do| E| 0|ST|la|  | o|45|bo| a|d |cc|8:|Sp|wn|ut|sh|re|ur|  |at|  
+| G|rc|GO|he|3:|  |).|ea|le|al|t,| A| S|(1|MT|d |45|oa| b|r,| c|  
+|it|. |ap|Th|s |e |g |le|he| t|ov|to|su|wa|in| c|wa|ec| r|er|er|  
+|he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
+|e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
+  
+Restored result (i.e. running unshredder to restore the original text):  
+\==========================   
+*Nasa hopes to bring this near-eight year  
+gap in capability to an end with the  
+introduction of two new commercial systems  
+\- the Dragon and another vehicle being  
+developed by aerospace giant Boeing.  
+The first crewed flight of the Dragon  
+could occur as soon as July, although  
+this target date is likely to slip into  
+the summer as engineers work through the  
+post-flight analysis.  
+Splashdown occurred at about 08:45 EST  
+(13:45 GMT). A boat, called GO Searcher,  
+was waiting to recover the capsule. There  
+were cheers at mission control as the  
+capsule landed in the Atlantic.*  
+
 Development Environment: 
 ---------------------------------------------  
 Linux version: ubuntu 16.04.01  
@@ -164,40 +200,4 @@ TESTCASE30:PASS*
 *30 Tests: 30 Successes 0 Failures  
 OK  
 NOTE: Please find test details under direcotry ./test/SToutput.*  
-  
-**Example** (i.e. copying ./test/STinput/sampleB to full_text.ascii in top directory, running shredder to get the following):  
-\=============================================    
-*|op|t |r-|ye|sa|  | t|gh| n|is|g |o |ei|Na|es|ea| h|in|br|ar|th|  
-| c|he|wi|  |p |  |ab| t|en|n |to|il|th|ga|ap|d |in|y |it|  | a|  
-|uc| s|er|ys|tr|ms|on|al|co|w |o | o|ci|in|ti|mm|od|tw|f |te|ne|  
-|Dr|ei|ic|ng|th|  |on| b| v|er|no| a|le|- |ag|eh|e | a|nd|  |th|  
-|pe|g.| B|  |ve|  |by|in|ia| g|pa| a|oe|de|d |nt|lo|os|er|  |ce|  
-|rs|go|he|n |e |  |cr|ra|of|t |li|ew| D|Th|t | t|fi| f|ed|  |gh|  
-|oc|ug| a|h |ul|  |r |ho|ul| J|n |as|lt|co|cu|y,|d |oo| s|  |as|  
-|ar| i|o |nt|is|  |t |ip|ly|ke|s |da|sl|th|ge| t| t| i|te|o |li|  
-|mm|gh| t| t|e |  | a|ou|wo|s |ne|s |hr|th|er|rk|su|gi|en|he|er|  
-|li|  |  |  |st|  |t |  |  |  |is|an|  |po|gh|  |-f|ys|al|  |. |  
-|do| E| 0|ST|la|  | o|45|bo| a|d |cc|8:|Sp|wn|ut|sh|re|ur|  |at|  
-| G|rc|GO|he|3:|  |).|ea|le|al|t,| A| S|(1|MT|d |45|oa| b|r,| c|  
-|it|. |ap|Th|s |e |g |le|he| t|ov|to|su|wa|in| c|wa|ec| r|er|er|  
-|he|th|ol|e |re|  |s |s |on| c|si|at| a|we|er|tr| c|is| m|  |on|  
-|e |  |ic|  |ps|  |nd|  |la|At|th|ed|. |ca|la|nt|ul|n | i|  |e |*  
-  
-Restored result (i.e. running unshredder for above):  
-\==========================   
-*Nasa hopes to bring this near-eight year  
-gap in capability to an end with the  
-introduction of two new commercial systems  
-\- the Dragon and another vehicle being  
-developed by aerospace giant Boeing.  
-The first crewed flight of the Dragon  
-could occur as soon as July, although  
-this target date is likely to slip into  
-the summer as engineers work through the  
-post-flight analysis.  
-Splashdown occurred at about 08:45 EST  
-(13:45 GMT). A boat, called GO Searcher,  
-was waiting to recover the capsule. There  
-were cheers at mission control as the  
-capsule landed in the Atlantic.*  
   

@@ -12,7 +12,7 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In the programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimensional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},
@@ -66,7 +66,7 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns
     throw runtime_error("Invalid input to constructor of class ColumnMatchManager");
 
   // It is okay for this class if any string in vec_text_columns is empty. However, in the context of
-  // this program, no empty string will appear as the blank charactor will always be used to record
+  // this program, no empty string will appear as the blank character will always be used to record
   // "empty" when read from the text page or text strips.
   
   // It is also okay for this class if not all strings in vec_text_columns have the same length. But in
@@ -82,7 +82,7 @@ ColumnMatchManager::ColumnMatchManager(vector<vector<string>> & vec_text_columns
 
 // If any key word's size is less than 2, just record "0" into vec_key_column.
 // Example of vec_key_column content: {"0", "0", "iluse"}, {"good", "will", "wil"}
-// This fucntion called by CalculateMatchRate
+// This function called by CalculateMatchRate
 void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDirections enum_direct) 
 {
   vector<string> vec_merged_column;
@@ -148,7 +148,7 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
     }
     else
     {
-      // If any charactor is a number or non alphabetic such as '\'','\\', ignore dictionary lookup 
+      // If any character is a number or non alphabetic such as '\'','\\', ignore dictionary lookup 
       for (int i = 0; i < str_key_temp.size(); ++i)
       {
         if (!isalpha(str_key_temp[i]))
@@ -158,7 +158,7 @@ void ColumnMatchManager::BuildLookupKey(vector<string> &vec_key_column, TwoWayDi
         }
       }
 
-      // Converted to lower case if any charactor is upper case letter
+      // Converted to lower case if any character is upper case letter
       if ("0" != str_key_temp)
       {
         boost::algorithm::to_lower(str_key_temp);

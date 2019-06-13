@@ -12,7 +12,7 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In the programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimensional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},

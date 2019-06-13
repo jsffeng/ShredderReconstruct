@@ -28,11 +28,11 @@ class TextStripOperation
   private:
 #endif
 
-    // Random number used by Disorder() to generate shredded text strip in a random oder
+    // Random number used by Disorder() to generate shredded text strip in a random order
     static const int s_random_number_;
   public:
 
-    // Re-order the vector component - each componet contain a vector to store a text strip
+    // Re-order the vector component - each component contain a vector to store a text strip
     static void Disorder(std::vector<std::vector<std::string>>& vec_str_input);
 
     // Transpose multiple columns, and each column is for a text strip

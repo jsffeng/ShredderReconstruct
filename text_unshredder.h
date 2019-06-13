@@ -17,7 +17,7 @@ class TextUnshredder
 
   public:
     // Store text data read from GetInput()
-    // Use blank character ' ' to record a blank, in this way, all rows have the same number of charactors.
+    // Use blank character ' ' to record a blank, in this way, all rows have the same number of characters.
     std::vector<std::vector<std::string>> vec_text_columns_;
 
     // Store final result
@@ -34,7 +34,7 @@ class TextUnshredder
     TextUnshredder();
 
     // Populate vec_text_columns_ from input file, with calling text_strip::transpose
-    // Use blank charactor ' ' to record a blank, and empty string "" should never be used to 
+    // Use blank character ' ' to record a blank, and empty string "" should never be used to 
     // record blanks in the vec_text_columns_.
     void GetInput(const std::string str_in_file); 
 

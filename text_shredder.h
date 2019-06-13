@@ -28,7 +28,7 @@ class TextShredder
     std::vector<std::string> vec_str_source_data_;
 
     // Appropriate number of blanks will be added to last shredded colomn if the size of last column 
-    // less than n_strip_width_ . This is to ensure every colum has the same size as n_strip_width_ 
+    // less than n_strip_width_ . This is to ensure every column has the same size as n_strip_width_ 
     // defined.
     std::vector<std::vector<std::string>> vec_str_shredded_text_;
 

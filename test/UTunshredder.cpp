@@ -12,7 +12,7 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In the programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimensional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},
@@ -45,7 +45,7 @@ using namespace std;
 // Class TESTSingleton
 // Test class SingletonRandom::GetInsance() under multi-threads
 // Disable this test_suite by default as the invoke of SingletonRandom has conflicts with the rest
-// testings which may use SingletonRandom class.
+// testing which may use SingletonRandom class.
 // It can be invoked by option --run_test=SingletonRandom_test seperately with the rest tests.
 BOOST_FIXTURE_TEST_SUITE (TESTSingleton_test,TESTSingleton ,* boost::unit_test::disabled())
 
@@ -382,7 +382,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   column_match_mgr2.BuildLookupKey(vec_keys, LEFT);
   BOOST_CHECK (vec_keys_left2 == vec_keys);
 
-  // Verify special charactors correctly converted into blank delimiter
+  // Verify special characters correctly converted into blank delimiter
   vector<vector<string>> columns_special = { {"go?yes!", "[no],he","i won't"},{"my-bed ","(nowayf", "said:ok"}};
   vector<string> column_letter =  {"abcdefg", "abcdefg","abcdefg"};
 
@@ -429,7 +429,7 @@ BOOST_AUTO_TEST_CASE (BuildLookupKey_test)
   column_match_mgr6.BuildLookupKey(vec_keys, RIGHT);
   BOOST_CHECK (vec_keys_right6 == vec_keys);
 
-  // Verify the handling on capital letters and non alphabetic charactors
+  // Verify the handling on capital letters and non alphabetic characters
   vector<string> column_spec_cap =  {"abcdefg", "abC,efg","abc'h g"};
   ColumnMatchManager column_match_mgr7(columns_special, column_spec_cap);
 
@@ -581,7 +581,7 @@ BOOST_AUTO_TEST_CASE (FindBestMatch_test)
   BOOST_CHECK(column_sel_mgr2.best_match_column_.enum_best_match_direct == RIGHT);
   BOOST_CHECK(column_sel_mgr2.b_failure_flag_ == false);
 
-  // Throw expections because best_match_column_.n_number_in_pool != -1 
+  // Throw exceptions because best_match_column_.n_number_in_pool != -1 
   BOOST_CHECK_THROW(column_sel_mgr2.FindBestMatch(), exception);   
 
   // Won't depend on the initial value of b_failure_flag_,
@@ -737,7 +737,7 @@ BOOST_FIXTURE_TEST_CASE (GetInput_test, Fixture_data_file)
 
   BOOST_CHECK_NO_THROW(unshred2.GetInput("test/UTinput/test_shredded_text.ascii"));   
 
-  // With blank charactor at the end of fist 2 rows.
+  // With blank character at the end of fist 2 rows.
   BOOST_CHECK_NO_THROW(unshred2.GetInput("test/UTinput/test_shredded_text1.ascii"));   
 
   // Unexpected format
@@ -775,7 +775,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredder_test)
 
   TextUnshredder unshred1;
 
-  // This data file can be successfully retored 
+  // This data file can be successfully restored 
   unshred1.GetInput("test/UTinput/test_shredded_text0.ascii");
 
   unshred1.DoTextUnshredder();
@@ -902,7 +902,7 @@ BOOST_AUTO_TEST_CASE (DoTextUnshredderInThread_test)
  
   TextUnshredder test_unshred2;
 
-  // This data file can be successfully retored 
+  // This data file can be successfully restored 
   test_unshred2.GetInput("test/UTinput/test_shredded_text0.ascii");
 
   // Re-set the static variable so as not to impact the rest tests.
@@ -943,7 +943,7 @@ BOOST_AUTO_TEST_CASE (UTmain_test)
   // Threads throw exception
   BOOST_CHECK(UTmain("test/UTinput/test_shredded_text0.ascii", "test/UTinput/test_output0.ascii", true) == 2);
 
-  // main() function throw excpetion as data input file not exist
+  // main() function throw exception as data input file not exist
   BOOST_CHECK(UTmain("test/UTinput/test_input.ascii", "test/UTinput/test_output1.ascii", false) == 2);
 
   system("rm -rf test/UTinput/test_output*.ascii");

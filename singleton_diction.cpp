@@ -17,7 +17,7 @@ void SingletonDiction::Init()
   TextFileOperation::ReadText("dict/wordlist.txt", uset_dictionary_);
 }
 
-// Build word piece with minimal charactor size 2, this will be used as the base for lookup.
+// Build word piece with minimal character size 2, this will be used as the base for lookup.
 // Example, word "nice" will be expanded by this function to word piece like ni,nic,nice, ic, ice, ce.
 void SingletonDiction::BuildWordPiece()
 {

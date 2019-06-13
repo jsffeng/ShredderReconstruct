@@ -12,7 +12,7 @@
 //  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
 //  used by programme.
 //
-//  In the programme, above data will be stored into following 2 dimentional vector:
+//  In the programme, above data will be stored into following 2 dimensional vector:
 //  {
 //    {a1,b1,c1,d1},
 //    {a2,b2,c2,d2},
@@ -32,12 +32,12 @@
 using namespace std;
 
 // This constant stand for the tolerance level for not matching rate.
-// It would be helpful especailly for those cases that some words are valid but unlikely to be found 
+// It would be helpful especially for those cases that some words are valid but unlikely to be found 
 // in the dictionary, such as street name, etc.
 const float kToleranceRate = 0.25;
 
 // This constant stand for a minimum acceptable matching rate. If the matching rate for all the rest
-// columns is below that value, means the programme cannot continue and run into pre-majure.
+// columns is below that value, means the programme cannot continue and run into pre-mature.
 const float kAcceptableMatchRate = 1;
 
 // Class ColumnSelectManager constructor
@@ -161,7 +161,7 @@ void ColumnSelectManager::FindBestMatch()
       if (f_best_match_rate != kAcceptableMatchRate)
         throw runtime_error("Abnormal error!");
 
-      // Failed to find any matching columns, pre-majured!
+      // Failed to find any matching columns, pre-matured!
       b_failure_flag_ = true;
    }
    else

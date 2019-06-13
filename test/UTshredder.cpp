@@ -12,8 +12,8 @@ using namespace std;
 
 // Class SingletonRandom
 // Disable this test_suite by default as the test of SingletonRandom has conflicts with the rest 
-// testings which may use SingletonRandom class.
-// It can be invoked by option --run_test=SingletonRandom_test seperately with the rest tests.
+// testing which may use SingletonRandom class.
+// It can be invoked by option --run_test=SingletonRandom_test separately with the rest tests.
 BOOST_AUTO_TEST_SUITE (SingletonRandom_test, * boost::unit_test::disabled())
 
 BOOST_AUTO_TEST_CASE (GetInstance_test)
@@ -64,7 +64,7 @@ BOOST_FIXTURE_TEST_CASE (ReadText_vector_test, Fixture_file_vec)
   vector<string> lines_t;
 
   TextFileOperation::ReadText("test_input.ascii", lines_t);
-  // ReadText() will append blank charactors to ensure all lines have the same number of charactors
+  // ReadText() will append blank characters to ensure all lines have the same number of characters
   BOOST_CHECK(lines_t == Fix_lines);   
   lines_t.clear();
 
@@ -127,7 +127,7 @@ BOOST_FIXTURE_TEST_CASE (WriteText_test, Fixture_file_vec)
   TextFileOperation::WriteText("test_output_t1.ascii", Fix_lines);
   BOOST_CHECK(system ("cmp -l test_output_t1.ascii test_output1.ascii >/dev/null 2>&1") == 0);   
   
-  // When file exists, should overwite the file.
+  // When file exists, should overwrite the file.
   TextFileOperation::WriteText("test_output_t1.ascii", Fix_lines);
   BOOST_CHECK(system ("cmp -l test_output_t1.ascii test_output1.ascii >/dev/null 2>&1") == 0);   
 
@@ -316,7 +316,7 @@ BOOST_FIXTURE_TEST_CASE(CreateOutput_test,Fixture_data_file)
 BOOST_AUTO_TEST_SUITE_END( )
 
 // Mainly focus on  parameter interface test for main() function.
-// Funcationality test will be fully covered by system level test.
+// Functionality test will be fully covered by system level test.
 BOOST_FIXTURE_TEST_SUITE(UTmain_test, Fixture_file_vec);
 
 BOOST_AUTO_TEST_CASE (UTmain_test)

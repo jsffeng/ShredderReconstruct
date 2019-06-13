@@ -150,4 +150,4 @@ SUM_MSG="\n--------------------------------\n${sum} Tests: ${success_t} Successe
 
 echo -e ${SUM_MSG}
 
-echo -e "NOTE: Please find test details under direcotry ${RESULT_DIR}.\n"
+echo -e "NOTE: Please find test details under directory ${RESULT_DIR}.\n"

@@ -13,7 +13,7 @@ int main()
   try 
   {
 #ifndef UTFLAG
-    // Provide letter width in each shredded strip, input file contaning text for shredding, and
+    // Provide letter width in each shredded strip, input file containing text for shredding, and
     // output file to store shredded result.
     TextShredder text_shredder(2, "full_text.ascii", "shredded_text.ascii");
 #else

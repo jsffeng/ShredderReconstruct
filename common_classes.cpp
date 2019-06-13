@@ -31,7 +31,7 @@ void TextFileOperation::ReadText(const string str_filename, vector<string> &vec_
 
   f_infile.close();
 
-  // Convert blank at end of each line to ascii space charactors, this is required by shredding process
+  // Convert blank at end of each line to ascii space characters, and this is required by shredding process
   auto iter = vec_str_text_lines.begin();
   unsigned int n_size;
   while (iter != vec_str_text_lines.end()) 
@@ -93,7 +93,7 @@ void TextFileOperation::WriteText(const string str_filename, const vector<string
 
 const int TextStripOperation::s_random_number_ = 40;
 
-// Re-order the vector compoent - each componet contain a vector to store a text strip
+// Re-order the vector component - each component contain a vector to store a text strip
 void TextStripOperation::Disorder(vector<vector<string>>& vec_str_input) 
 {
   unsigned int n_temp = 0; 
@@ -169,7 +169,7 @@ void TextStripOperation::MergeText(vector<vector<string>> & vec_str_input, vecto
 
 // From left hand, identify the word used to lookup in the dictionary from a string containing  many words.
 // Before calling this function, some delimiter such as "," or "." need to be transformed to blank
-// charactor ' '.
+// character ' '.
 // Below is the list of examples to show how this function works to extract a word (or word piece)
 // used for lookup:
 // a1a2a3|a4a5  |a7a8a9 --> a1a2a3a4a5
@@ -217,7 +217,7 @@ void WordStringOperation::FindLookupWordLeft(string & str_line, string & str_key
 
 // From right hand, identify the word used to lookup in the dictionary from a string containing many words.
 // Before calling this function, some delimiter such as "," or "." need to be transformed to blank
-// charactor ' '.
+// character ' '.
 // Below is the list of examples to show how this function works to extract a word (or word piece)
 // used for lookup:
 // a1a2a3|  a5a6|a7a8a9 --> a5a6a7a8a9

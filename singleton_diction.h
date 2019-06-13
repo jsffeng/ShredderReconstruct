@@ -26,7 +26,7 @@ class SingletonDiction
     // Read dictionary from disk to memory
     void Init();
 
-    // Build word piece with minimal charactor size 2, this will be used as the base for lookup.
+    // Build word piece with minimal character size 2, this will be used as the base for lookup.
     void BuildWordPiece();
    
     // Lookup the str_letters to see if exists in dictionary 

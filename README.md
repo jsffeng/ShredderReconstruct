@@ -1,7 +1,7 @@
 This package contains two tools - shredder and unshredder
 ----------------------------------------------------------  
 - shredder can shred the text page into text strips in random order. 
-- unshredder can re-constuct the original text page with text strips. 
+- unshredder can re-construct the original text page with text strips. 
   
 >>shredder: full_text.ascii (input file name convention) ==> shredded_text.ascii (output file name convention)  
 >>unshredder: shredded_text.ascii (input file name convention) ==> restored_text.ascii (output file name convention)  
@@ -99,7 +99,7 @@ Unit/Acceptance test code statistics:
   
 make commands being supported:  
 --------------  
-Run make commmands in top directory.  
+Run make commands in top directory.  
   
 make bld: Build the final product  
 make ut: Build the UT test product  
@@ -159,9 +159,9 @@ sys     0m0.032s*
 Acceptance test (System test):    
 -----------------------------    
 
-Use 6 text samples (under directory test/STinput) to verify the programme.  
-**Note**: Most of above samples got from BBC news for different catagory such as Tech, Secience, Sports, Business, etc.  
-Their text row numbers ranged from 8 to 17, and characators in rows ranged from 37 to 48.   
+Use 6 text samples (under directory test/STinput) to verify the program.  
+**Note**: Most of above samples got from BBC news for different category such as Tech, Science, Sports, Business, etc.  
+Their text row numbers ranged from 8 to 17, and characters in rows ranged from 37 to 48.   
   
 *ubuntu->make acceptance_test  
 /bin/bash ./test/acceptance_test.sh  
@@ -199,7 +199,7 @@ TESTCASE30:PASS*
 \--------------------------------  
 *30 Tests: 30 Successes 0 Failures  
 OK  
-NOTE: Please find test details under direcotry ./test/SToutput.*  
+NOTE: Please find test details under directory ./test/SToutput.*  
   
 Bugfix/Improvement backlog (To-do):    
 --------------------------  

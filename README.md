@@ -201,6 +201,6 @@ TESTCASE30:PASS*
 OK  
 NOTE: Please find test details under directory ./test/SToutput.*  
   
-Bugfix/Improvement backlog (To-do):    
+Bug-fix/Improvement backlog (To-do):    
 --------------------------  
 - Add catch(...) for exception handling  

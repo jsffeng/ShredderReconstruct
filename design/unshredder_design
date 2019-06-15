@@ -9,7 +9,7 @@
 #  c1|c2|c3
 #  d1|d2|d3
 # 
-#  In above example,, a1, a2, b1, etc. is a string with same width, "|" is the delimiter
+#  In above example, a1, a2 or b1, etc. is a string with same width, "|" is the delimiter
 #  used by programme.
 #
 #  In the programme, above data will be stored into following 2 dimensional vector:
@@ -228,7 +228,7 @@ Main algorithm to reconstruct the disordered text columns (aka text strips):
 In the following context, those columns which have been successfully re-constructed will be called as SELECTED COLUMNS, while the remaining columns will be called as COLUMN POOL.  
 1. Randomly select a column, and create initial SELECTED COLUMNS with this only one column. All the rest columns will be put into COLUMN POOL.  
 
-2. For each column in COLUMN POOL, calcuate the following matching rate to the SELECTED COLUMNS from LEFT and RIGHT direction, respectively.
+2. For each column in COLUMN POOL, calculate the following matching rate to the SELECTED COLUMNS from LEFT and RIGHT direction, respectively.
   - f_match_rate = (Found + 1)/(NotFound + 1),
   - f_notmatch_rate = NotFound/AllRow,
 
@@ -249,7 +249,7 @@ In the following context, those columns which have been successfully re-construc
     
     If f_notmatch_rate is greater than pre-defined value of kToleranceRate in the programme, it will be treated as valid. Otherwise, just ignore it in the further processing.
 
-3. Go through all columns in COLUMN POOL to calcuate their matching rates and identify the best matching based on that. 
+3. Go through all columns in COLUMN POOL to calculate their matching rates and identify the best matching based on that. 
 Add the best matched one into SELECTED COLUMNS, and then remove it from COLUMN POOL.
 The strategy to identify the best matching is:
   - those columns won't be considered as candidates if their f_notmatch_rate greater than kToleranceRate. 
